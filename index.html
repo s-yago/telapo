@@ -542,7 +542,9 @@ function buildNav(mode) {
       <div class="nav-item" data-target="b-greet" onclick="navTo('b-greet')">🙏 挨拶・目的</div>
       <div class="nav-section">時間あり</div>
       <div class="nav-item branch-yes" data-target="b-loan" onclick="navTo('b-loan')">🏦 ローン利用確認</div>
-      <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">📋 ヒアリング①〜⑤</div>
+      <div class="nav-item branch-yes" data-target="b-loan-explain" onclick="navTo('b-loan-explain')">💡 ローンの説明</div>
+      <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">📋 ヒアリング①〜③</div>
+      <div class="nav-item branch-yes" data-target="b-hear-branch" onclick="navTo('b-hear-branch')">🔀 訴求分岐</div>
       <div class="nav-section">多忙ルート</div>
       <div class="nav-item branch-no" data-target="b-tabou" onclick="navTo('b-tabou')">⏰ 1分お願い</div>
       <div class="nav-item branch-no" data-target="b-hook" onclick="navTo('b-hook')">🎯 1分フック</div>
@@ -742,7 +744,7 @@ function buyScript() {
 </div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
-<div class="script-box">「先ほど弊社ホームページより<b>会員登録（またはお問い合わせ）</b>いただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="script-box">「先ほど弊社ホームページより<b>会員登録</b>いただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('b-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
   <div class="branch-col no" onclick="navTo('b-tabou')"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-arrow">→ 1分ルートへ</div></div>
@@ -771,17 +773,29 @@ function buyScript() {
 <div class="script-box">固定電話でご本人でない場合→「○○様はいらっしゃいますか？ご在宅の時間帯はいつ頃でしょうか？」</div>
 <div class="memo-pill">右パネルに折り返し時間を必ずメモ！</div></div>
 <div class="step-card" id="b-loan"><div class="step-top"><span class="step-badge sb-hear">まず確認</span><span class="step-title">住宅ローン利用予定の確認</span></div>
-<div class="script-box">「今回の物件検討にあたり、<b>住宅ローンの利用予定はございますでしょうか？</b>」</div>
+<div class="script-box">「住宅ローンに関してなのですが、あまり知られていないローンの組み方があるのですが、今回の物件検討にあたり、<b>住宅ローンの利用予定はございますでしょうか？</b>」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('b-hear')"><div class="branch-title yes">✓ ローン利用予定（または未定）</div><div class="branch-note">→ ヒアリング後、来店訴求（ローン無料簡易審査）</div></div>
+  <div class="branch-col yes" onclick="navTo('b-loan-explain')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-arrow">→ ローンの説明へ</div></div>
+  <div class="branch-col no" onclick="navTo('b-hear')"><div class="branch-title no">現金購入予定</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+</div></div>
+<div class="arr">↓（ローン利用の場合）</div>
+<div class="step-card" id="b-loan-explain"><div class="step-top"><span class="step-badge sb-str">ローン説明</span><span class="step-title">リフォームローンの仕組みをお伝えする</span></div>
+<div class="vivi-box">「リフォーム費用も金利の低い住宅ローンに含めて借りることができるという仕組みがあるんです。ご興味ある場合は後日担当のものに詳しく説明するよう申し伝えますので、ご希望がございましたらお申し付けください。」</div>
+<button class="jump-btn" onclick="navTo('b-hear')" style="margin-top:8px">→ ヒアリングへ</button></div
   <div class="branch-col no" onclick="navTo('b-cash')"><div class="branch-title no">現金購入予定</div><div class="branch-note">→ 非公開物件・スピード対応を訴求</div></div>
 </div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜③</span><span class="step-title">エリア・家族構成・購入理由のヒアリング</span></div>
-<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
 <div class="memo-pill">⚠️ 嫌がる・答えたくなさそうな場合はさらっと流して次へ。トラブル防止優先！</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="b-hear-branch"><div class="step-top"><span class="step-badge sb-hear">確認</span><span class="step-title">ローン利用状況を確認して訴求を分ける</span></div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('b-apo-loan')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-arrow">→ 無料簡易審査・お得なローンを訴求</div></div>
+  <div class="branch-col no" onclick="navTo('b-cash')"><div class="branch-title no">現金購入予定</div><div class="branch-arrow">→ 非公開物件・スピード対応を訴求</div></div>
+</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-apo-loan"><div class="step-top"><span class="step-badge sb-str">来店訴求（ローン利用）</span><span class="step-title">無料簡易審査・お得なローンを訴求</span></div>
 <div class="vivi-box">「ありがとうございます。不動産を買う場合に最も重要なのは住宅ローンの組み方です。各銀行によって金利も他の条件も違います。他の不動産会社さんはあまり知らない<b>リフォームするときのお得なローンの組み方</b>があります。当社にお越しいただければ、住宅ローンがいくらまで借りられるか分かる<b>無料の簡易審査</b>も出来ますのでぜひ一度当社にお越しになりませんか。当社で購入するしないに関わらず不動産を購入される上で知っておかれれば損はしないと思います。」</div>
@@ -1107,7 +1121,7 @@ function rpStopMic() {
 </div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
-<div class="script-box">「先ほど<b>○○（物件名）</b>へのお問い合わせをいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="script-box">「先ほど弊社ホームページより<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
   <div class="branch-col no"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-note">「大変失礼いたしました。何時頃であればご都合よろしいでしょうか？」→ 時間をメモして電話を切る</div></div>
@@ -1125,9 +1139,9 @@ function rpStopMic() {
 <div class="script-box">「この物件のどんなところがお気に入りですか？」</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ②〜④</span><span class="step-title">エリア・家族構成・購入理由</span></div>
-<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
-<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
 <div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-appeal"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">ご来店いただく3つの理由をお伝えする</span></div>
@@ -1322,7 +1336,7 @@ function rpStopMic() {
 </div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
-<div class="script-box">「先ほど<b>○○（物件名）</b>へのお問い合わせをいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="script-box">「先ほど弊社ホームページより<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
   <div class="branch-col no"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-note">「大変失礼いたしました。何時頃であればご都合よろしいでしょうか？」→ 時間をメモして電話を切る</div></div>
@@ -1340,9 +1354,9 @@ function rpStopMic() {
 <div class="script-box">「この物件のどんなところがお気に入りですか？」</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ②〜④</span><span class="step-title">エリア・家族構成・購入理由</span></div>
-<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
-<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
 <div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-appeal"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">ご来店いただく3つの理由をお伝えする</span></div>
