@@ -28,16 +28,14 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
 .msg-staff{display:flex;flex-direction:row-reverse;gap:8px;align-self:flex-end;max-width:85%}
 .msg-customer{display:flex;gap:8px;align-self:flex-start;max-width:85%}
 .avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.av-staff{background:#0C447C;color:white}
-.av-customer{background:#EF9F27;color:white}
+.av-staff{background:#0C447C;color:white}.av-customer{background:#EF9F27;color:white}
 .bubble-staff{background:#0C447C;color:white;padding:9px 12px;border-radius:10px 0 10px 10px;font-size:13px;line-height:1.7}
 .bubble-customer{background:white;border:1px solid #C8C5BC;padding:9px 12px;border-radius:0 10px 10px 10px;font-size:13px;line-height:1.7}
 .msg-name{font-size:10px;color:#6B6860;margin-bottom:2px;text-align:right}
 .msg-name-left{font-size:10px;color:#6B6860;margin-bottom:2px}
 .typing{display:flex;gap:4px;padding:6px;align-items:center}
 .dot{width:7px;height:7px;border-radius:50%;background:#C8C5BC;animation:bounce .9s infinite}
-.dot:nth-child(2){animation-delay:.15s}
-.dot:nth-child(3){animation-delay:.3s}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .input-area{background:white;border-top:1px solid #C8C5BC;padding:12px 14px;flex-shrink:0}
 .hint-btns{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
@@ -56,7 +54,7 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
 .score-num{font-size:52px;font-weight:700;color:#0C447C}
 .score-label{font-size:13px;color:#6B6860}
 .result-section{margin-top:12px}
-.rs-title{font-size:11px;font-weight:700;color:#6B6860;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.rs-title{font-size:11px;font-weight:700;color:#6B6860;text-transform:uppercase;margin-bottom:5px}
 .rs-body{font-size:13px;color:#3D3B37;line-height:1.7}
 .retry-btn{background:#0C447C;color:white;border:none;padding:12px 28px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500}
 </style>
@@ -72,49 +70,19 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
   <div class="sub">AIがお客様役になります。マイクまたはテキストで話しかけてください</div>
   <div class="section-label">🏠 売却反響シナリオ</div>
   <div class="scenario-grid">
-    <div class="scenario-card" onclick="startScenario('sell_busy','😤 多忙なお客様','あなたは忙しいサラリーマンです。最初は今忙しいと断りますが、1分だけなら聞いてもいいと思っています。査定は一括査定サイトに申し込みました。')">
-      <div class="sc-title">😤 多忙なお客様</div>
-      <div class="sc-desc">「今忙しい」1分フックで突破できるか</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('sell_serious','🔥 本気の売却希望','あなたは親の相続で実家を売却する必要があります。真剣に検討していますが、どの会社に頼むか迷っています。')">
-      <div class="sc-title">🔥 本気の売却希望</div>
-      <div class="sc-desc">相続で実家を売りたい。真剣に検討中。</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('sell_cold','❄️ 冷やかし','あなたは特に急ぎではなく、なんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。')">
-      <div class="sc-title">❄️ 冷やかし</div>
-      <div class="sc-desc">「なんとなく相場が知りたかっただけ」</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('sell_multi','🏢 他社も検討中','あなたは3社に査定を依頼しました。高い査定額を出した会社に頼もうかと思っています。')">
-      <div class="sc-title">🏢 他社も検討中</div>
-      <div class="sc-desc">3社に査定依頼。高い査定額に惹かれている。</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('sell_price','💰 価格だけ聞いてくる','あなたは査定額だけが知りたいです。来店には消極的で、いくらになりますかと繰り返します。')">
-      <div class="sc-title">💰 価格だけ聞いてくる</div>
-      <div class="sc-desc">「いくらになりますか？」を繰り返す。</div>
-    </div>
+    <div class="scenario-card" onclick="go('sell_busy')"><div class="sc-title">😤 多忙なお客様</div><div class="sc-desc">「今忙しい」1分フックで突破できるか</div></div>
+    <div class="scenario-card" onclick="go('sell_serious')"><div class="sc-title">🔥 本気の売却希望</div><div class="sc-desc">相続で実家を売りたい。真剣に検討中。</div></div>
+    <div class="scenario-card" onclick="go('sell_cold')"><div class="sc-title">❄️ 冷やかし</div><div class="sc-desc">なんとなく相場が知りたかっただけ</div></div>
+    <div class="scenario-card" onclick="go('sell_multi')"><div class="sc-title">🏢 他社も検討中</div><div class="sc-desc">3社に査定依頼。高い査定額に惹かれている。</div></div>
+    <div class="scenario-card" onclick="go('sell_price')"><div class="sc-title">💰 価格だけ聞いてくる</div><div class="sc-desc">「いくらになりますか？」を繰り返す。</div></div>
   </div>
   <div class="section-label">🔑 購入反響シナリオ</div>
   <div class="scenario-grid">
-    <div class="scenario-card" onclick="startScenario('buy_busy','😤 多忙なお客様（購入）','あなたは忙しい共働き夫婦の一方です。最初は今忙しいと断りますが、1分だけなら聞いてもいいと思っています。')">
-      <div class="sc-title">😤 多忙なお客様</div>
-      <div class="sc-desc">「今忙しい」ローンフックで突破できるか</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('buy_loan','🏦 ローン不安な方','あなたは住宅購入を検討していますが、ローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。')">
-      <div class="sc-title">🏦 ローン不安な方</div>
-      <div class="sc-desc">個人信用情報への傷を心配している。</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('buy_cash','💴 現金購入の方','あなたは現金で不動産を購入しようとしています。ネットに出ていない良い物件があれば興味があります。')">
-      <div class="sc-title">💴 現金購入の方</div>
-      <div class="sc-desc">非公開物件に興味あり。</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('buy_browse','👀 情報収集中','あなたはなんとなく物件を探し始めたところで、まだ買うかどうか決めていません。')">
-      <div class="sc-title">👀 情報収集中</div>
-      <div class="sc-desc">「まだ買うか決めていない」</div>
-    </div>
-    <div class="scenario-card" onclick="startScenario('buy_urgent','🚨 急ぎ購入','あなたは転勤が決まり、3ヶ月以内に新居を見つけなければなりません。急いでいます。')">
-      <div class="sc-title">🚨 急ぎ購入</div>
-      <div class="sc-desc">転勤で3ヶ月以内に引越しが必要。</div>
-    </div>
+    <div class="scenario-card" onclick="go('buy_busy')"><div class="sc-title">😤 多忙なお客様</div><div class="sc-desc">「今忙しい」ローンフックで突破できるか</div></div>
+    <div class="scenario-card" onclick="go('buy_loan')"><div class="sc-title">🏦 ローン不安な方</div><div class="sc-desc">個人信用情報への傷を心配している。</div></div>
+    <div class="scenario-card" onclick="go('buy_cash')"><div class="sc-title">💴 現金購入の方</div><div class="sc-desc">非公開物件に興味あり。</div></div>
+    <div class="scenario-card" onclick="go('buy_browse')"><div class="sc-title">👀 情報収集中</div><div class="sc-desc">まだ買うか決めていない</div></div>
+    <div class="scenario-card" onclick="go('buy_urgent')"><div class="sc-title">🚨 急ぎ購入</div><div class="sc-desc">転勤で3ヶ月以内に引越しが必要。</div></div>
   </div>
 </div>
 
@@ -126,9 +94,9 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
   <div class="chat-area" id="chat-area"></div>
   <div class="input-area">
     <div class="hint-btns">
-      <button class="hint-btn" onclick="hint('greeting')">📞 挨拶</button>
-      <button class="hint-btn" onclick="hint('hook')">🎯 フック</button>
-      <button class="hint-btn" onclick="hint('apo')">📅 アポ打診</button>
+      <button class="hint-btn" onclick="hint(0)">📞 挨拶</button>
+      <button class="hint-btn" onclick="hint(1)">🎯 フック</button>
+      <button class="hint-btn" onclick="hint(2)">📅 アポ打診</button>
     </div>
     <div class="input-row">
       <textarea class="text-input" id="text-input" placeholder="入力または音声認識結果" rows="2"></textarea>
@@ -140,26 +108,11 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
 
 <div id="screen-result">
   <div class="result-card">
-    <div class="score-big">
-      <div class="score-num" id="score-num">--</div>
-      <div class="score-label">点 / 100点</div>
-    </div>
-    <div class="result-section">
-      <div class="rs-title">総合評価</div>
-      <div class="rs-body" id="r-summary">採点中...</div>
-    </div>
-    <div class="result-section">
-      <div class="rs-title" style="color:#0D6B4A">良かった点</div>
-      <div class="rs-body" id="r-good"></div>
-    </div>
-    <div class="result-section">
-      <div class="rs-title" style="color:#7A4500">改善ポイント</div>
-      <div class="rs-body" id="r-improve"></div>
-    </div>
-    <div class="result-section">
-      <div class="rs-title" style="color:#0C447C">アドバイス</div>
-      <div class="rs-body" id="r-advice"></div>
-    </div>
+    <div class="score-big"><div class="score-num" id="score-num">--</div><div class="score-label">点 / 100点</div></div>
+    <div class="result-section"><div class="rs-title">総合評価</div><div class="rs-body" id="r-summary">採点中...</div></div>
+    <div class="result-section"><div class="rs-title" style="color:#0D6B4A">良かった点</div><div class="rs-body" id="r-good"></div></div>
+    <div class="result-section"><div class="rs-title" style="color:#7A4500">改善ポイント</div><div class="rs-body" id="r-improve"></div></div>
+    <div class="result-section"><div class="rs-title" style="color:#0C447C">アドバイス</div><div class="rs-body" id="r-advice"></div></div>
   </div>
   <button class="retry-btn" onclick="goSelect()">もう一度練習する</button>
 </div>
@@ -167,6 +120,26 @@ body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-heigh
 <script>
 var API_KEY = 'AIzaSyCPQVM0a2QLXNGEX8Rj0s4jncc8e1sjmO4';
 var API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + API_KEY;
+
+var SCENARIOS = {
+  sell_busy:    {title:'😤 多忙なお客様（売却）',   persona:'あなたは忙しいサラリーマンです。最初は断りますが1分なら聞いてもいいと思っています。査定は一括査定サイトに申し込みました。'},
+  sell_serious: {title:'🔥 本気の売却希望',         persona:'あなたは親の相続で実家を売却する必要があります。真剣に検討していますがどの会社に頼むか迷っています。'},
+  sell_cold:    {title:'❄️ 冷やかし',               persona:'あなたは特に急ぎではなくなんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。'},
+  sell_multi:   {title:'🏢 他社も検討中',           persona:'あなたは3社に査定を依頼しました。高い査定額を出した会社に頼もうかと思っています。'},
+  sell_price:   {title:'💰 価格だけ聞いてくる',     persona:'あなたは査定額だけが知りたいです。来店には消極的でいくらになりますかと繰り返します。'},
+  buy_busy:     {title:'😤 多忙なお客様（購入）',   persona:'あなたは忙しい共働き夫婦の一方です。最初は断りますが1分なら聞いてもいいと思っています。'},
+  buy_loan:     {title:'🏦 ローン不安な方',          persona:'あなたは住宅購入を検討していますがローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。'},
+  buy_cash:     {title:'💴 現金購入の方',            persona:'あなたは現金で不動産を購入しようとしています。ネットに出ていない良い物件があれば興味があります。'},
+  buy_browse:   {title:'👀 情報収集中',              persona:'あなたはなんとなく物件を探し始めたところでまだ買うかどうか決めていません。'},
+  buy_urgent:   {title:'🚨 急ぎ購入',               persona:'あなたは転勤が決まり3ヶ月以内に新居を見つけなければなりません。急いでいます。'}
+};
+
+var HINTS = [
+  'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
+  'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
+  '一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
+];
+
 var history = [];
 var persona = '';
 var rec = null;
@@ -176,9 +149,8 @@ function show(id) {
   document.getElementById('screen-select').style.display = 'none';
   document.getElementById('screen-chat').style.display = 'none';
   document.getElementById('screen-result').style.display = 'none';
-  var el = document.getElementById(id);
-  el.style.display = 'flex';
-  el.style.flexDirection = 'column';
+  document.getElementById(id).style.display = 'flex';
+  document.getElementById(id).style.flexDirection = 'column';
 }
 
 function goSelect() {
@@ -187,10 +159,12 @@ function goSelect() {
   show('screen-select');
 }
 
-function startScenario(id, title, p) {
-  persona = p;
+function go(id) {
+  var s = SCENARIOS[id];
+  if (!s) return;
+  persona = s.persona;
   history = [];
-  document.getElementById('chat-title').textContent = title;
+  document.getElementById('chat-title').textContent = s.title;
   document.getElementById('chat-area').innerHTML = '';
   show('screen-chat');
   sysMsg('電話が繋がりました。話しかけてください！');
@@ -251,7 +225,7 @@ function sendMsg() {
   document.getElementById('send-btn').disabled = true;
   addTyping();
 
-  var sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。' + persona + '必ず日本語で1〜3文で自然に返答してください。うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。';
+  var sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。' + persona + '必ず日本語で1から3文で自然に返答してください。うまい対応には少しずつ心を開いてください。アポが取れたらわかりました伺いますと答えてください。絶対にAIだと明かさないでください。';
 
   fetch(API_URL, {
     method: 'POST',
@@ -274,7 +248,7 @@ function sendMsg() {
     customerMsg(reply);
     history.push({role:'model', parts:[{text: reply}]});
     if (reply.indexOf('伺います') >= 0 || reply.indexOf('お越し') >= 0) {
-      sysMsg('アポイント取得成功！「採点する」を押してください！');
+      sysMsg('アポイント取得成功！採点するボタンを押してください！');
     }
     document.getElementById('send-btn').disabled = false;
   })
@@ -291,6 +265,9 @@ function endSession() {
   show('screen-result');
   document.getElementById('score-num').textContent = '--';
   document.getElementById('r-summary').textContent = '採点中...';
+  document.getElementById('r-good').textContent = '';
+  document.getElementById('r-improve').textContent = '';
+  document.getElementById('r-advice').textContent = '';
 
   var conv = '';
   for (var i = 0; i < history.length; i++) {
@@ -302,7 +279,7 @@ function endSession() {
 
 ' + conv + '
 
-以下のJSON形式のみで返してください:
+以下のJSON形式のみで返してください。
 {"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';
 
   fetch(API_URL, {
@@ -324,18 +301,13 @@ function endSession() {
     document.getElementById('r-improve').textContent = j.improve;
     document.getElementById('r-advice').textContent = j.advice;
   })
-  .catch(function(e) {
+  .catch(function() {
     document.getElementById('r-summary').textContent = '採点に失敗しました。';
   });
 }
 
-function hint(type) {
-  var hints = {
-    greeting: 'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
-    hook: 'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
-    apo: '一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
-  };
-  document.getElementById('text-input').value = hints[type];
+function hint(i) {
+  document.getElementById('text-input').value = HINTS[i];
 }
 
 function speak(text) {
