@@ -369,7 +369,7 @@ function buildPanel(mode) {
   if (mode === 'sell') {
     body.innerHTML = sellPanel();
   } else if (mode === 'buy_bukken') {
-    body.innerHTML = buyBukkenPanel();
+    body.innerHTML = document.getElementById('bukken-panel-template').innerHTML;
   } else {
     body.innerHTML = buyPanel();
   }
@@ -534,7 +534,7 @@ function buildNav(mode) {
       <div class="nav-item" data-target="s-hosoku" onclick="navTo('s-hosoku')">📝 補足ヒアリング</div>
       <div class="nav-item" data-target="s-close" onclick="navTo('s-close')">👋 クロージング</div>
       <div class="nav-item" data-target="s-qa" onclick="navTo('s-qa')">❓ 切り返し集</div>`;
-  } else {
+  } else if (mode === 'buy_member') {
     nav.innerHTML = `
       <div class="nav-section">発信・導入</div>
       <div class="nav-item" data-target="b-start" onclick="navTo('b-start')">📞 電話発信</div>
@@ -579,7 +579,13 @@ function buildNav(mode) {
 // ===== BUILD SCRIPT =====
 function buildScript(mode) {
   const el = document.getElementById('scriptContent');
-  el.innerHTML = mode === 'sell' ? sellScript() : mode === 'buy_bukken' ? buyBukkenScript() : buyScript();
+  if (mode === 'sell') {
+    el.innerHTML = sellScript();
+  } else if (mode === 'buy_bukken') {
+    el.innerHTML = document.getElementById('bukken-script-template').innerHTML;
+  } else {
+    el.innerHTML = buyScript();
+  }
 }
 
 function sellScript() {
@@ -817,7 +823,375 @@ function buyScript() {
 <div class="script-box"><b>専門用語メモ</b>：賃貸中＝今人が住んでいる物件　利回り＝購入額に対するリターンの割合　更地渡し＝売主負担で解体・整地して引渡し</div></div>`;
 }
 
+// === script2 ===
+
+function openDQ(){document.getElementById('dqOverlay').classList.add('open')}
+function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))closeDQDirect()}
+function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
+
+
+// === script3 (roleplay) ===
+
+// ===== ROLEPLAY STATE =====
+let rpApiKey = localStorage.getItem('vivi_gemini_key') || '';
+let rpMode = '';
+let rpScenario = null;
+let rpHistory = [];
+let rpTurnCount = 0;
+let rpRecognition = null;
+let rpListening = false;
+
+const RP_SCENARIOS = {
+  sell:[
+    {id:'busy_s',title:'😤 多忙なお客様',desc:'「今忙しい」1分フックで突破できるか',personality:'あなたは忙しいサラリーマンです。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。査定は一括査定サイトに申し込みました。'},
+    {id:'serious_s',title:'🔥 本気の売却希望',desc:'相続で実家を売りたい。真剣に検討中。',personality:'あなたは親の相続で実家を売却する必要があります。真剣に検討していますが、どの会社に頼むか迷っています。'},
+    {id:'cold_s',title:'❄️ 冷やかし',desc:'「なんとなく相場が知りたかっただけ」',personality:'あなたは特に急ぎではなく、なんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。'},
+    {id:'multi_s',title:'🏢 他社も検討中',desc:'3社に査定依頼。高い査定額に惹かれている。',personality:'あなたは3社に査定を依頼しました。どこも同じように思えて迷っています。高い査定額を出した会社に頼もうかと思っています。'},
+    {id:'price_s',title:'💰 価格だけ聞いてくる',desc:'「いくらになりますか？」を繰り返す。',personality:'あなたは査定額にとても興味があります。「いくらになりますか？」と繰り返し聞いてきます。来店には消極的です。'},
+  ],
+  buy:[
+    {id:'busy_b',title:'😤 多忙なお客様',desc:'「今忙しい」ローンフックで突破できるか',personality:'あなたは忙しい共働き夫婦の一方です。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。'},
+    {id:'loan_b',title:'🏦 ローン不安な方',desc:'個人信用情報への傷を心配している。',personality:'あなたは住宅購入を検討していますが、ローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。'},
+    {id:'cash_b',title:'💴 現金購入の方',desc:'非公開物件に興味あり。',personality:'あなたは現金で不動産を購入しようとしています。ネットには出ていないような良い物件があれば興味があります。'},
+    {id:'browse_b',title:'👀 情報収集中',desc:'「まだ買うか決めていない」',personality:'あなたはなんとなく物件を探し始めたところで、まだ買うかどうか決めていません。具体的な条件もまだはっきりしていません。'},
+    {id:'urgent_b',title:'🚨 急ぎ購入',desc:'転勤で3ヶ月以内に引越しが必要。',personality:'あなたは転勤が決まり、3ヶ月以内に新居を見つけなければなりません。急いでいて、具体的な物件紹介を求めています。'},
+  ]
+};
+
+// 初期化
+function startRoleplay() {
+  switchView('roleplay');
+  // シナリオグリッド生成
+  ['sell','buy'].forEach(mode => {
+    const grid = document.getElementById('rp-'+mode+'-grid');
+    grid.innerHTML = RP_SCENARIOS[mode].map(function(s) {
+      return '<div onclick="rpSelectScenario(\'' + mode + '\',\'' + s.id + '\')" style="background:white;border:1px solid var(--gray-300);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s"><div style="font-size:12px;font-weight:700;margin-bottom:3px">' + s.title + '</div><div style="font-size:11px;color:var(--gray-500);line-height:1.4">' + s.desc + '</div></div>';
+    }).join('');
+  });
+  // APIキー確認
+  if (!rpApiKey) {
+    document.getElementById('rp-api-modal').style.display = 'flex';
+  }
+}
+
+function saveApiKey() {
+  const val = document.getElementById('rp-api-input').value.trim();
+  if (!val) { alert('APIキーを入力してください'); return; }
+  rpApiKey = val;
+  localStorage.setItem('vivi_gemini_key', val);
+  document.getElementById('rp-api-modal').style.display = 'none';
+}
+
+function rpSelectScenario(mode, scenarioId) {
+  if (!rpApiKey) { document.getElementById('rp-api-modal').style.display = 'flex'; return; }
+  rpMode = mode;
+  rpScenario = RP_SCENARIOS[mode].find(s => s.id === scenarioId);
+  rpHistory = [];
+  rpTurnCount = 0;
+
+  document.getElementById('rp-scenario-screen').style.display = 'none';
+  document.getElementById('rp-result-screen').style.display = 'none';
+  const cs = document.getElementById('rp-chat-screen');
+  cs.style.display = 'flex';
+
+  const badge = document.getElementById('rp-mode-badge');
+  badge.textContent = mode === 'sell' ? '🏠 売却' : '🔑 購入';
+  badge.style.cssText = mode === 'sell'
+    ? 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#7A4500'
+    : 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--blue-light);color:var(--blue)';
+  document.getElementById('rp-scenario-name').textContent = rpScenario.title;
+
+  const chat = document.getElementById('rp-chat');
+  chat.innerHTML = '';
+  rpAddSystemMsg('シナリオ：' + rpScenario.desc);
+  rpAddSystemMsg('📞 電話が繋がりました。話しかけてください！');
+  rpInitSpeech();
+}
+
+function rpGoScenario() {
+  rpStopMic();
+  document.getElementById('rp-chat-screen').style.display = 'none';
+  document.getElementById('rp-result-screen').style.display = 'none';
+  document.getElementById('rp-scenario-screen').style.display = 'flex';
+}
+
+// チャット
+function rpAddSystemMsg(text) {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  div.style.cssText = 'text-align:center;margin:4px 0';
+  div.innerHTML = '<span style="background:var(--gray-100);color:var(--gray-500);font-size:11px;padding:4px 12px;border-radius:20px">' + text + '</span>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function rpAddMsg(role, text) {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  const isStaff = role === 'staff';
+  const flexDir = isStaff ? 'flex-direction:row-reverse;align-self:flex-end' : 'align-self:flex-start';
+  div.style.cssText = 'display:flex;gap:8px;margin:2px 0;' + flexDir + ';max-width:85%';
+  const avatarBg = isStaff ? 'var(--blue)' : '#EF9F27';
+  const avatarIcon = isStaff ? '👤' : '👨';
+  const nameLabel = isStaff ? 'スタッフ' : 'お客様';
+  const nameAlign = isStaff ? 'text-align:right' : '';
+  const bubbleRadius = isStaff ? '10px 0 10px 10px' : '0 10px 10px 10px';
+  const bubbleStyle = isStaff ? 'background:var(--blue);color:white' : 'background:white;border:1px solid var(--gray-300)';
+  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:' + avatarBg + ';color:white">' + avatarIcon + '</div><div><div style="font-size:10px;color:var(--gray-500);margin-bottom:2px;' + nameAlign + '">' + nameLabel + '</div><div style="padding:8px 11px;border-radius:' + bubbleRadius + ';font-size:12px;line-height:1.7;' + bubbleStyle + '">' + text + '</div></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  if (!isStaff) rpSpeak(text);
+}
+
+function rpAddTyping() {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  div.id = 'rp-typing';
+  div.style.cssText = 'display:flex;gap:8px;margin:2px 0';
+  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:#EF9F27;color:white;display:flex;align-items:center;justify-content:center;font-size:13px">👨</div><div style="background:white;border:1px solid var(--gray-300);border-radius:0 10px 10px 10px;padding:10px 14px;display:flex;gap:4px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .15s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .3s infinite"></span></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function rpSendMessage() {
+  const input = document.getElementById('rp-text-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  rpAddMsg('staff', text);
+  rpTurnCount++;
+  rpHistory.push({role:'user',parts:[{text}]});
+  document.getElementById('rp-send-btn').disabled = true;
+  rpAddTyping();
+  try {
+    const reply = await rpCallGemini();
+    document.getElementById('rp-typing')?.remove();
+    rpAddMsg('customer', reply);
+    rpHistory.push({role:'model',parts:[{text:reply}]});
+    if (reply.includes('伺います')||reply.includes('お越し')||reply.includes('承知しました')||reply.includes('予約')) {
+      setTimeout(()=>rpAddSystemMsg('🎉 アポイント取得成功！「採点」ボタンを押してください！'),500);
+    }
+  } catch(e) {
+    document.getElementById('rp-typing')?.remove();
+    rpAddSystemMsg('⚠️ エラーが発生しました。APIキーを確認してください。');
+  }
+  document.getElementById('rp-send-btn').disabled = false;
+}
+
+async function rpCallGemini() {
+  const sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。\n' + rpScenario.personality + '\n必ず日本語で短く自然に返答してください（1〜3文）。リアルな反応をし、うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。';
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+rpApiKey,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system_instruction:{parts:[{text:sys}]},contents:rpHistory,generationConfig:{temperature:0.9,maxOutputTokens:150}})
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.candidates[0].content.parts[0].text;
+}
+
+async function rpEndSession() {
+  if (rpHistory.length < 2) { alert('もう少し会話を続けてから採点してください'); return; }
+  rpStopMic();
+  document.getElementById('rp-chat-screen').style.display = 'none';
+  const rs = document.getElementById('rp-result-screen');
+  rs.style.display = 'flex';
+  document.getElementById('rp-score-num').textContent = '--';
+  document.getElementById('rp-result-summary').textContent = '採点中...';
+  ['rp-result-good','rp-result-improve','rp-result-advice'].forEach(id=>document.getElementById(id).textContent='');
+
+  const history = rpHistory.map(function(m){return (m.role==='user'?'スタッフ':'お客様')+': '+m.parts[0].text;}).join('\n');
+  const prompt = '以下はvivi不動産のテレアポ練習の会話記録です。スタッフの対応を100点満点で採点し、JSONのみで返してください。\n\n会話記録：\n' + history + '\n\n{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';;
+
+  try {
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+rpApiKey,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:500}})
+    });
+    const data = await res.json();
+    const rawText = data.candidates[0].content.parts[0].text;
+    const bt = String.fromCharCode(96);
+    const bt3 = bt+bt+bt;
+    const cleanText = rawText.split(bt3+'json').join('').split(bt3).join('').trim();
+    const json = JSON.parse(cleanText);
+    document.getElementById('rp-score-num').textContent = json.score;
+    document.getElementById('rp-result-summary').textContent = json.summary;
+    document.getElementById('rp-result-good').textContent = json.good;
+    document.getElementById('rp-result-improve').textContent = json.improve;
+    document.getElementById('rp-result-advice').textContent = json.advice;
+  } catch(e) {
+    document.getElementById('rp-result-summary').textContent = '採点に失敗しました。もう一度お試しください。';
+  }
+}
+
+function rpInsertHint(type) {
+  const hints = {
+    greeting:'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
+    hook:'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
+    apo:'一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
+  };
+  document.getElementById('rp-text-input').value = hints[type];
+}
+
+function rpSpeak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  utt.rate = 1.0;
+  window.speechSynthesis.speak(utt);
+}
+
+function rpInitSpeech() {
+  if (!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)) {
+    document.getElementById('rp-hint').textContent = '⚠️ このブラウザは音声認識非対応です。テキスト入力をご利用ください。';
+    document.getElementById('rp-mic-btn').style.display = 'none';
+    return;
+  }
+  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  rpRecognition = new SR();
+  rpRecognition.lang = 'ja-JP';
+  rpRecognition.continuous = false;
+  rpRecognition.interimResults = true;
+  rpRecognition.onresult = e => {
+    let final='',interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) final+=e.results[i][0].transcript;
+      else interim+=e.results[i][0].transcript;
+    }
+    document.getElementById('rp-text-input').value = final||interim;
+  };
+  rpRecognition.onend = () => {
+    rpListening = false;
+    const btn = document.getElementById('rp-mic-btn');
+    btn.style.background = 'var(--blue-light)';
+    btn.textContent = '🎤';
+    document.getElementById('rp-hint').textContent = '🎤 マイクを押して話すか、テキストで入力してください';
+    const text = document.getElementById('rp-text-input').value.trim();
+    if (text) rpSendMessage();
+  };
+  rpRecognition.onerror = e => {
+    rpListening = false;
+    document.getElementById('rp-mic-btn').style.background = 'var(--blue-light)';
+    document.getElementById('rp-mic-btn').textContent = '🎤';
+  };
+}
+
+function rpToggleMic() {
+  if (!rpRecognition) return;
+  if (rpListening) { rpStopMic(); return; }
+  rpRecognition.start();
+  rpListening = true;
+  const btn = document.getElementById('rp-mic-btn');
+  btn.style.background = '#FDE8E4';
+  btn.textContent = '⏹';
+  document.getElementById('rp-hint').textContent = '🔴 録音中... 話し終えたらボタンを押してください';
+  document.getElementById('rp-text-input').value = '';
+}
+
+function rpStopMic() {
+  if (rpRecognition && rpListening) { rpRecognition.stop(); rpListening = false; }
+}
 </script>
+
+
+
+<!-- 物件反響スクリプトテンプレート -->
+<div id="bukken-script-template" style="display:none">
+<div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信（物件問い合わせ後すぐ）</span></div><div class="hint">物件への問い合わせ後、できるだけ早く発信する</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
+<div class="script-box">「お忙しいところ恐れ入ります。<b>（屋号）の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note">折り返し時間を確認して架電アポ</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
+<div class="script-box">「先ほど<b>○○（物件名）</b>へのお問い合わせをいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-note">「大変失礼いたしました。何時頃であればご都合よろしいでしょうか？」→ 時間をメモして電話を切る</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-loan"><div class="step-top"><span class="step-badge sb-hear">まず確認</span><span class="step-title">住宅ローン利用予定の確認（最優先）</span></div>
+<div class="script-box">「ありがとうございます。まず確認させてください。今回の購入にあたり、<b>住宅ローンのご利用はお考えでしょうか？</b>」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-bukken')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-note">→ 物件確認へ（事前審査の話は来店訴求で）</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-bukken')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入予定</div><div class="branch-note">→ 物件確認へ（レインズの話は来店訴求で）</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-bukken"><div class="step-top"><span class="step-badge sb-hear">①</span><span class="step-title">問い合わせ物件の確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「<b>○○（物件名・所在地）</b>へのお問い合わせですね。ありがとうございます。」</div>
+<div class="script-box">「この物件のどんなところがお気に入りですか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ②〜④</span><span class="step-title">エリア・家族構成・購入理由</span></div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-appeal"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">ご来店いただく3つの理由をお伝えする</span></div>
+<div class="vivi-box">「ありがとうございます。ぜひ一度ご来店いただけますか？<br><br>実は<b>ご来店いただく理由が3つ</b>あります。<br><br>1つ目は<b>住宅ローンの事前審査</b>です。弊社には個人情報に履歴を残さずに審査できる独自のルートがあります。<br><br>2つ目は<b>リノベーションのご提案</b>です。弊社には工務部とモデルルームがあり、購入後のリノベをワンストップで他社より安くご提供できます。<br><br>3つ目は<b>非公開物件のご紹介</b>です。業者専用の「レインズ」というサイトがあり、ネットに出ていない物件もご来店いただいた方限定でご紹介できます。」</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo('bb-apo')"><div class="branch-title yes">✓ 来店してみる</div><div class="branch-arrow">→ 日程打診へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 難しい</div><div class="branch-note">「ZOOMなどオンラインも可能です。いかがでしょうか？」→ 日程打診へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-apo"><div class="step-top"><span class="step-badge sb-apo">日程調整</span><span class="step-title">来店日程を確定する</span></div>
+<div class="script-box">「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」</div>
+<div class="script-box"><b>郵送先住所</b>「現在のご住所をお伺いできますか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
+<div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
+<div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「ご来店いただいた後に一緒にご案内いたします。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズに非公開物件も多数あります。ご来店いただければ一緒に探せます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「住所だけ教えてほしい」</b>→ 「申し訳ございません。ぜひご来店いただければ詳しくご案内できます。」</div>
+<div class="script-box"><b>賃貸中の物件</b>→ 「こちらはオーナーチェンジ物件で投資家向けです。住宅ローンはご利用いただけず、室内見学もできません。」</div></div>
+</div>
+
+<!-- 物件反響パネルテンプレート -->
+<div id="bukken-panel-template" style="display:none">
+<div class="section-title">基本情報</div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">お客様氏名</div><input class="field-input" id="f-name" placeholder="山田 太郎"/></div>
+  <div class="field-group"><div class="field-label">電話番号</div><input class="field-input" id="f-tel" placeholder="090-0000-0000"/></div>
+</div>
+<div class="field-group"><div class="field-label">メールアドレス</div><input class="field-input" id="f-email" placeholder="example@email.com"/></div>
+<div class="divider"></div>
+<div class="section-title">問い合わせ物件</div>
+<div class="field-group"><div class="field-label">物件名・所在地</div><input class="field-input" id="f-bukken" placeholder="例：○○マンション201号室"/></div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">ローン利用</div>
+    <select class="field-select" id="f-loan"><option value="">選択</option><option>利用予定</option><option>現金購入</option><option>未定</option></select></div>
+  <div class="field-group"><div class="field-label">気に入ったポイント</div><input class="field-input" id="f-point" placeholder="例：価格・立地"/></div>
+</div>
+<div class="divider"></div>
+<div class="section-title">ヒアリング</div>
+<div class="field-group"><div class="field-label">希望エリア</div><input class="field-input" id="f-area" placeholder="例：富山市大沢野付近"/></div>
+<div class="field-group"><div class="field-label">家族構成</div><input class="field-input" id="f-family" placeholder="例：夫婦＋子供1人"/></div>
+<div class="field-group"><div class="field-label">購入理由</div>
+  <select class="field-select" id="f-reason"><option value="">選択</option><option>住み替え</option><option>転勤</option><option>家族構成の変化</option><option>賃貸からの転居</option><option>投資</option><option>その他</option></select></div>
+<div class="divider"></div>
+<div class="section-title">アポイント</div>
+<div class="field-group"><div class="field-label">アポ日時</div><input class="field-input" type="datetime-local" id="f-apo"/></div>
+<div class="field-group"><div class="field-label">来店人数</div><input class="field-input" id="f-ninzu" placeholder="例：ご夫婦2名"/></div>
+<div class="field-group"><div class="field-label">結果</div>
+  <select class="field-select" id="f-result"><option value="">未確定</option><option>来店アポ確約</option><option>Web面談アポ確約</option><option>長期追客代行へ</option><option>お断り</option><option>折り返し待ち</option></select></div>
+<div class="field-group"><div class="field-label">架電者メモ</div><textarea class="field-textarea" id="f-memo" placeholder="温度感・気になる点等"></textarea></div>
+<div class="divider"></div>
+<div class="section-title">営業スタッフへ送信</div>
+<div style="display:flex;gap:6px">
+  <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 コピー</button>
+  <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール</button>
+</div>
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！</div>
+</div>
 
 </body>
 </html>
@@ -851,11 +1225,7 @@ function buyScript() {
     <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
   </div>
 </div>
-<script>
-function openDQ(){document.getElementById('dqOverlay').classList.add('open')}
-function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))closeDQDirect()}
-function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
-</script>
+
 
 
 <!-- ===== ROLEPLAY VIEW ===== -->
@@ -938,270 +1308,105 @@ function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('
   </div>
 </div>
 
-<script>
-// ===== ROLEPLAY STATE =====
-let rpApiKey = localStorage.getItem('vivi_gemini_key') || '';
-let rpMode = '';
-let rpScenario = null;
-let rpHistory = [];
-let rpTurnCount = 0;
-let rpRecognition = null;
-let rpListening = false;
 
-const RP_SCENARIOS = {
-  sell:[
-    {id:'busy_s',title:'😤 多忙なお客様',desc:'「今忙しい」1分フックで突破できるか',personality:'あなたは忙しいサラリーマンです。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。査定は一括査定サイトに申し込みました。'},
-    {id:'serious_s',title:'🔥 本気の売却希望',desc:'相続で実家を売りたい。真剣に検討中。',personality:'あなたは親の相続で実家を売却する必要があります。真剣に検討していますが、どの会社に頼むか迷っています。'},
-    {id:'cold_s',title:'❄️ 冷やかし',desc:'「なんとなく相場が知りたかっただけ」',personality:'あなたは特に急ぎではなく、なんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。'},
-    {id:'multi_s',title:'🏢 他社も検討中',desc:'3社に査定依頼。高い査定額に惹かれている。',personality:'あなたは3社に査定を依頼しました。どこも同じように思えて迷っています。高い査定額を出した会社に頼もうかと思っています。'},
-    {id:'price_s',title:'💰 価格だけ聞いてくる',desc:'「いくらになりますか？」を繰り返す。',personality:'あなたは査定額にとても興味があります。「いくらになりますか？」と繰り返し聞いてきます。来店には消極的です。'},
-  ],
-  buy:[
-    {id:'busy_b',title:'😤 多忙なお客様',desc:'「今忙しい」ローンフックで突破できるか',personality:'あなたは忙しい共働き夫婦の一方です。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。'},
-    {id:'loan_b',title:'🏦 ローン不安な方',desc:'個人信用情報への傷を心配している。',personality:'あなたは住宅購入を検討していますが、ローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。'},
-    {id:'cash_b',title:'💴 現金購入の方',desc:'非公開物件に興味あり。',personality:'あなたは現金で不動産を購入しようとしています。ネットには出ていないような良い物件があれば興味があります。'},
-    {id:'browse_b',title:'👀 情報収集中',desc:'「まだ買うか決めていない」',personality:'あなたはなんとなく物件を探し始めたところで、まだ買うかどうか決めていません。具体的な条件もまだはっきりしていません。'},
-    {id:'urgent_b',title:'🚨 急ぎ購入',desc:'転勤で3ヶ月以内に引越しが必要。',personality:'あなたは転勤が決まり、3ヶ月以内に新居を見つけなければなりません。急いでいて、具体的な物件紹介を求めています。'},
-  ]
-};
 
-// 初期化
-function startRoleplay() {
-  switchView('roleplay');
-  // シナリオグリッド生成
-  ['sell','buy'].forEach(mode => {
-    const grid = document.getElementById(`rp-${mode}-grid`);
-    grid.innerHTML = RP_SCENARIOS[mode].map(s => `
-      <div onclick="rpSelectScenario('${mode}','${s.id}')" style="background:white;border:1px solid var(--gray-300);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s">
-        <div style="font-size:12px;font-weight:700;margin-bottom:3px">${s.title}</div>
-        <div style="font-size:11px;color:var(--gray-500);line-height:1.4">${s.desc}</div>
-      </div>`).join('');
-  });
-  // APIキー確認
-  if (!rpApiKey) {
-    document.getElementById('rp-api-modal').style.display = 'flex';
-  }
-}
+<!-- 物件反響スクリプトテンプレート -->
+<div id="bukken-script-template" style="display:none">
+<div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信（物件問い合わせ後すぐ）</span></div><div class="hint">物件への問い合わせ後、できるだけ早く発信する</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
+<div class="script-box">「お忙しいところ恐れ入ります。<b>（屋号）の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note">折り返し時間を確認して架電アポ</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
+<div class="script-box">「先ほど<b>○○（物件名）</b>へのお問い合わせをいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-note">「大変失礼いたしました。何時頃であればご都合よろしいでしょうか？」→ 時間をメモして電話を切る</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-loan"><div class="step-top"><span class="step-badge sb-hear">まず確認</span><span class="step-title">住宅ローン利用予定の確認（最優先）</span></div>
+<div class="script-box">「ありがとうございます。まず確認させてください。今回の購入にあたり、<b>住宅ローンのご利用はお考えでしょうか？</b>」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-bukken')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-note">→ 物件確認へ（事前審査の話は来店訴求で）</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-bukken')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入予定</div><div class="branch-note">→ 物件確認へ（レインズの話は来店訴求で）</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-bukken"><div class="step-top"><span class="step-badge sb-hear">①</span><span class="step-title">問い合わせ物件の確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「<b>○○（物件名・所在地）</b>へのお問い合わせですね。ありがとうございます。」</div>
+<div class="script-box">「この物件のどんなところがお気に入りですか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ②〜④</span><span class="step-title">エリア・家族構成・購入理由</span></div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-appeal"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">ご来店いただく3つの理由をお伝えする</span></div>
+<div class="vivi-box">「ありがとうございます。ぜひ一度ご来店いただけますか？<br><br>実は<b>ご来店いただく理由が3つ</b>あります。<br><br>1つ目は<b>住宅ローンの事前審査</b>です。弊社には個人情報に履歴を残さずに審査できる独自のルートがあります。<br><br>2つ目は<b>リノベーションのご提案</b>です。弊社には工務部とモデルルームがあり、購入後のリノベをワンストップで他社より安くご提供できます。<br><br>3つ目は<b>非公開物件のご紹介</b>です。業者専用の「レインズ」というサイトがあり、ネットに出ていない物件もご来店いただいた方限定でご紹介できます。」</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo('bb-apo')"><div class="branch-title yes">✓ 来店してみる</div><div class="branch-arrow">→ 日程打診へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 難しい</div><div class="branch-note">「ZOOMなどオンラインも可能です。いかがでしょうか？」→ 日程打診へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-apo"><div class="step-top"><span class="step-badge sb-apo">日程調整</span><span class="step-title">来店日程を確定する</span></div>
+<div class="script-box">「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」</div>
+<div class="script-box"><b>郵送先住所</b>「現在のご住所をお伺いできますか？」</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
+<div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
+<div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「ご来店いただいた後に一緒にご案内いたします。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズに非公開物件も多数あります。ご来店いただければ一緒に探せます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「住所だけ教えてほしい」</b>→ 「申し訳ございません。ぜひご来店いただければ詳しくご案内できます。」</div>
+<div class="script-box"><b>賃貸中の物件</b>→ 「こちらはオーナーチェンジ物件で投資家向けです。住宅ローンはご利用いただけず、室内見学もできません。」</div></div>
+</div>
 
-function saveApiKey() {
-  const val = document.getElementById('rp-api-input').value.trim();
-  if (!val) { alert('APIキーを入力してください'); return; }
-  rpApiKey = val;
-  localStorage.setItem('vivi_gemini_key', val);
-  document.getElementById('rp-api-modal').style.display = 'none';
-}
+<!-- 物件反響パネルテンプレート -->
+<div id="bukken-panel-template" style="display:none">
+<div class="section-title">基本情報</div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">お客様氏名</div><input class="field-input" id="f-name" placeholder="山田 太郎"/></div>
+  <div class="field-group"><div class="field-label">電話番号</div><input class="field-input" id="f-tel" placeholder="090-0000-0000"/></div>
+</div>
+<div class="field-group"><div class="field-label">メールアドレス</div><input class="field-input" id="f-email" placeholder="example@email.com"/></div>
+<div class="divider"></div>
+<div class="section-title">問い合わせ物件</div>
+<div class="field-group"><div class="field-label">物件名・所在地</div><input class="field-input" id="f-bukken" placeholder="例：○○マンション201号室"/></div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">ローン利用</div>
+    <select class="field-select" id="f-loan"><option value="">選択</option><option>利用予定</option><option>現金購入</option><option>未定</option></select></div>
+  <div class="field-group"><div class="field-label">気に入ったポイント</div><input class="field-input" id="f-point" placeholder="例：価格・立地"/></div>
+</div>
+<div class="divider"></div>
+<div class="section-title">ヒアリング</div>
+<div class="field-group"><div class="field-label">希望エリア</div><input class="field-input" id="f-area" placeholder="例：富山市大沢野付近"/></div>
+<div class="field-group"><div class="field-label">家族構成</div><input class="field-input" id="f-family" placeholder="例：夫婦＋子供1人"/></div>
+<div class="field-group"><div class="field-label">購入理由</div>
+  <select class="field-select" id="f-reason"><option value="">選択</option><option>住み替え</option><option>転勤</option><option>家族構成の変化</option><option>賃貸からの転居</option><option>投資</option><option>その他</option></select></div>
+<div class="divider"></div>
+<div class="section-title">アポイント</div>
+<div class="field-group"><div class="field-label">アポ日時</div><input class="field-input" type="datetime-local" id="f-apo"/></div>
+<div class="field-group"><div class="field-label">来店人数</div><input class="field-input" id="f-ninzu" placeholder="例：ご夫婦2名"/></div>
+<div class="field-group"><div class="field-label">結果</div>
+  <select class="field-select" id="f-result"><option value="">未確定</option><option>来店アポ確約</option><option>Web面談アポ確約</option><option>長期追客代行へ</option><option>お断り</option><option>折り返し待ち</option></select></div>
+<div class="field-group"><div class="field-label">架電者メモ</div><textarea class="field-textarea" id="f-memo" placeholder="温度感・気になる点等"></textarea></div>
+<div class="divider"></div>
+<div class="section-title">営業スタッフへ送信</div>
+<div style="display:flex;gap:6px">
+  <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 コピー</button>
+  <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール</button>
+</div>
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！</div>
+</div>
 
-function rpSelectScenario(mode, scenarioId) {
-  if (!rpApiKey) { document.getElementById('rp-api-modal').style.display = 'flex'; return; }
-  rpMode = mode;
-  rpScenario = RP_SCENARIOS[mode].find(s => s.id === scenarioId);
-  rpHistory = [];
-  rpTurnCount = 0;
-
-  document.getElementById('rp-scenario-screen').style.display = 'none';
-  document.getElementById('rp-result-screen').style.display = 'none';
-  const cs = document.getElementById('rp-chat-screen');
-  cs.style.display = 'flex';
-
-  const badge = document.getElementById('rp-mode-badge');
-  badge.textContent = mode === 'sell' ? '🏠 売却' : '🔑 購入';
-  badge.style.cssText = mode === 'sell'
-    ? 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#7A4500'
-    : 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--blue-light);color:var(--blue)';
-  document.getElementById('rp-scenario-name').textContent = rpScenario.title;
-
-  const chat = document.getElementById('rp-chat');
-  chat.innerHTML = '';
-  rpAddSystemMsg(`シナリオ：${rpScenario.desc}`);
-  rpAddSystemMsg('📞 電話が繋がりました。話しかけてください！');
-  rpInitSpeech();
-}
-
-function rpGoScenario() {
-  rpStopMic();
-  document.getElementById('rp-chat-screen').style.display = 'none';
-  document.getElementById('rp-result-screen').style.display = 'none';
-  document.getElementById('rp-scenario-screen').style.display = 'flex';
-}
-
-// チャット
-function rpAddSystemMsg(text) {
-  const chat = document.getElementById('rp-chat');
-  const div = document.createElement('div');
-  div.style.cssText = 'text-align:center;margin:4px 0';
-  div.innerHTML = `<span style="background:var(--gray-100);color:var(--gray-500);font-size:11px;padding:4px 12px;border-radius:20px">${text}</span>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function rpAddMsg(role, text) {
-  const chat = document.getElementById('rp-chat');
-  const div = document.createElement('div');
-  const isStaff = role === 'staff';
-  const flexDir = isStaff ? 'flex-direction:row-reverse;align-self:flex-end' : 'align-self:flex-start';
-  div.style.cssText = 'display:flex;gap:8px;margin:2px 0;' + flexDir + ';max-width:85%';
-  const avatarBg = isStaff ? 'var(--blue)' : '#EF9F27';
-  const avatarIcon = isStaff ? '👤' : '👨';
-  const nameLabel = isStaff ? 'スタッフ' : 'お客様';
-  const nameAlign = isStaff ? 'text-align:right' : '';
-  const bubbleRadius = isStaff ? '10px 0 10px 10px' : '0 10px 10px 10px';
-  const bubbleStyle = isStaff ? 'background:var(--blue);color:white' : 'background:white;border:1px solid var(--gray-300)';
-  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:' + avatarBg + ';color:white">' + avatarIcon + '</div><div><div style="font-size:10px;color:var(--gray-500);margin-bottom:2px;' + nameAlign + '">' + nameLabel + '</div><div style="padding:8px 11px;border-radius:' + bubbleRadius + ';font-size:12px;line-height:1.7;' + bubbleStyle + '">' + text + '</div></div>';
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-  if (!isStaff) rpSpeak(text);
-}
-
-function rpAddTyping() {
-  const chat = document.getElementById('rp-chat');
-  const div = document.createElement('div');
-  div.id = 'rp-typing';
-  div.style.cssText = 'display:flex;gap:8px;margin:2px 0';
-  div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:#EF9F27;color:white;display:flex;align-items:center;justify-content:center;font-size:13px">👨</div><div style="background:white;border:1px solid var(--gray-300);border-radius:0 10px 10px 10px;padding:10px 14px;display:flex;gap:4px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .15s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .3s infinite"></span></div>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-async function rpSendMessage() {
-  const input = document.getElementById('rp-text-input');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  rpAddMsg('staff', text);
-  rpTurnCount++;
-  rpHistory.push({role:'user',parts:[{text}]});
-  document.getElementById('rp-send-btn').disabled = true;
-  rpAddTyping();
-  try {
-    const reply = await rpCallGemini();
-    document.getElementById('rp-typing')?.remove();
-    rpAddMsg('customer', reply);
-    rpHistory.push({role:'model',parts:[{text:reply}]});
-    if (reply.includes('伺います')||reply.includes('お越し')||reply.includes('承知しました')||reply.includes('予約')) {
-      setTimeout(()=>rpAddSystemMsg('🎉 アポイント取得成功！「採点」ボタンを押してください！'),500);
-    }
-  } catch(e) {
-    document.getElementById('rp-typing')?.remove();
-    rpAddSystemMsg('⚠️ エラーが発生しました。APIキーを確認してください。');
-  }
-  document.getElementById('rp-send-btn').disabled = false;
-}
-
-async function rpCallGemini() {
-  const sys = `あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。
-${rpScenario.personality}
-必ず日本語で短く自然に返答してください（1〜3文）。リアルな反応をし、うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。`;
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${rpApiKey}`,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({system_instruction:{parts:[{text:sys}]},contents:rpHistory,generationConfig:{temperature:0.9,maxOutputTokens:150}})
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.candidates[0].content.parts[0].text;
-}
-
-async function rpEndSession() {
-  if (rpHistory.length < 2) { alert('もう少し会話を続けてから採点してください'); return; }
-  rpStopMic();
-  document.getElementById('rp-chat-screen').style.display = 'none';
-  const rs = document.getElementById('rp-result-screen');
-  rs.style.display = 'flex';
-  document.getElementById('rp-score-num').textContent = '--';
-  document.getElementById('rp-result-summary').textContent = '採点中...';
-  ['rp-result-good','rp-result-improve','rp-result-advice'].forEach(id=>document.getElementById(id).textContent='');
-
-  const history = rpHistory.map(m=>(m.role==='user'?'スタッフ':'お客様')+': '+m.parts[0].text).join('\n'); `以下はvivi不動産のテレアポ練習の会話記録です。スタッフの対応を100点満点で採点し、JSONのみで返してください（説明文不要）。
-
-会話記録：
-${history}
-
-採点基準：挨拶・本人確認が適切か、ヒアリングができているか、フック（損失回避トーク）を使えているか、自然な会話か、アポ打診ができているか
-
-{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"具体的なアドバイス"}`;
-
-  try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${rpApiKey}`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:500}})
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g,'').trim());
-    document.getElementById('rp-score-num').textContent = json.score;
-    document.getElementById('rp-result-summary').textContent = json.summary;
-    document.getElementById('rp-result-good').textContent = json.good;
-    document.getElementById('rp-result-improve').textContent = json.improve;
-    document.getElementById('rp-result-advice').textContent = json.advice;
-  } catch(e) {
-    document.getElementById('rp-result-summary').textContent = '採点に失敗しました。もう一度お試しください。';
-  }
-}
-
-function rpInsertHint(type) {
-  const hints = {
-    greeting:'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
-    hook:'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
-    apo:'一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
-  };
-  document.getElementById('rp-text-input').value = hints[type];
-}
-
-function rpSpeak(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = 'ja-JP';
-  utt.rate = 1.0;
-  window.speechSynthesis.speak(utt);
-}
-
-function rpInitSpeech() {
-  if (!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)) {
-    document.getElementById('rp-hint').textContent = '⚠️ このブラウザは音声認識非対応です。テキスト入力をご利用ください。';
-    document.getElementById('rp-mic-btn').style.display = 'none';
-    return;
-  }
-  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
-  rpRecognition = new SR();
-  rpRecognition.lang = 'ja-JP';
-  rpRecognition.continuous = false;
-  rpRecognition.interimResults = true;
-  rpRecognition.onresult = e => {
-    let final='',interim='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal) final+=e.results[i][0].transcript;
-      else interim+=e.results[i][0].transcript;
-    }
-    document.getElementById('rp-text-input').value = final||interim;
-  };
-  rpRecognition.onend = () => {
-    rpListening = false;
-    const btn = document.getElementById('rp-mic-btn');
-    btn.style.background = 'var(--blue-light)';
-    btn.textContent = '🎤';
-    document.getElementById('rp-hint').textContent = '🎤 マイクを押して話すか、テキストで入力してください';
-    const text = document.getElementById('rp-text-input').value.trim();
-    if (text) rpSendMessage();
-  };
-  rpRecognition.onerror = e => {
-    rpListening = false;
-    document.getElementById('rp-mic-btn').style.background = 'var(--blue-light)';
-    document.getElementById('rp-mic-btn').textContent = '🎤';
-  };
-}
-
-function rpToggleMic() {
-  if (!rpRecognition) return;
-  if (rpListening) { rpStopMic(); return; }
-  rpRecognition.start();
-  rpListening = true;
-  const btn = document.getElementById('rp-mic-btn');
-  btn.style.background = '#FDE8E4';
-  btn.textContent = '⏹';
-  document.getElementById('rp-hint').textContent = '🔴 録音中... 話し終えたらボタンを押してください';
-  document.getElementById('rp-text-input').value = '';
-}
-
-function rpStopMic() {
-  if (rpRecognition && rpListening) { rpRecognition.stop(); rpListening = false; }
-}
-
+</body>
+</html>
