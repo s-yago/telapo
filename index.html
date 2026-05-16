@@ -52,6 +52,10 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 .top-btn-title{font-size:18px;font-weight:700}
 .top-btn-sub{font-size:12px;opacity:.8}
 
+/* PRACTICE BTN */
+.top-btn-practice{border:2px solid #1D9E75;background:var(--green-light);color:var(--green);border-radius:12px;padding:14px 28px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s;margin-top:4px}
+.top-btn-practice:hover{background:#1D9E75;color:white}
+
 /* SCRIPT VIEW */
 #view-script{display:none;flex-direction:row}
 #view-script.active{display:flex!important}
@@ -214,6 +218,9 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
         <div class="top-btn-sub">会員登録・お問合せからの架電</div>
       </button>
     </div>
+    <button class="top-btn-practice" onclick="startRoleplay()">
+      🎯 ロールプレイ練習（AI対話・スマホ対応）
+    </button>
   </div>
 </div>
 
@@ -315,6 +322,17 @@ function switchView(name) {
     document.getElementById('modeBadge').style.display = 'none';
     document.getElementById('viewBtns').style.display = 'none';
     document.getElementById('newBtn').style.display = 'none';
+  }
+  if (name === 'roleplay') {
+    document.getElementById('modeBadge').style.display = 'none';
+    document.getElementById('viewBtns').style.display = 'none';
+    document.getElementById('newBtn').style.display = 'none';
+    // シナリオ画面表示
+    setTimeout(()=>{
+      document.getElementById('rp-scenario-screen').style.display='flex';
+      document.getElementById('rp-chat-screen').style.display='none';
+      document.getElementById('rp-result-screen').style.display='none';
+    },10);
   }
   const fb=document.getElementById('floatBtn');
   if(fb) fb.classList.toggle('show', name==='script');
@@ -1125,6 +1143,355 @@ function loadToPanel(){
 function openDQ(){document.getElementById('dqOverlay').classList.add('open')}
 function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))closeDQDirect()}
 function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
+</script>
+
+
+<!-- ===== ROLEPLAY VIEW ===== -->
+<div id="view-roleplay" class="view" style="flex-direction:column;background:var(--gray-100);overflow-y:auto">
+
+  <!-- APIキー設定モーダル -->
+  <div id="rp-api-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
+    <div style="background:white;border-radius:12px;padding:20px;width:90%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">🔑 Gemini APIキーを設定</div>
+      <div style="font-size:11px;color:var(--gray-500);margin-bottom:12px">初回のみ入力が必要です。ブラウザに保存されます。</div>
+      <input id="rp-api-input" type="password" placeholder="AIzaSyCXc7y... (取得済みのキーを入力)" style="width:100%;border:1px solid var(--gray-300);border-radius:6px;padding:9px 10px;font-size:13px;font-family:inherit;margin-bottom:8px"/>
+      <button onclick="saveApiKey()" style="width:100%;background:var(--blue);color:white;border:none;padding:10px;border-radius:6px;font-size:13px;font-family:inherit;font-weight:500;cursor:pointer">保存して練習開始</button>
+    </div>
+  </div>
+
+  <!-- シナリオ選択 -->
+  <div id="rp-scenario-screen" style="display:flex;flex-direction:column;align-items:center;padding:16px;gap:14px;min-height:100%">
+    <div style="font-size:16px;font-weight:700;color:var(--navy);text-align:center;margin-top:8px">🎯 ロールプレイ練習</div>
+    <div style="font-size:12px;color:var(--gray-500);text-align:center">AIがお客様役になります。マイクで話して練習しましょう！</div>
+    <div style="font-size:12px;font-weight:700;color:var(--gray-700);align-self:flex-start">売却反響シナリオ</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:500px" id="rp-sell-grid"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--gray-700);align-self:flex-start;margin-top:4px">購入反響シナリオ</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:500px" id="rp-buy-grid"></div>
+    <button onclick="switchView('top')" style="background:var(--gray-100);border:1px solid var(--gray-300);padding:8px 20px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;margin-top:8px">← トップへ戻る</button>
+  </div>
+
+  <!-- 練習画面 -->
+  <div id="rp-chat-screen" style="display:none;flex-direction:column;height:100vh">
+    <div style="background:white;border-bottom:1px solid var(--gray-300);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <span id="rp-mode-badge" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px"></span>
+        <span id="rp-scenario-name" style="font-size:12px;font-weight:500;margin-left:6px"></span>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button onclick="rpEndSession()" style="background:var(--red-light);color:var(--red);border:none;padding:5px 10px;border-radius:5px;font-size:11px;font-family:inherit;cursor:pointer">🏁 採点</button>
+        <button onclick="rpGoScenario()" style="background:var(--gray-100);border:none;padding:5px 10px;border-radius:5px;font-size:11px;font-family:inherit;cursor:pointer">← 戻る</button>
+      </div>
+    </div>
+    <div id="rp-chat" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px"></div>
+    <div style="background:white;border-top:1px solid var(--gray-300);padding:10px 12px;flex-shrink:0">
+      <div id="rp-hint" style="font-size:11px;color:var(--gray-500);text-align:center;margin-bottom:8px">🎤 マイクを押して話すか、テキストで入力してください</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;justify-content:center">
+        <button onclick="rpInsertHint('greeting')" style="border:1px solid var(--gray-300);background:white;padding:4px 10px;border-radius:20px;font-size:11px;font-family:inherit;cursor:pointer;color:var(--gray-700)">📞 挨拶</button>
+        <button onclick="rpInsertHint('hook')" style="border:1px solid var(--gray-300);background:white;padding:4px 10px;border-radius:20px;font-size:11px;font-family:inherit;cursor:pointer;color:var(--gray-700)">🎯 フック</button>
+        <button onclick="rpInsertHint('apo')" style="border:1px solid var(--gray-300);background:white;padding:4px 10px;border-radius:20px;font-size:11px;font-family:inherit;cursor:pointer;color:var(--gray-700)">📅 アポ打診</button>
+      </div>
+      <div style="display:flex;gap:6px;align-items:flex-end">
+        <textarea id="rp-text-input" placeholder="ここに入力または音声認識結果が表示されます" rows="2" style="flex:1;border:1px solid var(--gray-300);border-radius:8px;padding:8px;font-size:13px;font-family:inherit;resize:none"></textarea>
+        <button id="rp-mic-btn" onclick="rpToggleMic()" style="width:44px;height:44px;border-radius:50%;border:none;background:var(--blue-light);cursor:pointer;font-size:20px;flex-shrink:0">🎤</button>
+        <button onclick="rpSendMessage()" id="rp-send-btn" style="background:var(--blue);color:white;border:none;padding:0 14px;border-radius:8px;font-size:12px;font-family:inherit;cursor:pointer;height:44px;white-space:nowrap">送信</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 採点画面 -->
+  <div id="rp-result-screen" style="display:none;flex-direction:column;align-items:center;padding:20px;gap:14px;overflow-y:auto">
+    <div style="background:white;border:1px solid var(--gray-300);border-radius:12px;padding:20px;width:100%;max-width:500px">
+      <div style="text-align:center;margin-bottom:16px">
+        <div id="rp-score-num" style="font-size:52px;font-weight:700;color:var(--blue)">--</div>
+        <div style="font-size:13px;color:var(--gray-500)">点 / 100点</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">総合評価</div>
+        <div id="rp-result-summary" style="font-size:13px;color:var(--gray-700);line-height:1.7">採点中...</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">✓ 良かった点</div>
+        <div id="rp-result-good" style="font-size:13px;color:var(--gray-700);line-height:1.7"></div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">△ 改善ポイント</div>
+        <div id="rp-result-improve" style="font-size:13px;color:var(--gray-700);line-height:1.7"></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">💡 アドバイス</div>
+        <div id="rp-result-advice" style="font-size:13px;color:var(--gray-700);line-height:1.7"></div>
+      </div>
+    </div>
+    <button onclick="rpGoScenario()" style="background:var(--blue);color:white;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-family:inherit;font-weight:500;cursor:pointer">🔄 もう一度練習する</button>
+  </div>
+</div>
+
+<script>
+// ===== ROLEPLAY STATE =====
+let rpApiKey = localStorage.getItem('vivi_gemini_key') || '';
+let rpMode = '';
+let rpScenario = null;
+let rpHistory = [];
+let rpTurnCount = 0;
+let rpRecognition = null;
+let rpListening = false;
+
+const RP_SCENARIOS = {
+  sell:[
+    {id:'busy_s',title:'😤 多忙なお客様',desc:'「今忙しい」1分フックで突破できるか',personality:'あなたは忙しいサラリーマンです。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。査定は一括査定サイトに申し込みました。'},
+    {id:'serious_s',title:'🔥 本気の売却希望',desc:'相続で実家を売りたい。真剣に検討中。',personality:'あなたは親の相続で実家を売却する必要があります。真剣に検討していますが、どの会社に頼むか迷っています。'},
+    {id:'cold_s',title:'❄️ 冷やかし',desc:'「なんとなく相場が知りたかっただけ」',personality:'あなたは特に急ぎではなく、なんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。'},
+    {id:'multi_s',title:'🏢 他社も検討中',desc:'3社に査定依頼。高い査定額に惹かれている。',personality:'あなたは3社に査定を依頼しました。どこも同じように思えて迷っています。高い査定額を出した会社に頼もうかと思っています。'},
+    {id:'price_s',title:'💰 価格だけ聞いてくる',desc:'「いくらになりますか？」を繰り返す。',personality:'あなたは査定額にとても興味があります。「いくらになりますか？」と繰り返し聞いてきます。来店には消極的です。'},
+  ],
+  buy:[
+    {id:'busy_b',title:'😤 多忙なお客様',desc:'「今忙しい」ローンフックで突破できるか',personality:'あなたは忙しい共働き夫婦の一方です。最初は「今忙しい」と断りますが、1分だけなら聞いてもいいかと思っています。'},
+    {id:'loan_b',title:'🏦 ローン不安な方',desc:'個人信用情報への傷を心配している。',personality:'あなたは住宅購入を検討していますが、ローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。'},
+    {id:'cash_b',title:'💴 現金購入の方',desc:'非公開物件に興味あり。',personality:'あなたは現金で不動産を購入しようとしています。ネットには出ていないような良い物件があれば興味があります。'},
+    {id:'browse_b',title:'👀 情報収集中',desc:'「まだ買うか決めていない」',personality:'あなたはなんとなく物件を探し始めたところで、まだ買うかどうか決めていません。具体的な条件もまだはっきりしていません。'},
+    {id:'urgent_b',title:'🚨 急ぎ購入',desc:'転勤で3ヶ月以内に引越しが必要。',personality:'あなたは転勤が決まり、3ヶ月以内に新居を見つけなければなりません。急いでいて、具体的な物件紹介を求めています。'},
+  ]
+};
+
+// 初期化
+function startRoleplay() {
+  switchView('roleplay');
+  // シナリオグリッド生成
+  ['sell','buy'].forEach(mode => {
+    const grid = document.getElementById(`rp-${mode}-grid`);
+    grid.innerHTML = RP_SCENARIOS[mode].map(s => `
+      <div onclick="rpSelectScenario('${mode}','${s.id}')" style="background:white;border:1px solid var(--gray-300);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s">
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">${s.title}</div>
+        <div style="font-size:11px;color:var(--gray-500);line-height:1.4">${s.desc}</div>
+      </div>`).join('');
+  });
+  // APIキー確認
+  if (!rpApiKey) {
+    document.getElementById('rp-api-modal').style.display = 'flex';
+  }
+}
+
+function saveApiKey() {
+  const val = document.getElementById('rp-api-input').value.trim();
+  if (!val) { alert('APIキーを入力してください'); return; }
+  rpApiKey = val;
+  localStorage.setItem('vivi_gemini_key', val);
+  document.getElementById('rp-api-modal').style.display = 'none';
+}
+
+function rpSelectScenario(mode, scenarioId) {
+  if (!rpApiKey) { document.getElementById('rp-api-modal').style.display = 'flex'; return; }
+  rpMode = mode;
+  rpScenario = RP_SCENARIOS[mode].find(s => s.id === scenarioId);
+  rpHistory = [];
+  rpTurnCount = 0;
+
+  document.getElementById('rp-scenario-screen').style.display = 'none';
+  document.getElementById('rp-result-screen').style.display = 'none';
+  const cs = document.getElementById('rp-chat-screen');
+  cs.style.display = 'flex';
+
+  const badge = document.getElementById('rp-mode-badge');
+  badge.textContent = mode === 'sell' ? '🏠 売却' : '🔑 購入';
+  badge.style.cssText = mode === 'sell'
+    ? 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#7A4500'
+    : 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--blue-light);color:var(--blue)';
+  document.getElementById('rp-scenario-name').textContent = rpScenario.title;
+
+  const chat = document.getElementById('rp-chat');
+  chat.innerHTML = '';
+  rpAddSystemMsg(`シナリオ：${rpScenario.desc}`);
+  rpAddSystemMsg('📞 電話が繋がりました。話しかけてください！');
+  rpInitSpeech();
+}
+
+function rpGoScenario() {
+  rpStopMic();
+  document.getElementById('rp-chat-screen').style.display = 'none';
+  document.getElementById('rp-result-screen').style.display = 'none';
+  document.getElementById('rp-scenario-screen').style.display = 'flex';
+}
+
+// チャット
+function rpAddSystemMsg(text) {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  div.style.cssText = 'text-align:center;margin:4px 0';
+  div.innerHTML = `<span style="background:var(--gray-100);color:var(--gray-500);font-size:11px;padding:4px 12px;border-radius:20px">${text}</span>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function rpAddMsg(role, text) {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  const isStaff = role === 'staff';
+  const flexDir = isStaff ? 'flex-direction:row-reverse;align-self:flex-end' : 'align-self:flex-start';
+  div.style.cssText = 'display:flex;gap:8px;margin:2px 0;' + flexDir + ';max-width:85%';
+  const avatarBg = isStaff ? 'var(--blue)' : '#EF9F27';
+  const avatarIcon = isStaff ? '👤' : '👨';
+  const nameLabel = isStaff ? 'スタッフ' : 'お客様';
+  const nameAlign = isStaff ? 'text-align:right' : '';
+  const bubbleRadius = isStaff ? '10px 0 10px 10px' : '0 10px 10px 10px';
+  const bubbleStyle = isStaff ? 'background:var(--blue);color:white' : 'background:white;border:1px solid var(--gray-300)';
+  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:' + avatarBg + ';color:white">' + avatarIcon + '</div><div><div style="font-size:10px;color:var(--gray-500);margin-bottom:2px;' + nameAlign + '">' + nameLabel + '</div><div style="padding:8px 11px;border-radius:' + bubbleRadius + ';font-size:12px;line-height:1.7;' + bubbleStyle + '">' + text + '</div></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  if (!isStaff) rpSpeak(text);
+}
+
+function rpAddTyping() {
+  const chat = document.getElementById('rp-chat');
+  const div = document.createElement('div');
+  div.id = 'rp-typing';
+  div.style.cssText = 'display:flex;gap:8px;margin:2px 0';
+  div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:#EF9F27;color:white;display:flex;align-items:center;justify-content:center;font-size:13px">👨</div><div style="background:white;border:1px solid var(--gray-300);border-radius:0 10px 10px 10px;padding:10px 14px;display:flex;gap:4px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .15s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gray-300);display:inline-block;animation:bounce 1s .3s infinite"></span></div>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function rpSendMessage() {
+  const input = document.getElementById('rp-text-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  rpAddMsg('staff', text);
+  rpTurnCount++;
+  rpHistory.push({role:'user',parts:[{text}]});
+  document.getElementById('rp-send-btn').disabled = true;
+  rpAddTyping();
+  try {
+    const reply = await rpCallGemini();
+    document.getElementById('rp-typing')?.remove();
+    rpAddMsg('customer', reply);
+    rpHistory.push({role:'model',parts:[{text:reply}]});
+    if (reply.includes('伺います')||reply.includes('お越し')||reply.includes('承知しました')||reply.includes('予約')) {
+      setTimeout(()=>rpAddSystemMsg('🎉 アポイント取得成功！「採点」ボタンを押してください！'),500);
+    }
+  } catch(e) {
+    document.getElementById('rp-typing')?.remove();
+    rpAddSystemMsg('⚠️ エラーが発生しました。APIキーを確認してください。');
+  }
+  document.getElementById('rp-send-btn').disabled = false;
+}
+
+async function rpCallGemini() {
+  const sys = `あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。
+${rpScenario.personality}
+必ず日本語で短く自然に返答してください（1〜3文）。リアルな反応をし、うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。`;
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${rpApiKey}`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system_instruction:{parts:[{text:sys}]},contents:rpHistory,generationConfig:{temperature:0.9,maxOutputTokens:150}})
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.candidates[0].content.parts[0].text;
+}
+
+async function rpEndSession() {
+  if (rpHistory.length < 2) { alert('もう少し会話を続けてから採点してください'); return; }
+  rpStopMic();
+  document.getElementById('rp-chat-screen').style.display = 'none';
+  const rs = document.getElementById('rp-result-screen');
+  rs.style.display = 'flex';
+  document.getElementById('rp-score-num').textContent = '--';
+  document.getElementById('rp-result-summary').textContent = '採点中...';
+  ['rp-result-good','rp-result-improve','rp-result-advice'].forEach(id=>document.getElementById(id).textContent='');
+
+  const history = rpHistory.map(m=>(m.role==='user'?'スタッフ':'お客様')+': '+m.parts[0].text).join('\n'); `以下はvivi不動産のテレアポ練習の会話記録です。スタッフの対応を100点満点で採点し、JSONのみで返してください（説明文不要）。
+
+会話記録：
+${history}
+
+採点基準：挨拶・本人確認が適切か、ヒアリングができているか、フック（損失回避トーク）を使えているか、自然な会話か、アポ打診ができているか
+
+{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"具体的なアドバイス"}`;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${rpApiKey}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:500}})
+    });
+    const data = await res.json();
+    const json = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g,'').trim());
+    document.getElementById('rp-score-num').textContent = json.score;
+    document.getElementById('rp-result-summary').textContent = json.summary;
+    document.getElementById('rp-result-good').textContent = json.good;
+    document.getElementById('rp-result-improve').textContent = json.improve;
+    document.getElementById('rp-result-advice').textContent = json.advice;
+  } catch(e) {
+    document.getElementById('rp-result-summary').textContent = '採点に失敗しました。もう一度お試しください。';
+  }
+}
+
+function rpInsertHint(type) {
+  const hints = {
+    greeting:'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
+    hook:'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
+    apo:'一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
+  };
+  document.getElementById('rp-text-input').value = hints[type];
+}
+
+function rpSpeak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  utt.rate = 1.0;
+  window.speechSynthesis.speak(utt);
+}
+
+function rpInitSpeech() {
+  if (!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)) {
+    document.getElementById('rp-hint').textContent = '⚠️ このブラウザは音声認識非対応です。テキスト入力をご利用ください。';
+    document.getElementById('rp-mic-btn').style.display = 'none';
+    return;
+  }
+  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  rpRecognition = new SR();
+  rpRecognition.lang = 'ja-JP';
+  rpRecognition.continuous = false;
+  rpRecognition.interimResults = true;
+  rpRecognition.onresult = e => {
+    let final='',interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) final+=e.results[i][0].transcript;
+      else interim+=e.results[i][0].transcript;
+    }
+    document.getElementById('rp-text-input').value = final||interim;
+  };
+  rpRecognition.onend = () => {
+    rpListening = false;
+    const btn = document.getElementById('rp-mic-btn');
+    btn.style.background = 'var(--blue-light)';
+    btn.textContent = '🎤';
+    document.getElementById('rp-hint').textContent = '🎤 マイクを押して話すか、テキストで入力してください';
+    const text = document.getElementById('rp-text-input').value.trim();
+    if (text) rpSendMessage();
+  };
+  rpRecognition.onerror = e => {
+    rpListening = false;
+    document.getElementById('rp-mic-btn').style.background = 'var(--blue-light)';
+    document.getElementById('rp-mic-btn').textContent = '🎤';
+  };
+}
+
+function rpToggleMic() {
+  if (!rpRecognition) return;
+  if (rpListening) { rpStopMic(); return; }
+  rpRecognition.start();
+  rpListening = true;
+  const btn = document.getElementById('rp-mic-btn');
+  btn.style.background = '#FDE8E4';
+  btn.textContent = '⏹';
+  document.getElementById('rp-hint').textContent = '🔴 録音中... 話し終えたらボタンを押してください';
+  document.getElementById('rp-text-input').value = '';
+}
+
+function rpStopMic() {
+  if (rpRecognition && rpListening) { rpRecognition.stop(); rpListening = false; }
+}
 </script>
 
 </body>
