@@ -542,6 +542,7 @@ function sellScript() {
   return `
 <div class="step-card" id="s-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信（査定申込後すぐ）</span></div><div class="hint">一括査定サイトからの申込み確認後、できるだけ早く発信する</div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="s-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
 <div class="script-box">「お忙しいところ恐れ入ります。<b>（屋号）の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
 <div class="branch-grid">
@@ -549,6 +550,7 @@ function sellScript() {
   <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note">折り返し時間を確認して<b>架電アポ</b>　右パネルにメモ</div></div>
 </div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="s-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
 <div class="script-box">「先ほど<b>○○（査定サイト名）</b>より査定のご依頼をいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
 <div class="branch-grid">
@@ -557,7 +559,7 @@ function sellScript() {
 </div></div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="s-jiyuu"><div class="step-top"><span class="step-badge sb-hear">最初に</span><span class="step-title">申込みの理由を確認する（本気 or 冷やかし）</span></div>
-<div class="script-box">「今回、査定を申し込まれたのはどのようなご事情でしょうか？」</div>
+<div class="script-box">「今回、査定をご依頼いただいたのはどのようなご事情でしょうか？」</div>
 <div class="hint">※ 言いにくそうな場合は先に「言いにくければお答えいただかなくて結構ですが…」と前置き</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-honki')"><div class="branch-title yes">🔥 本気（具体的理由・時期あり）</div><div class="branch-note">住み替え・相続・離婚・転勤 等　この時点で売却理由は確認済み</div><div class="branch-arrow">→ ①〜③ヒアリングへ</div></div>
@@ -566,68 +568,73 @@ function sellScript() {
 <div class="arr">↓（本気の場合）</div>
 
 <div class="step-card" id="s-honki"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜③</span><span class="step-title">物件情報・時期・価格の確認（申込内容と照合）</span></div>
-<div class="script-box" style="margin-bottom:8px"><b>①物件情報</b>「ご申告いただいた内容を確認させてください。所在地・種別（マンション／戸建／土地）・築年数・広さ、お間違いないですか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>②売却希望時期</b>「いつ頃までに売却できればとお考えでしょうか？こちらも確認させてください。」</div>
-<div class="script-box"><b>③希望価格・ローン残債</b>「おおよそのご希望価格と残債についても確認させてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①物件情報</b>「ご申告いただいた内容を確認させてください。所在地・種類（マンション／戸建／土地）・築年数・広さ、を読み上げて、こちらでお間違いありませんか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②売却希望時期</b>「いつ頃までにご売却できれば良いとお考えでしょうか？」</div>
+<div class="script-box"><b>③希望価格・ローン残債</b>「おおよその希望価格と残債についても確認させてください。」</div>
 <div class="memo-pill">⚠️ 残債あり・希望価格が明確な場合は右パネルと社内報告に必ず記載</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-kansha"><div class="step-top"><span class="step-badge sb-hook">感謝＋フック投下</span><span class="step-title">ヒアリング完了 → 損失回避トーク</span></div>
-<div class="green-box">「これでおおよその机上査定額はお出しすることができます。いろいろ答えていただきありがとうございます。」</div>
-<div class="hook-box" style="margin-top:8px">「せっかくのご縁ですので<b>これだけは知っておいてください！査定で一番失敗するパターンのことです。</b><br>一括査定は高い数字を出した会社が契約を取りやすいんです。でもその価格で売り出すと誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が過ぎ、<b>売れ残り扱いされて大幅値下げになって最後は相場よりも安くでしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
+<div class="green-box">「いろいろ答えていただきありがとうございます。とても助かります。」</div>
+<div class="hook-box" style="margin-top:8px">「せっかくのご縁ですのでこれだけは知っておいてください！<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
 <button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">机上査定 or 訪問査定のご提案</span></div>
-<div class="script-box">「査定には<b>おおまかな金額を出す机上査定</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる訪問査定</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
+<div class="script-box">「査定には<b>おおまかな金額を出す「机上査定」</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる「訪問査定」</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col no" onclick="navTo('s-cold-desk')"><div class="branch-title no">📄 机上査定</div><div class="branch-arrow">→ 送付方法を確認</div></div>
   <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ 物件概要確認してアポ取り</div></div>
 </div></div>
 
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 送付 → 追客</span></div>
-<div class="script-box" style="margin-bottom:8px">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っております。」→ 送付先を確認 → 机上査定書を送付</div>
-<div class="script-box">「<b>送付3日後に電話追客</b>：査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 営業に引き継ぎ</span></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b></div>
+<div class="script-box">営業より：「<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋お詫び＋1分お願い</span></div>
 <div class="script-box">「そうなんですね。大変申し訳ありません。<b>1分だけ</b>よろしいでしょうか？」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">1分フック（損失回避・1分で話し切る）</span></div>
-<div class="hook-box">「せっかくのご縁ですので<b>これだけは知っておいてください！査定で一番失敗するパターンのことです。</b><br>一括査定は高い数字を出した会社が契約を取りやすいんです。でもその価格で売り出すと誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が過ぎ、<b>売れ残り扱いされて大幅値下げになって最後は相場よりも安くでしか決まらない。</b>これが一番多い失敗のパターンです。」</div></div>
+<div class="hook-box">「せっかくのご縁ですのでこれだけは知っておいてください！<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-yakusoku"><div class="step-top"><span class="step-badge sb-apo">STEP 3</span><span class="step-title">1分の約束を守る</span></div>
-<div class="script-box">「以上です。<b>これで1分でございます。</b>お付き合いありがとうございます。」</div></div>
+<div class="script-box">「以上です。<b>これで1分経過しました。</b>お付き合いありがとうございます。」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tsuzuki"><div class="step-top"><span class="step-badge sb-hook">STEP 4</span><span class="step-title">続きフック → 選ばせる</span></div>
-<div class="script-box">「実は<b>『本当に売ってくれる不動産会社を数字で見分ける方法』</b>のお話もあるんですが、ご興味ありますか？」</div>
+<div class="script-box">「実は先ほどの失敗を招かないために<b>『本当に売ってくれる不動産会社を数字で見て決める方法』</b>のお話もありますが、興味ありますか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-4q')"><div class="branch-title yes">✓ YES</div><div class="branch-arrow">→ 4つの質問へ</div></div>
   <div class="branch-col no" onclick="navTo('s-noint')"><div class="branch-title no">✗ 興味なし</div><div class="branch-arrow">→ 査定提案へ</div></div>
 </div></div>
+<div class="arr">↓（YESの場合）</div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint"><div class="step-top"><span class="step-badge sb-warn">興味なし → 査定提案</span><span class="step-title">机上査定 or 訪問査定を提案する</span></div>
-<div class="script-box" style="margin-bottom:8px">「かしこまりました。それでは査定をさせていただきます。<br><br>査定には<b>おおまかな金額を出す机上査定</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる訪問査定</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。それでは査定をさせていただきます。査定には<b>おおまかな金額を出す「机上査定」</b>と、<b>正確な売却額・諸費用・税引き後の手取り額も分かる「訪問査定」</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col no" onclick="navTo('s-noint-desk')"><div class="branch-title no">📄 机上査定</div><div class="branch-arrow">→ 送付方法を確認</div></div>
   <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ アポを取って電話を切る</div></div>
 </div></div>
 
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認</span></div>
-<div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っております。」<br>→ 送付先を確認 → 机上査定書を送付<br>→ <b>送付3日後に電話追客</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 営業に引き継ぎ</span></div>
+<div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b><br>→ 営業より<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
 
-<div class="arr">↓（YESの場合）</div>
-
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-4q"><div class="step-top"><span class="step-badge sb-str">STEP 5</span><span class="step-title">本当に売ってくれる不動産会社を数字で見分ける4つの質問</span></div>
-<div class="vivi-box">「不動産会社を選ぶとき、<b>この4つを必ず聞いてみてください。</b><br><br>
-① 昨年の<b>売却成約件数</b>は何件ですか？<br>② <b>3ヶ月以内に売れた割合</b>は何％ですか？<br>③ 1物件に<b>何枚の写真を・何サイトに</b>出しますか？<br>④ <b>他社にも物件情報を開放</b>しますか？<br>
-<span style="font-size:11px;opacity:.8">（NOや「場合による」とお茶を濁す会社は囲い込みの疑いがあります）</span>」</div></div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-4q"><div class="step-top"><span class="step-badge sb-str">STEP 5</span><span class="step-title">本当に売ってくれる不動産会社を数字で見て決める4つの質問</span></div>
+<div class="vivi-box">「不動産会社を選ぶとき、<b>この4つを必ず聞いてください。</b><br><br>
+① 昨年の<b>成約件数</b>は何件ですか？<br>
+② <b>3ヶ月以内に売却できた割合</b>は何パーセントですか？<br>
+③ 1物件に<b>何枚の写真を掲載</b>しますか？どのくらいの<b>サイトに掲載</b>してくれますか？<br>
+④ 他の不動産会社さんにも<b>広告を貸す</b>ことはしてくれますか？<br>
+<span style="font-size:11px;opacity:.85">（NOや「状況によります」とはっきり答えずお茶を濁す会社は<b>囲い込みの疑い</b>があります）</span>」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-jisseki"><div class="step-top"><span class="step-badge sb-str">STEP 6</span><span class="step-title">弊社の実績をお伝えする</span></div>
-<div class="vivi-box">「ちなみに弊社の場合ですが、<br>① 昨年の成約件数：<b>○○件</b><br>② 3ヶ月以内成約率：<b>○○％</b><br>③ 写真<b>30枚</b>・スーモ／アットホーム／ライフルホームズ他<b>30以上のサイト</b>に掲載<br>④ 他社開放：<b>はい、もちろんです</b><br><br>
-そして他社にはない弊社だけの強みとして、<b>自社の工務部とモデルルーム</b>があります。買い手の方がリノベのイメージを持ちやすく、ワンストップで他社より安くリノベをご提供できるので購入に踏み切りやすいんです。<b>富山市の不動産会社でこれができるのは弊社だけです。</b>」</div>
+<div class="vivi-box">「ちなみに当社の場合ですが、<br>
+① 昨年の成約件数：<b>142件</b><br>
+② 3ヶ月以内成約率：<b>63パーセント</b><br>
+③ 写真<b>30枚</b>・スーモ／アットホーム／ライフルホームズ他<b>30以上のサイト</b>に掲載<br>
+④ 早期及び好条件での成約のために、売主様がOKであれば<b>全物件広告貸し出しOK</b>しております。」</div>
 <button class="jump-btn" onclick="navTo('s-apo')" style="margin-top:8px">→ アポ打診へ</button></div>
 
 <div class="step-card" id="s-taisha"><div class="step-top"><span class="step-badge sb-str">他社査定</span><span class="step-title">他社にも査定依頼しましたか？</span></div>
@@ -638,12 +645,12 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-tsuyomi1"><div class="step-top"><span class="step-badge sb-str">強み①</span><span class="step-title">売り切る力をお伝えする</span></div>
-<div class="vivi-box">「昨年<b>○○件</b>を成約し、そのうち<b>○○％が3ヶ月以内</b>に売れています。1物件に写真<b>30枚</b>・30以上のサイトに掲載し、他社にも開放しますので多くの買い手の目に届きます。」</div></div>
+<div class="vivi-box">「昨年<b>142件</b>を成約し、そのうち<b>63パーセントが3ヶ月以内</b>に売れています。1物件に写真<b>30枚</b>・30以上のサイトに掲載し、他社にも情報を開放しますので多くの買い手の目に届き<b>好条件での成約がご期待いただけます。</b>」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-tsuyomi2"><div class="step-top"><span class="step-badge sb-str">強み②</span><span class="step-title">工務部・モデルルーム（富山市で唯一の強み）</span></div>
 <div class="hint" style="margin-bottom:6px">※ 興味を持ち始めた方に有効</div>
-<div class="vivi-box">「それからひとつ、他社にはない弊社だけの強みをお伝えしてもいいですか？<br><br>弊社には<b>自社の工務部とモデルルーム</b>があります。買い手の方がリノベのイメージを持ちやすく、ワンストップで<b>他社より安く</b>リノベをご提供できるので購入に踏み切りやすいんです。<b>富山市の不動産会社でこれができるのは弊社だけです。</b>」</div></div>
+<div class="vivi-box">「それからひとつ、他社にはない弊社だけの強みをお伝えしてもいいですか？<br><br>弊社には<b>工務部とモデルルーム</b>があります。買い手の方がリノベのイメージを持ちやすく、ワンストップで安心して<b>安くリノベをご提供</b>できるので他社より<b>購入に踏み切りやすい</b>んです。<b>富山市の不動産会社でこれができるのは弊社だけです。</b>」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-apo"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">「一度ご来店いただけませんか？」</span></div>
@@ -665,12 +672,12 @@ function sellScript() {
 <div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
 
 <div class="step-card" id="s-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
-<div class="script-box" style="margin-bottom:5px"><b>「査定額だけ教えて」</b>→ 「正確な査定には現地確認が必要です。まずはお会いしてご説明させてください。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「他社で決まりそう」</b>→ 「ぜひ比較いただいて構いません。チェックシートも参考にしてみてください。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「仲介手数料はいくら？」「賃貸中でも？」「残債があっても？」「相場はいくら？」</b>→ 「改めて担当よりご連絡させていただきます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「査定額だけ教えて」</b>→ 「それでしたら机上査定が良いと思います。ただ大まかな金額で諸費用や税金も分かりませんので最終的に残る手取り額が分かりません。正確な査定や手取り額の算出には訪問査定が良いと思います。ぜひお伺いさせていただいてご説明させてください。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他社で決まりそう」</b>→ 「不動産会社はどこも同じではありません。そこの会社で決める方向でもちろん構いませんが、ぜひ比較いただけないでしょうか。選ぶべき不動産会社が分かる4つの質問のチェックシートも差し上げますので参考にしてみてください。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「仲介手数料はいくら？」「賃貸中でも？」「残債があっても？」「相場はいくら？」</b>→ 「いろいろご興味をお持ちいただきありがとうございます。よろしければ改めて担当よりご連絡させていただきます。（または担当に代わらせていただきます）」</div>
 <div class="script-box" style="margin-bottom:5px"><b>※ ヒアリングを嫌がる</b>→ 「詳細は担当からご説明しますので、まずは日程だけ調整させてください。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>※ 温度感が高い</b>→ 電話に出やすい時間帯・メアドを優先確認し、スピーディに来店アポへ。</div>
-<div class="script-box"><b>※ 売却理由を言いたくない</b>→ 「おっしゃらなくて大丈夫です。引き続きよろしくお願いいたします。」</div></div>`;
+<div class="script-box"><b>※ 売却理由を言いたくない</b>→ 「おっしゃらなくて大丈夫です。それでは物件の確認をさせてください。」</div></div>`;
 }
 
 function buyScript() {
