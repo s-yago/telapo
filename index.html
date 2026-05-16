@@ -876,16 +876,23 @@ const RP_SCENARIOS = {
 function startRoleplay() {
   switchView('roleplay');
   // シナリオグリッド生成
-  ['sell','buy'].forEach(mode => {
+  ['sell','buy'].forEach(function(mode) {
     const grid = document.getElementById('rp-'+mode+'-grid');
+    if (!grid) return;
     grid.innerHTML = RP_SCENARIOS[mode].map(function(s) {
       return '<div onclick="rpSelectScenario(\'' + mode + '\',\'' + s.id + '\')" style="background:white;border:1px solid var(--gray-300);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s"><div style="font-size:12px;font-weight:700;margin-bottom:3px">' + s.title + '</div><div style="font-size:11px;color:var(--gray-500);line-height:1.4">' + s.desc + '</div></div>';
     }).join('');
   });
-  // APIキー確認
-  if (!rpApiKey) {
-    document.getElementById('rp-api-modal').style.display = 'flex';
-  }
+  // APIキー確認 - 少し遅らせてDOMが確実に表示された後に実行
+  setTimeout(function() {
+    if (!rpApiKey) {
+      var modal = document.getElementById('rp-api-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.style.zIndex = '9999';
+      }
+    }
+  }, 100);
 }
 
 function saveApiKey() {
