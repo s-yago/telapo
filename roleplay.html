@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vivi不動産 ロールプレイ練習</title>
+<style>
+body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-height:100vh;display:flex;flex-direction:column}
+.header{background:#0C2340;color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:15px;font-weight:700}.logo span{color:#5BAAE8}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:white;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;text-decoration:none;display:inline-block}
+#screen-select{padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.title{font-size:18px;font-weight:700;color:#0C2340;text-align:center}
+.sub{font-size:13px;color:#6B6860;text-align:center}
+.section-label{font-size:12px;font-weight:700;color:#6B6860;align-self:flex-start;width:100%;max-width:500px}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px}
+.scenario-card{background:white;border:1px solid #C8C5BC;border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.scenario-card:hover{border-color:#1A6DB5;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.sc-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.sc-desc{font-size:11px;color:#6B6860;line-height:1.5}
+#screen-chat{display:none;flex-direction:column;height:100vh}
+.chat-header{background:white;border-bottom:1px solid #C8C5BC;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.chat-scenario{font-size:12px;font-weight:500}
+.end-btn{background:#FDE8E4;color:#8B1A00;border:none;padding:6px 12px;border-radius:5px;font-size:12px;cursor:pointer}
+.chat-area{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg-system{text-align:center;margin:4px 0}
+.msg-system span{background:#F4F2ED;color:#6B6860;font-size:11px;padding:4px 12px;border-radius:20px}
+.msg-staff{display:flex;flex-direction:row-reverse;gap:8px;align-self:flex-end;max-width:85%}
+.msg-customer{display:flex;gap:8px;align-self:flex-start;max-width:85%}
+.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.av-staff{background:#0C447C;color:white}
+.av-customer{background:#EF9F27;color:white}
+.bubble-staff{background:#0C447C;color:white;padding:9px 12px;border-radius:10px 0 10px 10px;font-size:13px;line-height:1.7}
+.bubble-customer{background:white;border:1px solid #C8C5BC;padding:9px 12px;border-radius:0 10px 10px 10px;font-size:13px;line-height:1.7}
+.msg-name{font-size:10px;color:#6B6860;margin-bottom:2px;text-align:right}
+.msg-name-left{font-size:10px;color:#6B6860;margin-bottom:2px}
+.typing{display:flex;gap:4px;padding:6px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:#C8C5BC;animation:bounce .9s infinite}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.input-area{background:white;border-top:1px solid #C8C5BC;padding:12px 14px;flex-shrink:0}
+.hint-btns{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.hint-btn{border:1px solid #C8C5BC;background:white;padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer;color:#3D3B37}
+.input-row{display:flex;gap:8px;align-items:flex-end}
+.text-input{flex:1;border:1px solid #C8C5BC;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;resize:none;min-height:44px;max-height:100px;line-height:1.5}
+.text-input:focus{outline:none;border-color:#1A6DB5}
+.mic-btn{width:44px;height:44px;border-radius:50%;border:none;background:#E6F1FB;cursor:pointer;font-size:20px;flex-shrink:0}
+.mic-btn.listening{background:#FDE8E4;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(139,26,0,.3)}50%{box-shadow:0 0 0 8px rgba(139,26,0,0)}}
+.send-btn{background:#0C447C;color:white;border:none;padding:0 16px;border-radius:8px;font-size:13px;cursor:pointer;height:44px;font-family:inherit}
+.send-btn:disabled{background:#C8C5BC;cursor:not-allowed}
+#screen-result{display:none;flex-direction:column;align-items:center;padding:20px;gap:14px;overflow-y:auto}
+.result-card{background:white;border:1px solid #C8C5BC;border-radius:12px;padding:20px;width:100%;max-width:500px}
+.score-big{text-align:center;margin-bottom:16px}
+.score-num{font-size:52px;font-weight:700;color:#0C447C}
+.score-label{font-size:13px;color:#6B6860}
+.result-section{margin-top:12px}
+.rs-title{font-size:11px;font-weight:700;color:#6B6860;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.rs-body{font-size:13px;color:#3D3B37;line-height:1.7}
+.retry-btn{background:#0C447C;color:white;border:none;padding:12px 28px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">vivi<span>不動産</span> ロールプレイ練習</div>
+  <a href="index.html" class="back-btn">← スクリプトへ</a>
+</div>
+
+<div id="screen-select">
+  <div class="title">🎯 テレアポ ロールプレイ練習</div>
+  <div class="sub">AIがお客様役になります。マイクまたはテキストで話しかけてください</div>
+  <div class="section-label">🏠 売却反響シナリオ</div>
+  <div class="scenario-grid">
+    <div class="scenario-card" onclick="startScenario('sell_busy','😤 多忙なお客様','あなたは忙しいサラリーマンです。最初は今忙しいと断りますが、1分だけなら聞いてもいいと思っています。査定は一括査定サイトに申し込みました。')">
+      <div class="sc-title">😤 多忙なお客様</div>
+      <div class="sc-desc">「今忙しい」1分フックで突破できるか</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('sell_serious','🔥 本気の売却希望','あなたは親の相続で実家を売却する必要があります。真剣に検討していますが、どの会社に頼むか迷っています。')">
+      <div class="sc-title">🔥 本気の売却希望</div>
+      <div class="sc-desc">相続で実家を売りたい。真剣に検討中。</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('sell_cold','❄️ 冷やかし','あなたは特に急ぎではなく、なんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。')">
+      <div class="sc-title">❄️ 冷やかし</div>
+      <div class="sc-desc">「なんとなく相場が知りたかっただけ」</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('sell_multi','🏢 他社も検討中','あなたは3社に査定を依頼しました。高い査定額を出した会社に頼もうかと思っています。')">
+      <div class="sc-title">🏢 他社も検討中</div>
+      <div class="sc-desc">3社に査定依頼。高い査定額に惹かれている。</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('sell_price','💰 価格だけ聞いてくる','あなたは査定額だけが知りたいです。来店には消極的で、いくらになりますかと繰り返します。')">
+      <div class="sc-title">💰 価格だけ聞いてくる</div>
+      <div class="sc-desc">「いくらになりますか？」を繰り返す。</div>
+    </div>
+  </div>
+  <div class="section-label">🔑 購入反響シナリオ</div>
+  <div class="scenario-grid">
+    <div class="scenario-card" onclick="startScenario('buy_busy','😤 多忙なお客様（購入）','あなたは忙しい共働き夫婦の一方です。最初は今忙しいと断りますが、1分だけなら聞いてもいいと思っています。')">
+      <div class="sc-title">😤 多忙なお客様</div>
+      <div class="sc-desc">「今忙しい」ローンフックで突破できるか</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('buy_loan','🏦 ローン不安な方','あなたは住宅購入を検討していますが、ローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。')">
+      <div class="sc-title">🏦 ローン不安な方</div>
+      <div class="sc-desc">個人信用情報への傷を心配している。</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('buy_cash','💴 現金購入の方','あなたは現金で不動産を購入しようとしています。ネットに出ていない良い物件があれば興味があります。')">
+      <div class="sc-title">💴 現金購入の方</div>
+      <div class="sc-desc">非公開物件に興味あり。</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('buy_browse','👀 情報収集中','あなたはなんとなく物件を探し始めたところで、まだ買うかどうか決めていません。')">
+      <div class="sc-title">👀 情報収集中</div>
+      <div class="sc-desc">「まだ買うか決めていない」</div>
+    </div>
+    <div class="scenario-card" onclick="startScenario('buy_urgent','🚨 急ぎ購入','あなたは転勤が決まり、3ヶ月以内に新居を見つけなければなりません。急いでいます。')">
+      <div class="sc-title">🚨 急ぎ購入</div>
+      <div class="sc-desc">転勤で3ヶ月以内に引越しが必要。</div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-chat">
+  <div class="chat-header">
+    <div class="chat-scenario" id="chat-title"></div>
+    <button class="end-btn" onclick="endSession()">🏁 採点する</button>
+  </div>
+  <div class="chat-area" id="chat-area"></div>
+  <div class="input-area">
+    <div class="hint-btns">
+      <button class="hint-btn" onclick="hint('greeting')">📞 挨拶</button>
+      <button class="hint-btn" onclick="hint('hook')">🎯 フック</button>
+      <button class="hint-btn" onclick="hint('apo')">📅 アポ打診</button>
+    </div>
+    <div class="input-row">
+      <textarea class="text-input" id="text-input" placeholder="入力または音声認識結果" rows="2"></textarea>
+      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+      <button class="send-btn" id="send-btn" onclick="sendMsg()">送信</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-result">
+  <div class="result-card">
+    <div class="score-big">
+      <div class="score-num" id="score-num">--</div>
+      <div class="score-label">点 / 100点</div>
+    </div>
+    <div class="result-section">
+      <div class="rs-title">総合評価</div>
+      <div class="rs-body" id="r-summary">採点中...</div>
+    </div>
+    <div class="result-section">
+      <div class="rs-title" style="color:#0D6B4A">良かった点</div>
+      <div class="rs-body" id="r-good"></div>
+    </div>
+    <div class="result-section">
+      <div class="rs-title" style="color:#7A4500">改善ポイント</div>
+      <div class="rs-body" id="r-improve"></div>
+    </div>
+    <div class="result-section">
+      <div class="rs-title" style="color:#0C447C">アドバイス</div>
+      <div class="rs-body" id="r-advice"></div>
+    </div>
+  </div>
+  <button class="retry-btn" onclick="goSelect()">もう一度練習する</button>
+</div>
+
+<script>
+var API_KEY = 'AIzaSyCPQVM0a2QLXNGEX8Rj0s4jncc8e1sjmO4';
+var API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + API_KEY;
+var history = [];
+var persona = '';
+var rec = null;
+var listening = false;
+
+function show(id) {
+  document.getElementById('screen-select').style.display = 'none';
+  document.getElementById('screen-chat').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  var el = document.getElementById(id);
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+}
+
+function goSelect() {
+  history = [];
+  stopMic();
+  show('screen-select');
+}
+
+function startScenario(id, title, p) {
+  persona = p;
+  history = [];
+  document.getElementById('chat-title').textContent = title;
+  document.getElementById('chat-area').innerHTML = '';
+  show('screen-chat');
+  sysMsg('電話が繋がりました。話しかけてください！');
+  initRec();
+}
+
+function sysMsg(t) {
+  var d = document.createElement('div');
+  d.className = 'msg-system';
+  d.innerHTML = '<span>' + t + '</span>';
+  document.getElementById('chat-area').appendChild(d);
+  scroll();
+}
+
+function staffMsg(t) {
+  var d = document.createElement('div');
+  d.className = 'msg-staff';
+  d.innerHTML = '<div class="avatar av-staff">👤</div><div><div class="msg-name">スタッフ</div><div class="bubble-staff">' + t + '</div></div>';
+  document.getElementById('chat-area').appendChild(d);
+  scroll();
+}
+
+function customerMsg(t) {
+  var d = document.createElement('div');
+  d.className = 'msg-customer';
+  d.innerHTML = '<div class="avatar av-customer">👨</div><div><div class="msg-name-left">お客様</div><div class="bubble-customer">' + t + '</div></div>';
+  document.getElementById('chat-area').appendChild(d);
+  scroll();
+  speak(t);
+}
+
+function addTyping() {
+  var d = document.createElement('div');
+  d.id = 'typing';
+  d.className = 'msg-customer';
+  d.innerHTML = '<div class="avatar av-customer">👨</div><div class="bubble-customer"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+  document.getElementById('chat-area').appendChild(d);
+  scroll();
+}
+
+function removeTyping() {
+  var t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function scroll() {
+  var a = document.getElementById('chat-area');
+  a.scrollTop = a.scrollHeight;
+}
+
+function sendMsg() {
+  var input = document.getElementById('text-input');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  staffMsg(text);
+  history.push({role:'user', parts:[{text: text}]});
+  document.getElementById('send-btn').disabled = true;
+  addTyping();
+
+  var sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。' + persona + '必ず日本語で1〜3文で自然に返答してください。うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。';
+
+  fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      system_instruction: {parts: [{text: sys}]},
+      contents: history,
+      generationConfig: {temperature: 0.9, maxOutputTokens: 150}
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    removeTyping();
+    if (data.error) {
+      sysMsg('エラー: ' + data.error.message);
+      document.getElementById('send-btn').disabled = false;
+      return;
+    }
+    var reply = data.candidates[0].content.parts[0].text;
+    customerMsg(reply);
+    history.push({role:'model', parts:[{text: reply}]});
+    if (reply.indexOf('伺います') >= 0 || reply.indexOf('お越し') >= 0) {
+      sysMsg('アポイント取得成功！「採点する」を押してください！');
+    }
+    document.getElementById('send-btn').disabled = false;
+  })
+  .catch(function(e) {
+    removeTyping();
+    sysMsg('通信エラー: ' + e.message);
+    document.getElementById('send-btn').disabled = false;
+  });
+}
+
+function endSession() {
+  if (history.length < 2) { alert('もう少し会話を続けてから採点してください'); return; }
+  stopMic();
+  show('screen-result');
+  document.getElementById('score-num').textContent = '--';
+  document.getElementById('r-summary').textContent = '採点中...';
+
+  var conv = '';
+  for (var i = 0; i < history.length; i++) {
+    conv += (history[i].role === 'user' ? 'スタッフ' : 'お客様') + ': ' + history[i].parts[0].text + '
+';
+  }
+
+  var prompt = 'テレアポ練習の会話です。スタッフの対応を100点満点で採点してください。
+
+' + conv + '
+
+以下のJSON形式のみで返してください:
+{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';
+
+  fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      contents: [{role:'user', parts:[{text: prompt}]}],
+      generationConfig: {temperature: 0.3, maxOutputTokens: 500}
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var raw = data.candidates[0].content.parts[0].text;
+    var clean = raw.replace(/```json/g,'').replace(/```/g,'').trim();
+    var j = JSON.parse(clean);
+    document.getElementById('score-num').textContent = j.score;
+    document.getElementById('r-summary').textContent = j.summary;
+    document.getElementById('r-good').textContent = j.good;
+    document.getElementById('r-improve').textContent = j.improve;
+    document.getElementById('r-advice').textContent = j.advice;
+  })
+  .catch(function(e) {
+    document.getElementById('r-summary').textContent = '採点に失敗しました。';
+  });
+}
+
+function hint(type) {
+  var hints = {
+    greeting: 'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
+    hook: 'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
+    apo: '一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
+  };
+  document.getElementById('text-input').value = hints[type];
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  window.speechSynthesis.speak(u);
+}
+
+function initRec() {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { document.getElementById('mic-btn').style.display = 'none'; return; }
+  rec = new SR();
+  rec.lang = 'ja-JP';
+  rec.continuous = false;
+  rec.interimResults = true;
+  rec.onresult = function(e) {
+    var final = '', interim = '';
+    for (var i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    document.getElementById('text-input').value = final || interim;
+  };
+  rec.onend = function() {
+    listening = false;
+    document.getElementById('mic-btn').className = 'mic-btn';
+    document.getElementById('mic-btn').textContent = '🎤';
+    var t = document.getElementById('text-input').value.trim();
+    if (t) sendMsg();
+  };
+  rec.onerror = function() {
+    listening = false;
+    document.getElementById('mic-btn').className = 'mic-btn';
+    document.getElementById('mic-btn').textContent = '🎤';
+  };
+}
+
+function toggleMic() {
+  if (!rec) return;
+  if (listening) { stopMic(); return; }
+  rec.start();
+  listening = true;
+  document.getElementById('mic-btn').className = 'mic-btn listening';
+  document.getElementById('mic-btn').textContent = '⏹';
+  document.getElementById('text-input').value = '';
+}
+
+function stopMic() {
+  if (rec && listening) { rec.stop(); listening = false; }
+}
+
+show('screen-select');
+</script>
+</body>
+</html>
