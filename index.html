@@ -1001,7 +1001,7 @@ async function rpSendMessage() {
 
 async function rpCallGemini() {
   const sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。\n' + rpScenario.personality + '\n必ず日本語で短く自然に返答してください（1〜3文）。リアルな反応をし、うまい対応には少しずつ心を開いてください。アポが取れたら「わかりました、伺います」と答えてください。絶対にAIだと明かさないでください。';
-  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+rpApiKey,{
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+rpApiKey,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({system_instruction:{parts:[{text:sys}]},contents:rpHistory,generationConfig:{temperature:0.9,maxOutputTokens:150}})
   });
@@ -1024,7 +1024,7 @@ async function rpEndSession() {
   const prompt = '以下はvivi不動産のテレアポ練習の会話記録です。スタッフの対応を100点満点で採点し、JSONのみで返してください。\n\n会話記録：\n' + history + '\n\n{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';;
 
   try {
-    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+rpApiKey,{
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+rpApiKey,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.3,maxOutputTokens:500}})
     });
