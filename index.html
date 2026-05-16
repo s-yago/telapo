@@ -43,7 +43,7 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 .top-logo{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px}
 .top-logo span{color:var(--blue-mid)}
 .top-sub{font-size:14px;color:var(--gray-500);margin-bottom:40px}
-.top-btns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.top-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .top-btn{border:none;border-radius:16px;padding:32px 20px;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;align-items:center;gap:10px}
 .top-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
 .top-btn.sell{background:linear-gradient(135deg,#7A4500,#C97A20);color:white}
@@ -212,13 +212,17 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
         <div class="top-btn-title">売却反響</div>
         <div class="top-btn-sub">一括査定からの架電</div>
       </button>
-      <button class="top-btn buy" onclick="startMode('buy')">
+      <buttonon class="top-btn buy" onclick="startMode('buy_member')">
         <div class="top-btn-icon">🔑</div>
         <div class="top-btn-title">購入反響</div>
-        <div class="top-btn-sub">会員登録・お問合せからの架電</div>
+        <div class="top-btn-sub">会員登録からの架電</div>
       </button>
-    </div>
-    <button class="top-btn-practice" onclick="startRoleplay()">
+      <button class="top-btn buy" onclick="startMode('buy_bukken')" style="background:linear-gradient(135deg,#0D6B4A,#1D9E75)">
+        <div class="top-btn-icon">🏡</div>
+        <div class="top-btn-title">物件反響</div>
+        <div class="top-btn-sub">物件問い合わせからの架電</div>
+      </button>
+      ton class="top-btn-practice" onclick="startRoleplay()">
       🎯 ロールプレイ練習（AI対話・スマホ対応）
     </button>
   </div>
@@ -302,12 +306,13 @@ function startMode(mode) {
   buildScript(mode);
   buildPanel(mode);
   const badge = document.getElementById('modeBadge');
-  badge.textContent = mode === 'sell' ? '🏠 売却反響' : '🔑 購入反響';
-  badge.className = 'mode-badge ' + mode;
+  badge.textContent = mode === 'sell' ? '🏠 売却反響' : mode === 'buy_member' ? '🔑 購入反響（会員）' : '🏡 物件反響';
+  badge.className = 'mode-badge ' + (mode === 'sell' ? 'sell' : 'buy');
   badge.style.display = 'inline-block';
   document.getElementById('viewBtns').style.display = 'flex';
   document.getElementById('newBtn').style.display = 'inline-block';
   switchView('script');
+  navTo(mode === 'sell' ? 's-start' : mode === 'buy_bukken' ? 'bb-start' : 'b-start');
   navTo(mode === 'sell' ? 's-start' : 'b-start');
 }
 
@@ -361,6 +366,8 @@ function buildPanel(mode) {
   const body = document.getElementById('panelBody');
   if (mode === 'sell') {
     body.innerHTML = sellPanel();
+  } else if (mode === 'buy_bukken') {
+    body.innerHTML = buyBukkenPanel();
   } else {
     body.innerHTML = buyPanel();
   }
@@ -547,13 +554,30 @@ function buildNav(mode) {
       <div class="nav-item" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 補足ヒアリング</div>
       <div class="nav-item" data-target="b-close" onclick="navTo('b-close')">👋 クロージング</div>
       <div class="nav-item" data-target="b-qa" onclick="navTo('b-qa')">❓ 切り返し集</div>`;
+  } else {
+    nav.innerHTML = `
+      <div class="nav-section">発信・導入</div>
+      <div class="nav-item" data-target="bb-start" onclick="navTo('bb-start')">📞 電話発信</div>
+      <div class="nav-item" data-target="bb-honin" onclick="navTo('bb-honin')">👤 本人確認</div>
+      <div class="nav-item" data-target="bb-greet" onclick="navTo('bb-greet')">🙏 挨拶・目的</div>
+      <div class="nav-section">時間あり</div>
+      <div class="nav-item branch-yes" data-target="bb-loan" onclick="navTo('bb-loan')">🏦 ローン利用確認</div>
+      <div class="nav-item branch-yes" data-target="bb-bukken" onclick="navTo('bb-bukken')">🏠 問い合わせ物件確認</div>
+      <div class="nav-item branch-yes" data-target="bb-hear" onclick="navTo('bb-hear')">📋 ヒアリング</div>
+      <div class="nav-item branch-yes" data-target="bb-appeal" onclick="navTo('bb-appeal')">💡 来店訴求</div>
+      <div class="nav-section">アポ打診</div>
+      <div class="nav-item" data-target="bb-apo" onclick="navTo('bb-apo')">📅 来店打診・日程</div>
+      <div class="nav-section">締め</div>
+      <div class="nav-item" data-target="bb-hosoku" onclick="navTo('bb-hosoku')">📝 補足ヒアリング</div>
+      <div class="nav-item" data-target="bb-close" onclick="navTo('bb-close')">👋 クロージング</div>
+      <div class="nav-item" data-target="bb-qa" onclick="navTo('bb-qa')">❓ 切り返し集</div>`;
   }
 }
 
 // ===== BUILD SCRIPT =====
 function buildScript(mode) {
   const el = document.getElementById('scriptContent');
-  el.innerHTML = mode === 'sell' ? sellScript() : buyScript();
+  el.innerHTML = mode === 'sell' ? sellScript() : mode === 'buy_bukken' ? buyBukkenScript() : buyScript();
 }
 
 function sellScript() {
@@ -729,7 +753,7 @@ function buyScript() {
 </div></div>
 <div class="arr">↓（YESの場合）</div>
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-reinz"><div class="step-top"><span class="step-badge sb-str">STEP 4</span><span class="step-title">レインズの説明 → 来店打診</span></div>
-<div class="vivi-box">「それでは、あともう少しだけお話しさせてください。<br><br>実は一般の方が見ることのできない業者専用の<b>『レインズ』</b>というサイトがあります。そこではネットに出ていない全業者の非公開物件も見られるのですが、残念ながら、<b>当社にお越しいただかないとご覧いただくことができません。</b><br><br>先ほどのローンの損をしない組み方や審査の方法のお話もありますので、<b>一度ご来店いただき、ご希望に合った物件を一緒に探しませんか？</b>」</div>
+<div class="vivi-box">「それでは、あともうひとつだけお話しさせてください。<br><br>実は一般の方が見ることのできない業者専用の<b>『レインズ』</b>というサイトがあります。そこではネットに出ていない全業者の非公開物件も見られるのですが、残念ながら、<b>当社にお越しいただかないとご覧いただくことができません。</b><br><br>先ほどのローンの損をしない組み方や審査の方法のお話もありますので、<b>一度ご来店いただき、ご希望に合った物件を一緒に探しませんか？</b>」</div>
 <button class="jump-btn" onclick="navTo('b-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="b-recall"><div class="step-top"><span class="step-badge sb-warn">電話日程の確認（NO）</span><span class="step-title">NOの場合 → レインズの予告＋次回電話日程</span></div>
@@ -745,12 +769,10 @@ function buyScript() {
   <div class="branch-col no" onclick="navTo('b-cash')"><div class="branch-title no">現金購入予定</div><div class="branch-note">→ 非公開物件・スピード対応を訴求</div></div>
 </div></div>
 <div class="arr">↓</div>
-<div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜⑤</span><span class="step-title">物件条件・資金関係のヒアリング</span></div>
-<div class="script-box" style="margin-bottom:8px"><b>①購入予定時期</b>「いつまでに購入したいなどお時期はございますか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>②ご予算</b>「ご予算やご希望の金額の範囲など、おおよその金額はございますでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③希望エリア</b>「沿線や地域など、ご希望のエリアはございますでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>④気になる物件</b>「ネット検索などでご興味があった物件はございますか？ある場合：「気になった物件の金額とエリアをお伺いできますでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>⑤ローン・資金関係</b>（法人の場合は不要）<br>・現在、お車や奨学金などのローンはございますか？<br>・ご両親や親戚からの資金援助などはございますか？<br>・過去に住宅ローンの事前審査を行ったことはありますか？</div>
+<div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜③</span><span class="step-title">エリア・家族構成・購入理由のヒアリング</span></div>
+<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
 <div class="memo-pill">⚠️ 嫌がる・答えたくなさそうな場合はさらっと流して次へ。トラブル防止優先！</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-apo-loan"><div class="step-top"><span class="step-badge sb-str">来店訴求（ローン利用）</span><span class="step-title">無料簡易審査・お得なローンを訴求</span></div>
@@ -944,6 +966,11 @@ function getFormData() {
       loan:v('f-loan'), taisha:v('f-taisha'),
       reason:v('f-reason'), reasonOther:v('f-reason-other'),
     });
+  } else if (currentMode === 'buy_bukken') {
+    Object.assign(base, {
+      bukken:v('f-bukken'), loan:v('f-loan'), point:v('f-point'),
+      area:v('f-area'), family:v('f-family'), reason:v('f-reason'),
+    });
   } else {
     Object.assign(base, {
       timing:v('f-timing'), price:v('f-price'), area:v('f-area'), type:v('f-type'),
@@ -1015,6 +1042,8 @@ function buildReportText() {
     const reasonFull=d.reason==='その他'&&d.reasonOther?`その他（${d.reasonOther}）`:(d.reason||'未回答');
     const typeStr=d.type==='マンション'&&d.mansion?`マンション（${d.mansion}）`:(d.type||'未確認');
     return `【vivi不動産 売却反響 テレアポ報告】\n━━━━━━━━━━━━━━\n■基本情報\n査定サイト：${d.site||'未確認'}\n氏名：${d.name||'未確認'}\n電話：${d.tel||'未確認'}\nメール：${d.email||'未確認'}\n\n■物件情報\n種別：${typeStr}\nエリア：${d.area||'未確認'}\n築年数：${d.age||'未確認'}\n広さ：${d.size||'未確認'}\n\n■売却条件\n希望時期：${d.timing||'未確認'}\n希望価格：${d.price||'未確認'}\n残債：${d.loan||'未確認'}\n他社査定：${d.taisha||'不明'}\n売却理由：${reasonFull}\n\n■アポイント\n日時：${apoStr}\n人数：${d.ninzu||'未確認'}\n結果：${d.result||'未確定'}\n\n■メモ\n${d.memo||'なし'}\n\n■郵送先\n${d.address||'未確認'}\n━━━━━━━━━━━━━━`;
+  } else if(d.mode==='buy_bukken') {
+    return `【vivi不動産 物件反響 テレアポ報告】\n━━━━━━━━━━━━━━\n■基本情報\n氏名：${d.name||'未確認'}\n電話：${d.tel||'未確認'}\nメール：${d.email||'未確認'}\n\n■問い合わせ物件\n物件名：${d.bukken||'未確認'}\nローン：${d.loan||'未確認'}\n気に入ったポイント：${d.point||'未確認'}\n\n■ヒアリング\n希望エリア：${d.area||'未確認'}\n家族構成：${d.family||'未確認'}\n購入理由：${d.reason||'未確認'}\n\n■アポイント\n日時：${apoStr}\n人数：${d.ninzu||'未確認'}\n結果：${d.result||'未確定'}\n\n■メモ\n${d.memo||'なし'}\n━━━━━━━━━━━━━━`;
   } else {
     return `【vivi不動産 購入反響 テレアポ報告】\n━━━━━━━━━━━━━━\n■基本情報\n氏名：${d.name||'未確認'}\n電話：${d.tel||'未確認'}\nメール：${d.email||'未確認'}\n\n■購入条件\n希望時期：${d.timing||'未確認'}\nご予算：${d.price||'未確認'}\n希望エリア：${d.area||'未確認'}\n物件種別：${d.type||'未確認'}\nローン：${d.loan||'未確認'}\n気になる物件：${d.bukken||'なし'}\n購入理由：${d.reason||'未確認'}\n\n■資金関係\n他ローン：${d.otherLoan||'不明'}\n資金援助：${d.shien||'不明'}\n事前審査：${d.shinsa||'不明'}\n\n■アポイント\n日時：${apoStr}\n人数：${d.ninzu||'未確認'}\n結果：${d.result||'未確定'}\n\n■メモ\n${d.memo||'なし'}\n\n■郵送先\n${d.address||'未確認'}\n━━━━━━━━━━━━━━`;
   }
@@ -1492,6 +1521,123 @@ function rpToggleMic() {
 function rpStopMic() {
   if (rpRecognition && rpListening) { rpRecognition.stop(); rpListening = false; }
 }
+
+function buyBukkenScript() {
+  return `
+<div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信（物件問い合わせ後すぐ）</span></div>
+<div class="hint">物件への問い合わせ後、できるだけ早く発信する</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
+<div class="script-box">「お忙しいところ恐れ入ります。<b>（屋号）の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note">折り返し時間を確認して<b>架電アポ</b></div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
+<div class="script-box">「先ほど<b>○○（物件名）</b>へのお問い合わせをいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-loan')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-note">「大変失礼いたしました。それでは改めてご連絡させていただきます。<b>何時頃であればご都合よろしいでしょうか？</b>」→ 時間をメモして電話を切る</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-loan"><div class="step-top"><span class="step-badge sb-hear">まず確認</span><span class="step-title">住宅ローン利用予定の確認（最優先）</span></div>
+<div class="script-box">「ありがとうございます。まず確認させてください。今回の購入にあたり、<b>住宅ローンのご利用はお考えでしょうか？</b>」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-bukken')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-note">→ 物件確認へ<br><span style="font-size:11px;color:var(--green)">※ 事前審査の話は来店訴求で使う</span></div></div>
+  <div class="branch-col yes" onclick="navTo('bb-bukken')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入予定</div><div class="branch-note">→ 物件確認へ<br><span style="font-size:11px;color:#0C447C">※ レインズの話を来店訴求で使う</span></div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-bukken"><div class="step-top"><span class="step-badge sb-hear">①</span><span class="step-title">問い合わせ物件の確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「<b>○○（物件名・所在地）</b>へのお問い合わせですね。ありがとうございます。」</div>
+<div class="script-box">「この物件のどんなところがお気に入りですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ お客様の興味ポイントを把握する</span></div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ②〜④</span><span class="step-title">エリア・家族構成・購入理由</span></div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えてください。」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えてください。」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-appeal"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">来店してもらう理由をお伝えする</span></div>
+<div class="vivi-box" style="margin-bottom:8px">「ありがとうございます。ぜひ一度ご来店いただけますか？<br><br>
+実は<b>ご来店いただく理由が3つ</b>あります。<br><br>
+1つ目は、<b>住宅ローンの事前審査</b>です。弊社には個人情報に履歴を残さずに審査できる独自のルートがあります。これを知らずに審査を重ねると信用情報に傷がつき、最終的に通らなくなる方もいます。<br><br>
+2つ目は、<b>リノベーションのご提案</b>です。弊社には工務部とモデルルームがあり、購入後のリノベをワンストップで他社より安くご提供できます。バーチャルでリノベ後のイメージもお見せできます。<br><br>
+3つ目は、<b>非公開物件のご紹介</b>です。業者専用の「レインズ」というサイトがあり、ネットに出ていない物件もご来店いただいた方限定でご紹介できます。」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-apo')"><div class="branch-title yes">✓ 来店してみる</div><div class="branch-arrow">→ 日程打診へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 難しい</div><div class="branch-note">「オンラインでのお打ち合わせも可能です。ZOOMなどいかがでしょうか？」→ 日程打診へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-apo"><div class="step-top"><span class="step-badge sb-apo">日程調整</span><span class="step-title">来店日程を確定する</span></div>
+<div class="script-box">「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？担当携帯か下4桁<b>○○○○</b>の固定電話からご連絡します。」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」→ 読み上げ確認</div>
+<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「ご確認は以上です。詳細は改めて担当よりご連絡いたします。（屋号）からのご連絡はお目通しいただけますと幸いです。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
+
+<div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
+<div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「はい、ご来店いただいた後に一緒にご案内いたします。まずはご来店いただき、詳しい条件をお聞かせください。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も含め多数ございます。ご来店いただければ一緒に探せます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「価格交渉はできますか？」</b>→ 「改めて担当よりご連絡させていただきます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「住所だけ教えてほしい」</b>→ 「申し訳ございません。お応えいたしかねます。ぜひご来店いただければ詳しくご案内できます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>賃貸中の物件への問い合わせ</b>→ 「こちらはオーナーチェンジ物件といって、賃料をもらう権利を引き継ぐ投資家向けの物件です。住宅ローンはご利用いただけず、室内のご見学もできません。それでもご興味がございましたら改めて担当よりご連絡いたします。」</div>
+<div class="script-box"><b>専門的な質問全般</b>→ 「私では分かりかねますので、担当よりご連絡させていただきます。」</div></div>`;
+}
+
+function buyBukkenPanel() {
+  return \`
+<div class="section-title">基本情報</div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">お客様氏名</div><input class="field-input" id="f-name" placeholder="山田 太郎"/></div>
+  <div class="field-group"><div class="field-label">電話番号</div><input class="field-input" id="f-tel" placeholder="090-0000-0000"/></div>
+</div>
+<div class="field-group"><div class="field-label">メールアドレス</div><input class="field-input" id="f-email" placeholder="example@email.com"/></div>
+<div class="divider"></div>
+<div class="section-title">問い合わせ物件</div>
+<div class="field-group"><div class="field-label">物件名・所在地</div><input class="field-input" id="f-bukken" placeholder="例：○○マンション201号室"/></div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">ローン利用</div>
+    <select class="field-select" id="f-loan"><option value="">選択</option><option>利用予定</option><option>現金購入</option><option>未定</option></select></div>
+  <div class="field-group"><div class="field-label">気に入ったポイント</div><input class="field-input" id="f-point" placeholder="例：価格・立地・間取り"/></div>
+</div>
+<div class="divider"></div>
+<div class="section-title">ヒアリング</div>
+<div class="field-group"><div class="field-label">希望エリア</div><input class="field-input" id="f-area" placeholder="例：富山市大沢野付近"/></div>
+<div class="field-group"><div class="field-label">家族構成</div><input class="field-input" id="f-family" placeholder="例：夫婦＋子供1人"/></div>
+<div class="field-group"><div class="field-label">購入理由</div>
+  <select class="field-select" id="f-reason"><option value="">選択</option><option>住み替え</option><option>転勤</option><option>家族構成の変化</option><option>賃貸からの転居</option><option>投資</option><option>その他</option></select></div>
+<div class="divider"></div>
+<div class="section-title">アポイント</div>
+<div class="field-group"><div class="field-label">アポ日時</div><input class="field-input" type="datetime-local" id="f-apo"/></div>
+<div class="field-group"><div class="field-label">来店人数</div><input class="field-input" id="f-ninzu" placeholder="例：ご夫婦2名"/></div>
+<div class="field-group"><div class="field-label">結果</div>
+  <select class="field-select" id="f-result"><option value="">未確定</option><option>来店アポ確約</option><option>Web面談アポ確約</option><option>長期追客代行へ</option><option>お断り</option><option>折り返し待ち</option></select></div>
+<div class="field-group"><div class="field-label">架電者メモ</div><textarea class="field-textarea" id="f-memo" placeholder="温度感・気になる点・次回アクション等"></textarea></div>
+<div class="divider"></div>
+<div class="section-title">営業スタッフへ送信</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+  <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 テキストコピー</button>
+  <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール送信</button>
+</div>
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！チャット等に貼り付けてください</div>
+\`;
+}
+
 </script>
 
 </body>
