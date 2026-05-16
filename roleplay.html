@@ -5,363 +5,287 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>vivi不動産 ロールプレイ練習</title>
 <style>
-body{font-family:'Noto Sans JP',sans-serif;margin:0;background:#F4F2ED;min-height:100vh;display:flex;flex-direction:column}
-.header{background:#0C2340;color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:15px;font-weight:700}.logo span{color:#5BAAE8}
-.back-btn{background:rgba(255,255,255,.15);border:none;color:white;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;text-decoration:none;display:inline-block}
-#screen-select{padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
-.title{font-size:18px;font-weight:700;color:#0C2340;text-align:center}
-.sub{font-size:13px;color:#6B6860;text-align:center}
-.section-label{font-size:12px;font-weight:700;color:#6B6860;align-self:flex-start;width:100%;max-width:500px}
-.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px}
-.scenario-card{background:white;border:1px solid #C8C5BC;border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
-.scenario-card:hover{border-color:#1A6DB5;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.sc-title{font-size:13px;font-weight:700;margin-bottom:4px}
-.sc-desc{font-size:11px;color:#6B6860;line-height:1.5}
-#screen-chat{display:none;flex-direction:column;height:100vh}
-.chat-header{background:white;border-bottom:1px solid #C8C5BC;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.chat-scenario{font-size:12px;font-weight:500}
-.end-btn{background:#FDE8E4;color:#8B1A00;border:none;padding:6px 12px;border-radius:5px;font-size:12px;cursor:pointer}
-.chat-area{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
-.msg-system{text-align:center;margin:4px 0}
-.msg-system span{background:#F4F2ED;color:#6B6860;font-size:11px;padding:4px 12px;border-radius:20px}
-.msg-staff{display:flex;flex-direction:row-reverse;gap:8px;align-self:flex-end;max-width:85%}
-.msg-customer{display:flex;gap:8px;align-self:flex-start;max-width:85%}
-.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.av-staff{background:#0C447C;color:white}.av-customer{background:#EF9F27;color:white}
-.bubble-staff{background:#0C447C;color:white;padding:9px 12px;border-radius:10px 0 10px 10px;font-size:13px;line-height:1.7}
-.bubble-customer{background:white;border:1px solid #C8C5BC;padding:9px 12px;border-radius:0 10px 10px 10px;font-size:13px;line-height:1.7}
-.msg-name{font-size:10px;color:#6B6860;margin-bottom:2px;text-align:right}
-.msg-name-left{font-size:10px;color:#6B6860;margin-bottom:2px}
-.typing{display:flex;gap:4px;padding:6px;align-items:center}
-.dot{width:7px;height:7px;border-radius:50%;background:#C8C5BC;animation:bounce .9s infinite}
+body{font-family:sans-serif;margin:0;background:#f4f2ed;min-height:100vh}
+.hd{background:#0c2340;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.hd a{color:#fff;font-size:12px;text-decoration:none;background:rgba(255,255,255,.15);padding:6px 12px;border-radius:6px}
+#sel{padding:20px;max-width:540px;margin:0 auto}
+h2{font-size:18px;color:#0c2340;text-align:center;margin-bottom:6px}
+p{font-size:13px;color:#6b6860;text-align:center;margin-bottom:16px}
+h3{font-size:12px;color:#6b6860;margin:12px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.card{background:#fff;border:1px solid #c8c5bc;border-radius:10px;padding:14px;cursor:pointer}
+.card:hover{border-color:#1a6db5}
+.ct{font-size:13px;font-weight:700;margin-bottom:4px}
+.cd{font-size:11px;color:#6b6860}
+#chat{display:none;flex-direction:column;height:100vh}
+.ch{background:#fff;border-bottom:1px solid #c8c5bc;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.eb{background:#fde8e4;color:#8b1a00;border:none;padding:6px 12px;border-radius:5px;font-size:12px;cursor:pointer}
+.ca{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.sm{text-align:center}.sm span{background:#f4f2ed;color:#6b6860;font-size:11px;padding:4px 12px;border-radius:20px}
+.ms{display:flex;flex-direction:row-reverse;gap:8px;align-self:flex-end;max-width:85%}
+.mc{display:flex;gap:8px;align-self:flex-start;max-width:85%}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.avs{background:#0c447c;color:#fff}.avc{background:#ef9f27;color:#fff}
+.bs{background:#0c447c;color:#fff;padding:9px 12px;border-radius:10px 0 10px 10px;font-size:13px;line-height:1.7}
+.bc{background:#fff;border:1px solid #c8c5bc;padding:9px 12px;border-radius:0 10px 10px 10px;font-size:13px;line-height:1.7}
+.nm{font-size:10px;color:#6b6860;margin-bottom:2px;text-align:right}
+.nml{font-size:10px;color:#6b6860;margin-bottom:2px}
+.dot{width:7px;height:7px;border-radius:50%;background:#c8c5bc;display:inline-block;animation:bn .9s infinite}
 .dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.input-area{background:white;border-top:1px solid #C8C5BC;padding:12px 14px;flex-shrink:0}
-.hint-btns{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.hint-btn{border:1px solid #C8C5BC;background:white;padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer;color:#3D3B37}
-.input-row{display:flex;gap:8px;align-items:flex-end}
-.text-input{flex:1;border:1px solid #C8C5BC;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;resize:none;min-height:44px;max-height:100px;line-height:1.5}
-.text-input:focus{outline:none;border-color:#1A6DB5}
-.mic-btn{width:44px;height:44px;border-radius:50%;border:none;background:#E6F1FB;cursor:pointer;font-size:20px;flex-shrink:0}
-.mic-btn.listening{background:#FDE8E4;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(139,26,0,.3)}50%{box-shadow:0 0 0 8px rgba(139,26,0,0)}}
-.send-btn{background:#0C447C;color:white;border:none;padding:0 16px;border-radius:8px;font-size:13px;cursor:pointer;height:44px;font-family:inherit}
-.send-btn:disabled{background:#C8C5BC;cursor:not-allowed}
-#screen-result{display:none;flex-direction:column;align-items:center;padding:20px;gap:14px;overflow-y:auto}
-.result-card{background:white;border:1px solid #C8C5BC;border-radius:12px;padding:20px;width:100%;max-width:500px}
-.score-big{text-align:center;margin-bottom:16px}
-.score-num{font-size:52px;font-weight:700;color:#0C447C}
-.score-label{font-size:13px;color:#6B6860}
-.result-section{margin-top:12px}
-.rs-title{font-size:11px;font-weight:700;color:#6B6860;text-transform:uppercase;margin-bottom:5px}
-.rs-body{font-size:13px;color:#3D3B37;line-height:1.7}
-.retry-btn{background:#0C447C;color:white;border:none;padding:12px 28px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500}
+@keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ia{background:#fff;border-top:1px solid #c8c5bc;padding:12px 14px;flex-shrink:0}
+.hb{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.hb button{border:1px solid #c8c5bc;background:#fff;padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer}
+.ir{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;border:1px solid #c8c5bc;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;resize:none;min-height:44px;max-height:100px}
+#mb{width:44px;height:44px;border-radius:50%;border:none;background:#e6f1fb;cursor:pointer;font-size:20px;flex-shrink:0}
+#sb{background:#0c447c;color:#fff;border:none;padding:0 16px;border-radius:8px;font-size:13px;cursor:pointer;height:44px;font-family:inherit}
+#sb:disabled{background:#c8c5bc}
+#res{display:none;flex-direction:column;align-items:center;padding:20px;gap:14px}
+.rc{background:#fff;border:1px solid #c8c5bc;border-radius:12px;padding:20px;width:100%;max-width:500px}
+.sc{text-align:center;margin-bottom:16px}
+.sn{font-size:52px;font-weight:700;color:#0c447c}
+.sl{font-size:13px;color:#6b6860}
+.rs{margin-top:12px}
+.rt{font-size:11px;font-weight:700;color:#6b6860;margin-bottom:5px}
+.rb{font-size:13px;color:#3d3b37;line-height:1.7}
+.rb2{background:#0c447c;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="logo">vivi<span>不動産</span> ロールプレイ練習</div>
-  <a href="index.html" class="back-btn">← スクリプトへ</a>
+<div class="hd"><b style="color:#5baae8">vivi</b><span style="color:#fff">不動産 ロールプレイ練習</span><a href="index.html">← スクリプトへ</a></div>
+
+<div id="sel">
+<h2>🎯 テレアポ ロールプレイ練習</h2>
+<p>AIがお客様役になります。マイクまたはテキストで話しかけてください</p>
+<h3>🏠 売却反響シナリオ</h3>
+<div class="grid">
+<div class="card" id="c1"><div class="ct">😤 多忙なお客様</div><div class="cd">今忙しい。1分フックで突破できるか</div></div>
+<div class="card" id="c2"><div class="ct">🔥 本気の売却希望</div><div class="cd">相続で実家を売りたい。真剣に検討中。</div></div>
+<div class="card" id="c3"><div class="ct">❄️ 冷やかし</div><div class="cd">なんとなく相場が知りたかっただけ</div></div>
+<div class="card" id="c4"><div class="ct">🏢 他社も検討中</div><div class="cd">3社に査定依頼。高い査定額に惹かれている。</div></div>
+<div class="card" id="c5"><div class="ct">💰 価格だけ聞いてくる</div><div class="cd">いくらになりますかを繰り返す。</div></div>
+</div>
+<h3>🔑 購入反響シナリオ</h3>
+<div class="grid">
+<div class="card" id="c6"><div class="ct">😤 多忙なお客様</div><div class="cd">今忙しい。ローンフックで突破できるか</div></div>
+<div class="card" id="c7"><div class="ct">🏦 ローン不安な方</div><div class="cd">個人信用情報への傷を心配している。</div></div>
+<div class="card" id="c8"><div class="ct">💴 現金購入の方</div><div class="cd">非公開物件に興味あり。</div></div>
+<div class="card" id="c9"><div class="ct">👀 情報収集中</div><div class="cd">まだ買うか決めていない</div></div>
+<div class="card" id="c10"><div class="ct">🚨 急ぎ購入</div><div class="cd">転勤で3ヶ月以内に引越しが必要。</div></div>
+</div>
 </div>
 
-<div id="screen-select">
-  <div class="title">🎯 テレアポ ロールプレイ練習</div>
-  <div class="sub">AIがお客様役になります。マイクまたはテキストで話しかけてください</div>
-  <div class="section-label">🏠 売却反響シナリオ</div>
-  <div class="scenario-grid">
-    <div class="scenario-card" onclick="go('sell_busy')"><div class="sc-title">😤 多忙なお客様</div><div class="sc-desc">「今忙しい」1分フックで突破できるか</div></div>
-    <div class="scenario-card" onclick="go('sell_serious')"><div class="sc-title">🔥 本気の売却希望</div><div class="sc-desc">相続で実家を売りたい。真剣に検討中。</div></div>
-    <div class="scenario-card" onclick="go('sell_cold')"><div class="sc-title">❄️ 冷やかし</div><div class="sc-desc">なんとなく相場が知りたかっただけ</div></div>
-    <div class="scenario-card" onclick="go('sell_multi')"><div class="sc-title">🏢 他社も検討中</div><div class="sc-desc">3社に査定依頼。高い査定額に惹かれている。</div></div>
-    <div class="scenario-card" onclick="go('sell_price')"><div class="sc-title">💰 価格だけ聞いてくる</div><div class="sc-desc">「いくらになりますか？」を繰り返す。</div></div>
-  </div>
-  <div class="section-label">🔑 購入反響シナリオ</div>
-  <div class="scenario-grid">
-    <div class="scenario-card" onclick="go('buy_busy')"><div class="sc-title">😤 多忙なお客様</div><div class="sc-desc">「今忙しい」ローンフックで突破できるか</div></div>
-    <div class="scenario-card" onclick="go('buy_loan')"><div class="sc-title">🏦 ローン不安な方</div><div class="sc-desc">個人信用情報への傷を心配している。</div></div>
-    <div class="scenario-card" onclick="go('buy_cash')"><div class="sc-title">💴 現金購入の方</div><div class="sc-desc">非公開物件に興味あり。</div></div>
-    <div class="scenario-card" onclick="go('buy_browse')"><div class="sc-title">👀 情報収集中</div><div class="sc-desc">まだ買うか決めていない</div></div>
-    <div class="scenario-card" onclick="go('buy_urgent')"><div class="sc-title">🚨 急ぎ購入</div><div class="sc-desc">転勤で3ヶ月以内に引越しが必要。</div></div>
-  </div>
+<div id="chat" style="display:none">
+<div class="ch"><span id="ctitle" style="font-size:12px;font-weight:500"></span><button class="eb" onclick="endSession()">🏁 採点する</button></div>
+<div class="ca" id="ca"></div>
+<div class="ia">
+<div class="hb">
+<button onclick="hint(0)">📞 挨拶</button>
+<button onclick="hint(1)">🎯 フック</button>
+<button onclick="hint(2)">📅 アポ打診</button>
+</div>
+<div class="ir">
+<textarea id="ti" placeholder="入力または音声認識結果" rows="2"></textarea>
+<button id="mb" onclick="toggleMic()">🎤</button>
+<button id="sb" onclick="sendMsg()">送信</button>
+</div>
+</div>
 </div>
 
-<div id="screen-chat">
-  <div class="chat-header">
-    <div class="chat-scenario" id="chat-title"></div>
-    <button class="end-btn" onclick="endSession()">🏁 採点する</button>
-  </div>
-  <div class="chat-area" id="chat-area"></div>
-  <div class="input-area">
-    <div class="hint-btns">
-      <button class="hint-btn" onclick="hint(0)">📞 挨拶</button>
-      <button class="hint-btn" onclick="hint(1)">🎯 フック</button>
-      <button class="hint-btn" onclick="hint(2)">📅 アポ打診</button>
-    </div>
-    <div class="input-row">
-      <textarea class="text-input" id="text-input" placeholder="入力または音声認識結果" rows="2"></textarea>
-      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
-      <button class="send-btn" id="send-btn" onclick="sendMsg()">送信</button>
-    </div>
-  </div>
+<div id="res" style="display:none">
+<div class="rc">
+<div class="sc"><div class="sn" id="sn">--</div><div class="sl">点 / 100点</div></div>
+<div class="rs"><div class="rt">総合評価</div><div class="rb" id="rsum">採点中...</div></div>
+<div class="rs"><div class="rt" style="color:#0d6b4a">良かった点</div><div class="rb" id="rgood"></div></div>
+<div class="rs"><div class="rt" style="color:#7a4500">改善ポイント</div><div class="rb" id="rimp"></div></div>
+<div class="rs"><div class="rt" style="color:#0c447c">アドバイス</div><div class="rb" id="radv"></div></div>
 </div>
-
-<div id="screen-result">
-  <div class="result-card">
-    <div class="score-big"><div class="score-num" id="score-num">--</div><div class="score-label">点 / 100点</div></div>
-    <div class="result-section"><div class="rs-title">総合評価</div><div class="rs-body" id="r-summary">採点中...</div></div>
-    <div class="result-section"><div class="rs-title" style="color:#0D6B4A">良かった点</div><div class="rs-body" id="r-good"></div></div>
-    <div class="result-section"><div class="rs-title" style="color:#7A4500">改善ポイント</div><div class="rs-body" id="r-improve"></div></div>
-    <div class="result-section"><div class="rs-title" style="color:#0C447C">アドバイス</div><div class="rs-body" id="r-advice"></div></div>
-  </div>
-  <button class="retry-btn" onclick="goSelect()">もう一度練習する</button>
+<button class="rb2" onclick="goSel()">もう一度練習する</button>
 </div>
 
 <script>
-var API_KEY = 'AIzaSyCPQVM0a2QLXNGEX8Rj0s4jncc8e1sjmO4';
-var API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + API_KEY;
+var KEY = 'AIzaSyCPQVM0a2QLXNGEX8Rj0s4jncc8e1sjmO4';
+var URL2 = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + KEY;
+var hist = [], persona = '', rec = null, mic = false;
 
-var SCENARIOS = {
-  sell_busy:    {title:'😤 多忙なお客様（売却）',   persona:'あなたは忙しいサラリーマンです。最初は断りますが1分なら聞いてもいいと思っています。査定は一括査定サイトに申し込みました。'},
-  sell_serious: {title:'🔥 本気の売却希望',         persona:'あなたは親の相続で実家を売却する必要があります。真剣に検討していますがどの会社に頼むか迷っています。'},
-  sell_cold:    {title:'❄️ 冷やかし',               persona:'あなたは特に急ぎではなくなんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。'},
-  sell_multi:   {title:'🏢 他社も検討中',           persona:'あなたは3社に査定を依頼しました。高い査定額を出した会社に頼もうかと思っています。'},
-  sell_price:   {title:'💰 価格だけ聞いてくる',     persona:'あなたは査定額だけが知りたいです。来店には消極的でいくらになりますかと繰り返します。'},
-  buy_busy:     {title:'😤 多忙なお客様（購入）',   persona:'あなたは忙しい共働き夫婦の一方です。最初は断りますが1分なら聞いてもいいと思っています。'},
-  buy_loan:     {title:'🏦 ローン不安な方',          persona:'あなたは住宅購入を検討していますがローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。'},
-  buy_cash:     {title:'💴 現金購入の方',            persona:'あなたは現金で不動産を購入しようとしています。ネットに出ていない良い物件があれば興味があります。'},
-  buy_browse:   {title:'👀 情報収集中',              persona:'あなたはなんとなく物件を探し始めたところでまだ買うかどうか決めていません。'},
-  buy_urgent:   {title:'🚨 急ぎ購入',               persona:'あなたは転勤が決まり3ヶ月以内に新居を見つけなければなりません。急いでいます。'}
-};
+var P = [
+  'あなたは忙しいサラリーマンです。最初は断りますが1分なら聞いてもいいと思っています。査定は一括査定サイトに申し込みました。',
+  'あなたは親の相続で実家を売却する必要があります。真剣に検討していますがどの会社に頼むか迷っています。',
+  'あなたは特に急ぎではなくなんとなく相場が気になって査定を申し込んだだけです。すぐに売るつもりはありません。',
+  'あなたは3社に査定を依頼しました。高い査定額を出した会社に頼もうかと思っています。',
+  'あなたは査定額だけが知りたいです。来店には消極的でいくらになりますかと繰り返します。',
+  'あなたは忙しい共働き夫婦の一方です。最初は断りますが1分なら聞いてもいいと思っています。',
+  'あなたは住宅購入を検討していますがローンが組めるか不安です。個人信用情報に傷がつくことをとても心配しています。',
+  'あなたは現金で不動産を購入しようとしています。ネットに出ていない良い物件があれば興味があります。',
+  'あなたはなんとなく物件を探し始めたところでまだ買うかどうか決めていません。',
+  'あなたは転勤が決まり3ヶ月以内に新居を見つけなければなりません。急いでいます。'
+];
 
-var HINTS = [
+var H = [
   'お忙しいところ恐れ入ります。vivi不動産の○○と申します。先ほど査定のご依頼をいただきまして、ありがとうございます。',
   'せっかくのご縁ですのでこれだけは知っておいてください！査定で一番失敗するパターンのことです。',
   '一度ご来店いただけませんか？週末か平日の夜でしたらどちらがご都合よろしいでしょうか？'
 ];
 
-var history = [];
-var persona = '';
-var rec = null;
-var listening = false;
-
-function show(id) {
-  document.getElementById('screen-select').style.display = 'none';
-  document.getElementById('screen-chat').style.display = 'none';
-  document.getElementById('screen-result').style.display = 'none';
-  document.getElementById(id).style.display = 'flex';
-  document.getElementById(id).style.flexDirection = 'column';
+for (var i = 1; i <= 10; i++) {
+  (function(n) {
+    document.getElementById('c' + n).onclick = function() {
+      startScene(n - 1);
+    };
+  })(i);
 }
 
-function goSelect() {
-  history = [];
-  stopMic();
-  show('screen-select');
-}
-
-function go(id) {
-  var s = SCENARIOS[id];
-  if (!s) return;
-  persona = s.persona;
-  history = [];
-  document.getElementById('chat-title').textContent = s.title;
-  document.getElementById('chat-area').innerHTML = '';
-  show('screen-chat');
+function startScene(idx) {
+  persona = P[idx];
+  hist = [];
+  document.getElementById('ctitle').textContent = document.getElementById('c' + (idx+1)).querySelector('.ct').textContent;
+  document.getElementById('ca').innerHTML = '';
+  document.getElementById('sel').style.display = 'none';
+  document.getElementById('res').style.display = 'none';
+  var c = document.getElementById('chat');
+  c.style.display = 'flex';
+  c.style.flexDirection = 'column';
   sysMsg('電話が繋がりました。話しかけてください！');
   initRec();
 }
 
+function goSel() {
+  hist = []; stopMic();
+  document.getElementById('chat').style.display = 'none';
+  document.getElementById('res').style.display = 'none';
+  document.getElementById('sel').style.display = 'block';
+}
+
 function sysMsg(t) {
   var d = document.createElement('div');
-  d.className = 'msg-system';
+  d.className = 'sm';
   d.innerHTML = '<span>' + t + '</span>';
-  document.getElementById('chat-area').appendChild(d);
-  scroll();
+  document.getElementById('ca').appendChild(d);
+  scr();
 }
 
 function staffMsg(t) {
   var d = document.createElement('div');
-  d.className = 'msg-staff';
-  d.innerHTML = '<div class="avatar av-staff">👤</div><div><div class="msg-name">スタッフ</div><div class="bubble-staff">' + t + '</div></div>';
-  document.getElementById('chat-area').appendChild(d);
-  scroll();
+  d.className = 'ms';
+  d.innerHTML = '<div class="av avs">👤</div><div><div class="nm">スタッフ</div><div class="bs">' + t + '</div></div>';
+  document.getElementById('ca').appendChild(d);
+  scr();
 }
 
-function customerMsg(t) {
+function custMsg(t) {
   var d = document.createElement('div');
-  d.className = 'msg-customer';
-  d.innerHTML = '<div class="avatar av-customer">👨</div><div><div class="msg-name-left">お客様</div><div class="bubble-customer">' + t + '</div></div>';
-  document.getElementById('chat-area').appendChild(d);
-  scroll();
-  speak(t);
+  d.className = 'mc';
+  d.innerHTML = '<div class="av avc">👨</div><div><div class="nml">お客様</div><div class="bc">' + t + '</div></div>';
+  document.getElementById('ca').appendChild(d);
+  scr();
+  spk(t);
 }
 
-function addTyping() {
+function showTyping() {
   var d = document.createElement('div');
-  d.id = 'typing';
-  d.className = 'msg-customer';
-  d.innerHTML = '<div class="avatar av-customer">👨</div><div class="bubble-customer"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
-  document.getElementById('chat-area').appendChild(d);
-  scroll();
+  d.id = 'typ'; d.className = 'mc';
+  d.innerHTML = '<div class="av avc">👨</div><div class="bc"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  document.getElementById('ca').appendChild(d); scr();
 }
-
-function removeTyping() {
-  var t = document.getElementById('typing');
-  if (t) t.remove();
-}
-
-function scroll() {
-  var a = document.getElementById('chat-area');
-  a.scrollTop = a.scrollHeight;
-}
+function hideTyping() { var t = document.getElementById('typ'); if(t) t.remove(); }
+function scr() { var a = document.getElementById('ca'); a.scrollTop = a.scrollHeight; }
 
 function sendMsg() {
-  var input = document.getElementById('text-input');
-  var text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  staffMsg(text);
-  history.push({role:'user', parts:[{text: text}]});
-  document.getElementById('send-btn').disabled = true;
-  addTyping();
-
-  var sys = 'あなたはvivi不動産（富山市）へのテレアポ練習のためのAIお客様役です。' + persona + '必ず日本語で1から3文で自然に返答してください。うまい対応には少しずつ心を開いてください。アポが取れたらわかりました伺いますと答えてください。絶対にAIだと明かさないでください。';
-
-  fetch(API_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      system_instruction: {parts: [{text: sys}]},
-      contents: history,
-      generationConfig: {temperature: 0.9, maxOutputTokens: 150}
-    })
+  var ti = document.getElementById('ti');
+  var txt = ti.value.trim();
+  if (!txt) return;
+  ti.value = '';
+  staffMsg(txt);
+  hist.push({role:'user', parts:[{text:txt}]});
+  document.getElementById('sb').disabled = true;
+  showTyping();
+  var sys = 'あなたはvivi不動産へのテレアポ練習のためのAIお客様役です。' + persona + '日本語で1から3文で自然に返答してください。うまい対応には少しずつ心を開いてください。アポが取れたらわかりました伺いますと答えてください。AIだと明かさないでください。';
+  fetch(URL2, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({system_instruction:{parts:[{text:sys}]}, contents:hist, generationConfig:{temperature:0.9, maxOutputTokens:150}})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    hideTyping();
+    if(d.error){sysMsg('エラー: ' + d.error.message); document.getElementById('sb').disabled=false; return;}
+    var rep = d.candidates[0].content.parts[0].text;
+    custMsg(rep);
+    hist.push({role:'model', parts:[{text:rep}]});
+    if(rep.indexOf('伺います')>=0||rep.indexOf('お越し')>=0) sysMsg('アポイント取得成功！採点するを押してください！');
+    document.getElementById('sb').disabled = false;
   })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    removeTyping();
-    if (data.error) {
-      sysMsg('エラー: ' + data.error.message);
-      document.getElementById('send-btn').disabled = false;
-      return;
-    }
-    var reply = data.candidates[0].content.parts[0].text;
-    customerMsg(reply);
-    history.push({role:'model', parts:[{text: reply}]});
-    if (reply.indexOf('伺います') >= 0 || reply.indexOf('お越し') >= 0) {
-      sysMsg('アポイント取得成功！採点するボタンを押してください！');
-    }
-    document.getElementById('send-btn').disabled = false;
-  })
-  .catch(function(e) {
-    removeTyping();
-    sysMsg('通信エラー: ' + e.message);
-    document.getElementById('send-btn').disabled = false;
-  });
+  .catch(function(e){hideTyping(); sysMsg('エラー: '+e.message); document.getElementById('sb').disabled=false;});
 }
 
 function endSession() {
-  if (history.length < 2) { alert('もう少し会話を続けてから採点してください'); return; }
+  if(hist.length < 2){alert('もう少し会話を続けてから採点してください'); return;}
   stopMic();
-  show('screen-result');
-  document.getElementById('score-num').textContent = '--';
-  document.getElementById('r-summary').textContent = '採点中...';
-  document.getElementById('r-good').textContent = '';
-  document.getElementById('r-improve').textContent = '';
-  document.getElementById('r-advice').textContent = '';
-
+  document.getElementById('chat').style.display = 'none';
+  var r = document.getElementById('res');
+  r.style.display = 'flex'; r.style.flexDirection = 'column';
+  document.getElementById('sn').textContent = '--';
+  document.getElementById('rsum').textContent = '採点中...';
+  document.getElementById('rgood').textContent = '';
+  document.getElementById('rimp').textContent = '';
+  document.getElementById('radv').textContent = '';
   var conv = '';
-  for (var i = 0; i < history.length; i++) {
-    conv += (history[i].role === 'user' ? 'スタッフ' : 'お客様') + ': ' + history[i].parts[0].text + '
-';
-  }
-
-  var prompt = 'テレアポ練習の会話です。スタッフの対応を100点満点で採点してください。
-
-' + conv + '
-
-以下のJSON形式のみで返してください。
-{"score":数値,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';
-
-  fetch(API_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      contents: [{role:'user', parts:[{text: prompt}]}],
-      generationConfig: {temperature: 0.3, maxOutputTokens: 500}
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    var raw = data.candidates[0].content.parts[0].text;
-    var clean = raw.replace(/```json/g,'').replace(/```/g,'').trim();
+  for(var i=0;i<hist.length;i++) conv += (hist[i].role==='user'?'スタッフ':'お客様') + ': ' + hist[i].parts[0].text + '\n';
+  var prm = 'テレアポ練習の会話です。スタッフの対応を100点満点で採点してください。\n\n' + conv + '\n\n次のJSON形式のみで返してください。\n{"score":85,"summary":"総合評価","good":"良かった点","improve":"改善ポイント","advice":"アドバイス"}';
+  fetch(URL2, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents:[{role:'user', parts:[{text:prm}]}], generationConfig:{temperature:0.3, maxOutputTokens:500}})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var raw = d.candidates[0].content.parts[0].text;
+    var clean = raw.split('```json').join('').split('```').join('').trim();
     var j = JSON.parse(clean);
-    document.getElementById('score-num').textContent = j.score;
-    document.getElementById('r-summary').textContent = j.summary;
-    document.getElementById('r-good').textContent = j.good;
-    document.getElementById('r-improve').textContent = j.improve;
-    document.getElementById('r-advice').textContent = j.advice;
+    document.getElementById('sn').textContent = j.score;
+    document.getElementById('rsum').textContent = j.summary;
+    document.getElementById('rgood').textContent = j.good;
+    document.getElementById('rimp').textContent = j.improve;
+    document.getElementById('radv').textContent = j.advice;
   })
-  .catch(function() {
-    document.getElementById('r-summary').textContent = '採点に失敗しました。';
-  });
+  .catch(function(){document.getElementById('rsum').textContent='採点に失敗しました。';});
 }
 
-function hint(i) {
-  document.getElementById('text-input').value = HINTS[i];
-}
+function hint(i){document.getElementById('ti').value = H[i];}
 
-function speak(text) {
-  if (!window.speechSynthesis) return;
+function spk(t){
+  if(!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
+  var u = new SpeechSynthesisUtterance(t);
   u.lang = 'ja-JP';
   window.speechSynthesis.speak(u);
 }
 
-function initRec() {
+function initRec(){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { document.getElementById('mic-btn').style.display = 'none'; return; }
-  rec = new SR();
-  rec.lang = 'ja-JP';
-  rec.continuous = false;
-  rec.interimResults = true;
-  rec.onresult = function(e) {
-    var final = '', interim = '';
-    for (var i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) final += e.results[i][0].transcript;
-      else interim += e.results[i][0].transcript;
+  if(!SR){document.getElementById('mb').style.display='none'; return;}
+  rec = new SR(); rec.lang='ja-JP'; rec.continuous=false; rec.interimResults=true;
+  rec.onresult = function(e){
+    var f='',im='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) f+=e.results[i][0].transcript;
+      else im+=e.results[i][0].transcript;
     }
-    document.getElementById('text-input').value = final || interim;
+    document.getElementById('ti').value = f||im;
   };
-  rec.onend = function() {
-    listening = false;
-    document.getElementById('mic-btn').className = 'mic-btn';
-    document.getElementById('mic-btn').textContent = '🎤';
-    var t = document.getElementById('text-input').value.trim();
-    if (t) sendMsg();
+  rec.onend = function(){
+    mic=false;
+    document.getElementById('mb').className='';
+    document.getElementById('mb').style.cssText='width:44px;height:44px;border-radius:50%;border:none;background:#e6f1fb;cursor:pointer;font-size:20px;flex-shrink:0';
+    document.getElementById('mb').textContent='🎤';
+    var t=document.getElementById('ti').value.trim();
+    if(t) sendMsg();
   };
-  rec.onerror = function() {
-    listening = false;
-    document.getElementById('mic-btn').className = 'mic-btn';
-    document.getElementById('mic-btn').textContent = '🎤';
-  };
+  rec.onerror=function(){mic=false; document.getElementById('mb').textContent='🎤';};
 }
 
-function toggleMic() {
-  if (!rec) return;
-  if (listening) { stopMic(); return; }
-  rec.start();
-  listening = true;
-  document.getElementById('mic-btn').className = 'mic-btn listening';
-  document.getElementById('mic-btn').textContent = '⏹';
-  document.getElementById('text-input').value = '';
+function toggleMic(){
+  if(!rec) return;
+  if(mic){stopMic(); return;}
+  rec.start(); mic=true;
+  document.getElementById('mb').textContent='⏹';
+  document.getElementById('mb').style.background='#fde8e4';
+  document.getElementById('ti').value='';
 }
-
-function stopMic() {
-  if (rec && listening) { rec.stop(); listening = false; }
-}
-
-show('screen-select');
+function stopMic(){if(rec&&mic){rec.stop(); mic=false;}}
 </script>
 </body>
 </html>
