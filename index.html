@@ -683,21 +683,21 @@ function buyScript() {
 <div class="script-box">「大変申し訳ありません。それでは<b>1分だけ</b>お時間ください。」</div></div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">1分フック（1分で話し切る）</span></div>
-<div class="hook-box">「○○様、家探しをされる際、多くの方が<b>『取り返しのつかない損』</b>をしてしまうポイントがあるんですが、なんだと思われますか？<br><br>……実はこれ、<b>『住宅ローンの事前審査』</b>なんです。<br><br>普通に審査をすると個人情報に履歴が残ってしまうんですが、弊社には<b>履歴に傷をつけずに審査できる独自のルート</b>があります。加えて、リフォームローンも組み方次第で<b>総支払額が劇的に変わります。</b><br><br>今後どこの不動産会社で買われるにしても、この<b>『ローンのカラクリ』</b>だけは知っておいて損はありません。<br><br>あっ！ここまでで<b>1分経過しました。</b>お付き合いありがとうございます。<br><br>ぜひ一度、○○様の条件に合わせた<b>シミュレーションをお店で無料</b>でお出ししたいのですが、今週末の午前か午後、ご都合に合わせてお話しするようにしますので<b>少しでもお時間いただけませんか？</b>」</div></div>
+<div class="hook-box">「○○様、家探しをされる際、多くの方が<b>『取り返しのつかない損』</b>をしてしまうポイントがあるんですが、どういうことかと思われますか？<br><br>……実はこれ、<b>『住宅ローンの事前審査』</b>なんです。<br><br>普通に審査をすると個人情報に履歴が残ってしまいますが、弊社には<b>履歴に傷をつけずに審査できる独自のルート</b>があります。それに加えて、リフォームローンも組み方次第で<b>総支払額が劇的に変わります。</b><br><br>この<b>ふたつだけでも</b>知っておいて損はありません。<br><br>あっ！ここまでで<b>1分経過しました。</b>お付き合いありがとうございます。<br><br><b>いかがでしたでしょうか？少しは興味をお持ちいただけましたでしょうか？</b>」</div></div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-tsuzuki"><div class="step-top"><span class="step-badge sb-hook">STEP 3</span><span class="step-title">続きフック → 選ばせる</span></div>
-<div class="script-box">「実は一般の方が見ることのできない業者専用の<b>『レインズ』</b>というサイトがあります。そこではネットに出ていない全業者の非公開物件も見ることができるんですけど、<b>ご興味ありませんか？</b>」</div>
+<div class="script-box">「いかがでしたでしょうか？少しは興味をお持ちいただけましたでしょうか？」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('b-reinz')"><div class="branch-title yes">✓ YES</div><div class="branch-arrow">→ レインズの説明へ</div></div>
-  <div class="branch-col no" onclick="navTo('b-recall')"><div class="branch-title no">✗ NO</div><div class="branch-arrow">→ 電話日程の確認へ</div></div>
+  <div class="branch-col yes" onclick="navTo('b-reinz')"><div class="branch-title yes">✓ YES（興味あり）</div><div class="branch-arrow">→ レインズの説明へ</div></div>
+  <div class="branch-col no" onclick="navTo('b-recall')"><div class="branch-title no">✗ NO（興味なし）</div><div class="branch-arrow">→ 次回電話日程へ</div></div>
 </div></div>
 <div class="arr">↓（YESの場合）</div>
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-reinz"><div class="step-top"><span class="step-badge sb-str">STEP 4</span><span class="step-title">レインズの説明 → 来店打診</span></div>
-<div class="vivi-box">「それでは、もう少しだけお話しさせてください。レインズとは不動産業者だけが使える物件データベースで、<b>ネットに出ていない非公開物件もすべて掲載</b>されています。ただこれは<b>当社にお越しいただかないとお見せすることができない</b>んです。せっかくですので一度ご来店いただき、ご希望に合った物件をご一緒に探しませんか？」</div>
+<div class="vivi-box">「それでは、あともう少しだけお話しさせてください。<br><br>実は一般の方が見ることのできない業者専用の<b>『レインズ』</b>というサイトがあります。そこではネットに出ていない全業者の非公開物件も見られるのですが、残念ながら、<b>当社にお越しいただかないとご覧いただくことができません。</b><br><br>先ほどのローンの損をしない組み方や審査の方法のお話もありますので、<b>一度ご来店いただき、ご希望に合った物件を一緒に探しませんか？</b>」</div>
 <button class="jump-btn" onclick="navTo('b-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
 <div class="arr">↓</div>
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="b-recall"><div class="step-top"><span class="step-badge sb-warn">電話日程の確認</span><span class="step-title">NOの場合 → 次回電話の日程を取る</span></div>
-<div class="script-box">「かしこまりました。それではお時間のある時に改めてお電話させていただきますが、<b>お電話に出やすいお時間帯</b>はいつ頃でしょうか？」→ 時間帯を確認して右パネルにメモ → 電話を切る</div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="b-recall"><div class="step-top"><span class="step-badge sb-warn">電話日程の確認（NO）</span><span class="step-title">NOの場合 → レインズの予告＋次回電話日程</span></div>
+<div class="script-box">「実は一般の方が見ることのできない業者専用の<b>『レインズ』</b>というサイトがあります。そこではネットに出ていない全業者の非公開物件も見られる方法があるのですが、<b>次回はお時間のある時にそのお話をさせていただくようにいたします。</b><br><br>次回は週末頃でしたらお電話よろしいですか？（日程確認）<br><br>（日程確認後）かしこまりました。いろいろお聞かせいただきありがとうございました。」</div></div>
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="b-orikaeshi"><div class="step-top"><span class="step-badge sb-warn">折り返し・ご不在</span><span class="step-title">折り返し時間の確認</span></div>
 <div class="script-box" style="margin-bottom:6px">「大変失礼いたしました。それでは改めてご連絡させていただきます。<b>何時頃であればご都合よろしいでしょうか？</b>」</div>
 <div class="script-box">固定電話でご本人でない場合→「○○様はいらっしゃいますか？ご在宅の時間帯はいつ頃でしょうか？」</div>
@@ -722,8 +722,17 @@ function buyScript() {
 <button class="jump-btn" onclick="navTo('b-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-cash"><div class="step-top"><span class="step-badge sb-str">来店訴求（現金購入）</span><span class="step-title">非公開物件・スピード対応を訴求</span></div>
-<div class="vivi-box">「ありがとうございます。実は一般のポータルサイトではない<b>レインズ</b>という業者専用のサイトがございまして、現金購入の方ですと、そういった<b>非公開物件もスピーディーにご紹介</b>させていただいております。当社にお越しいただき、詳しい条件をお聞きしながら、まだネットに出ていない物件もお見せすることができます。」</div>
-<button class="jump-btn" onclick="navTo('b-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
+<div class="vivi-box">「ありがとうございます。実は一般のポータルサイトではない<b>レインズ</b>という業者専用のサイトがございまして、<b>当社にお越しいただけた方に限りまして</b>全物件が掲載されているレインズで<b>非公開物件もスピーディーにご紹介</b>させていただいております。ぜひお越しいただき、詳しい条件をお聞きしながら、一緒に探しませんか？」</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo('b-apo')"><div class="branch-title yes">✓ YES → 日程打診へ</div></div>
+  <div class="branch-col no" onclick="navTo('b-cash-web')"><div class="branch-title no">✗ NO（来店難しい）</div><div class="branch-arrow">→ WEB面談を提案</div></div>
+</div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="b-cash-web"><div class="step-top"><span class="step-badge sb-warn">WEB面談提案</span><span class="step-title">お忙しければZOOMによるWEB面談も可能</span></div>
+<div class="script-box">「お忙しければ<b>ZOOMによるWEB面談</b>も可能ですがいかがですか？」</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo('b-apo')"><div class="branch-title yes">✓ YES → 日程打診へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ NO</div><div class="branch-note">「それではまた改めさせていただきます。よろしくお願いいたします。」→ 電話を切る</div></div>
+</div></div>
 <div class="arr">↓</div>
 <div class="step-card" id="b-apo"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">「今週の週末はいかがですか？」</span></div>
 <div class="script-box" style="margin-bottom:8px">「一度ぜひ当社にお越しになりませんか？<b>今週の週末はいかがですか？</b>」</div>
