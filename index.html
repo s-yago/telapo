@@ -577,15 +577,15 @@ function sellScript() {
 <div class="hook-box" style="margin-top:8px">「せっかくのご縁ですので<b>これだけは知っておいてください！査定で一番失敗するパターンのことです。</b><br>一括査定は高い数字を出した会社が契約を取りやすいんです。でもその価格で売り出すと誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が過ぎ、<b>売れ残り扱いされて大幅値下げになって最後は相場よりも安くでしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
 <button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
 
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">机上査定 or 訪問査定の提案</span></div>
-<div class="script-box">「大体の価格でよろしければ<b>机上査定</b>という方法がございます。そちらの資料をお送りすることもできますがいかがいたしましょうか？<br><br>諸費用や税引き後の手取り額までお知りになりたい場合は、やはりお伺いして現地を見させていただくことが必要となります。<br><br><b>どちらがよろしいですか？</b>」</div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">机上査定 or 訪問査定のご提案</span></div>
+<div class="script-box">「査定には<b>おおまかな金額を出す机上査定</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる訪問査定</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
 <div class="branch-grid">
-  <div class="branch-col no" onclick="navTo('s-cold-desk')"><div class="branch-title no">📄 机上査定で良い</div><div class="branch-arrow">→ 送付方法を確認</div></div>
-  <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定が良い</div><div class="branch-arrow">→ アポ取り・ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('s-cold-desk')"><div class="branch-title no">📄 机上査定</div><div class="branch-arrow">→ 送付方法を確認</div></div>
+  <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ 物件概要確認してアポ取り</div></div>
 </div></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 送付 → 追客</span></div>
-<div class="script-box" style="margin-bottom:8px">「メールと郵送どちらがよろしいですか？」→ 送付先を確認 → 机上査定書を送付</div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っております。」→ 送付先を確認 → 机上査定書を送付</div>
 <div class="script-box">「<b>送付3日後に電話追客</b>：査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋お詫び＋1分お願い</span></div>
@@ -597,15 +597,26 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-yakusoku"><div class="step-top"><span class="step-badge sb-apo">STEP 3</span><span class="step-title">1分の約束を守る</span></div>
-<div class="script-box">「以上です。<b>1分ちょうどでした。</b>ありがとうございます。」</div></div>
+<div class="script-box">「以上です。<b>これで1分でございます。</b>お付き合いありがとうございます。」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tsuzuki"><div class="step-top"><span class="step-badge sb-hook">STEP 4</span><span class="step-title">続きフック → 選ばせる</span></div>
 <div class="script-box">「実は<b>『本当に売ってくれる不動産会社を数字で見分ける方法』</b>のお話もあるんですが、ご興味ありますか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-4q')"><div class="branch-title yes">✓ YES</div><div class="branch-arrow">→ 4つの質問へ</div></div>
-  <div class="branch-col no"><div class="branch-title no">✗ 興味なし</div><div class="branch-note">「かしこまりました。次回査定の方法などお話をお聞きしたい場合は、<b>週末か平日の夜</b>でしたらどちらがご都合よろしいでしょうか？」→ アポを取って電話を切る</div></div>
+  <div class="branch-col no" onclick="navTo('s-noint')"><div class="branch-title no">✗ 興味なし</div><div class="branch-arrow">→ 査定提案へ</div></div>
 </div></div>
+
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint"><div class="step-top"><span class="step-badge sb-warn">興味なし → 査定提案</span><span class="step-title">机上査定 or 訪問査定を提案する</span></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。それでは査定をさせていただきます。<br><br>査定には<b>おおまかな金額を出す机上査定</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる訪問査定</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col no" onclick="navTo('s-noint-desk')"><div class="branch-title no">📄 机上査定</div><div class="branch-arrow">→ 送付方法を確認</div></div>
+  <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ アポを取って電話を切る</div></div>
+</div></div>
+
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認</span></div>
+<div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っております。」<br>→ 送付先を確認 → 机上査定書を送付<br>→ <b>送付3日後に電話追客</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+
 <div class="arr">↓（YESの場合）</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-4q"><div class="step-top"><span class="step-badge sb-str">STEP 5</span><span class="step-title">本当に売ってくれる不動産会社を数字で見分ける4つの質問</span></div>
