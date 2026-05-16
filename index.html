@@ -34,11 +34,11 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 
 /* VIEWS */
 .view{display:none;flex:1;overflow:hidden}
-.view.active{display:flex}
+.view.active{display:flex!important}
 
 /* TOP VIEW */
 #view-top{display:none;align-items:center;justify-content:center;background:var(--gray-100)}
-#view-top.active{display:flex}
+#view-top.active{display:flex!important}
 .top-inner{text-align:center;max-width:500px;padding:24px}
 .top-logo{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:8px}
 .top-logo span{color:var(--blue-mid)}
@@ -54,7 +54,7 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 
 /* SCRIPT VIEW */
 #view-script{display:none;flex-direction:row}
-#view-script.active{display:flex}
+#view-script.active{display:flex!important}
 .script-nav{width:200px;flex-shrink:0;background:var(--navy);overflow-y:auto;padding:12px 8px;display:flex;flex-direction:column;gap:2px}
 .nav-section{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.08em;padding:8px 8px 4px;text-transform:uppercase}
 .nav-item{padding:7px 10px;border-radius:6px;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;transition:background .12s,color .12s;line-height:1.4}
