@@ -313,6 +313,11 @@ function startMode(mode) {
 }
 
 // ===== NAVIGATION =====
+function toggleBBLoanObjection() {
+  var el = document.getElementById('bb-loan-objection');
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
 function toggleBLoanObjection() {
   var el = document.getElementById('b-loan-objection');
   if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
@@ -1176,6 +1181,13 @@ function rpStopMic() {
 <div class="arr">↓</div>
 <div class="step-card" id="bb-loan"><div class="step-top"><span class="step-badge sb-hear">まず確認</span><span class="step-title">住宅ローン利用予定の確認（最優先）</span></div>
 <div class="script-box">「住宅ローンに関してなのですが、あまり知られていないローンの組み方があるのですが、今回の購入にあたり、<b>住宅ローンの利用予定はございますでしょうか？</b>」</div>
+<div style="margin-top:6px">
+  <button class="jump-btn" onclick="toggleBBLoanObjection()" style="background:#FDE8E4;color:#8B1A00">⚠️ 不快感を示されたとき</button>
+  <div id="bb-loan-objection" style="display:none;margin-top:8px">
+    <div class="hook-box" style="margin-bottom:6px">「そう思われるのも当然ですよね。まだお会いもしていないのに、いきなりお金に関するプライベートなことを聞いてしまい、大変申し訳ありません。」<br><br>「実はお伺いしたのには理由がありまして、最近は条件の良い物件ほど、本当にすぐ売れてしまうんです。そして売主様も、複数の方から申し込みがあった場合は<b>「ローンの目処が立っている方」を優先して</b>契約手続きを進める傾向にあります。」<br><br>「ですので、もしローンをお考えでしたら、お客様が「これだ！」と気に入った一番良い物件を見つけた時に、他の方に取られずに<b>確実に押さえるための作戦</b>（事前準備など）が必要となりますので、一番最初にお伺いさせていただきました。」</div>
+    <div style="font-size:11px;color:#6B6860;background:#F9F8F5;border-radius:6px;padding:8px 10px;line-height:1.7"><b>話し方のポイント</b><br>・最初の1文は<b>ゆっくり誠実に</b>：相手の反発を「聞く耳」に変える<br>・「理由がありまして」からは<b>少しテンポを上げ</b>、プロとしての顔で伝える<br>・「<b>作戦</b>」という言葉でお客様と同じチームという仲間意識を持たせる</div>
+  </div>
+</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-bukken')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-note">→ 物件確認へ（事前審査の話は来店訴求で）</div></div>
   <div class="branch-col yes" onclick="navTo('bb-bukken')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入予定</div><div class="branch-note">→ 物件確認へ（レインズの話は来店訴求で）</div></div>
