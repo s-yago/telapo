@@ -617,8 +617,8 @@ function sellScript() {
 </div></div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="s-jiyuu"><div class="step-top"><span class="step-badge sb-hear">最初に</span><span class="step-title">申込みの理由を確認する（本気 or 冷やかし）</span></div>
-<div class="script-box">「今回、査定をご依頼いただいたのはどのようなご事情でしょうか？」</div>
-<div class="hint">※ 言いにくそうな場合は先に「言いにくければお答えいただかなくて結構ですが…」と前置き</div>
+<div class="script-box">「まだ具体的にご売却が決まっていなくても全く構わないのですが、今後の参考までに、今回査定をしてみようと思われたきっかけをお伺いしてもよろしいでしょうか？」</div>
+<div class="hint">※ お客様が言いにくそうな場合は「言いにくければお答えいただかなくて結構ですが…」とフォローを入れる</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-honki')"><div class="branch-title yes">🔥 本気（具体的理由・時期あり）</div><div class="branch-note">住み替え・相続・離婚・転勤 等　この時点で売却理由は確認済み</div><div class="branch-arrow">→ ①〜③ヒアリングへ</div></div>
   <div class="branch-col no" onclick="navTo('s-cold')"><div class="branch-title no">❄️ 冷やかし（相場確認・未定）</div><div class="branch-note">「今すぐ売る予定はない」「なんとなく相場が知りたかっただけ」</div><div class="branch-arrow">→ 冷やかし対応へ</div></div>
@@ -628,13 +628,13 @@ function sellScript() {
 <div class="step-card" id="s-honki"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜③</span><span class="step-title">物件情報・時期・価格の確認（申込内容と照合）</span></div>
 <div class="script-box" style="margin-bottom:8px"><b>①物件情報</b>「ご申告いただいた内容を確認させてください。所在地・種類（マンション／戸建／土地）・築年数・広さ、を読み上げて、こちらでお間違いありませんか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>②売却希望時期</b>「いつ頃までにご売却できれば良いとお考えでしょうか？」</div>
-<div class="script-box"><b>③希望価格・ローン残債</b>「おおよその希望価格と残債についても確認させてください。」</div>
+<div class="script-box"><b>③希望価格・ローン残債</b>「おおよその希望価格と残債（返済中の住宅ローンなど）の有無についても確認させてください。」</div>
 <div class="memo-pill">⚠️ 残債あり・希望価格が明確な場合は右パネルと社内報告に必ず記載</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-kansha"><div class="step-top"><span class="step-badge sb-hook">感謝＋フック投下</span><span class="step-title">ヒアリング完了 → 損失回避トーク</span></div>
 <div class="green-box">「いろいろ答えていただきありがとうございます。とても助かります。」</div>
-<div class="hook-box" style="margin-top:8px">「せっかくのご縁ですのでこれだけは知っておいてください！<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
+<div class="hook-box" style="margin-top:8px">「せっかくのご縁ですのでこれだけは知っておいてください！査定や売却で一番失敗するパターンのことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
 <button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">机上査定 or 訪問査定のご提案</span></div>
@@ -672,11 +672,15 @@ function sellScript() {
 <div class="script-box" style="margin-bottom:8px">「かしこまりました。それでは査定をさせていただきます。査定には<b>おおまかな金額を出す「机上査定」</b>と、<b>正確な売却額・諸費用・税引き後の手取り額も分かる「訪問査定」</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col no" onclick="navTo('s-noint-desk')"><div class="branch-title no">📄 机上査定</div><div class="branch-arrow">→ 送付方法を確認</div></div>
-  <div class="branch-col yes" onclick="navTo('s-apo')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ アポを取って電話を切る</div></div>
+  <div class="branch-col yes" onclick="navTo('s-noint-visit')"><div class="branch-title yes">🏠 訪問査定</div><div class="branch-arrow">→ 感謝＋日程確定へ</div></div>
 </div></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 営業に引き継ぎ</span></div>
 <div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b><br>→ 営業より<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="s-noint-visit"><div class="step-top"><span class="step-badge sb-apo">訪問査定</span><span class="step-title">訪問査定の場合 → 感謝＋日程確定</span></div>
+<div class="green-box" style="margin-bottom:8px">「訪問査定のご依頼ありがとうございます。」</div>
+<div class="script-box">「週末か平日の夜でしたらどちらがご都合よろしいでしょうか？」<br>→ 候補日を提示して日程確定 → 電話を切る</div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-4q"><div class="step-top"><span class="step-badge sb-str">STEP 5</span><span class="step-title">本当に売ってくれる不動産会社を数字で見て決める4つの質問</span></div>
 <div class="vivi-box">「不動産会社を選ぶとき、<b>この4つを必ず聞いてください。</b><br><br>
@@ -711,7 +715,7 @@ function sellScript() {
 <div class="vivi-box">「それからひとつ、他社にはない弊社だけの強みをお伝えしてもいいですか？<br><br>弊社には<b>工務部とモデルルーム</b>があります。買い手の方がリノベのイメージを持ちやすく、ワンストップで安心して<b>安くリノベをご提供</b>できるので他社より<b>購入に踏み切りやすい</b>んです。<b>富山市の不動産会社でこれができるのは弊社だけです。</b>」</div></div>
 <div class="arr">↓</div>
 
-<div class="step-card" id="s-apo"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">「一度ご来店いただけませんか？」</span></div>
+<div class="step-card" id="s-apo"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">「一度お伺いさせていただけませんか？」</span></div>
 <div class="script-box" style="margin-bottom:8px">「週末か平日の夜でしたらどちらがご都合よろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-hosoku')"><div class="branch-title yes">✓ YES → 日程確定</div><div class="branch-note">候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div><div class="branch-arrow">→ 補足ヒアリングへ</div></div>
@@ -720,9 +724,9 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
-<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？担当携帯か下4桁<b>○○○○</b>の固定電話からご連絡します。」</div>
-<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」→ 読み上げ確認</div>
-<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。ご記載いただいたメールアドレスは<b>○○○＠○○</b>ですね。」<br><span style="font-size:11px;color:var(--gray-500)">※ 登録内容にメールアドレスの記載がない・不備がある場合は教えてもらえればベスト</span></div>
+<div class="script-box"><b>郵送先住所</b>「現在のご住所はご記載いただいた<b>○○</b>でお間違えございませんでしょうか。」<br><span style="font-size:11px;color:var(--gray-500)">※ 登録内容に住所の記載がない・不備がある場合は教えてもらえればベスト</span></div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
