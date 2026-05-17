@@ -1392,9 +1392,18 @@ function rpStopMic() {
 <div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする</span></div>
 <div class="script-box" style="margin-bottom:8px">「承知しました。もしよろしければ、一度ご来店いただければ、ネットに出ていない<b>非公開物件や類似物件</b>もあわせてご覧いただけます。また当社には<b>リフォームがイメージできるモデルルーム</b>もありますので、いかがでしょうか？」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-g3-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 直接ヒアリングへ</div></div>
   <div class="branch-col no" onclick="navTo('bb-g3-shiryo')"><div class="branch-title no">✗ 資料だけでいい</div><div class="branch-arrow">→ 資料送付へ</div></div>
 </div></div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-g3-hear"><div class="step-top"><span class="step-badge sb-hear">G3来店OK</span><span class="step-title">ありがとうございます！希望条件をヒアリング</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではご来店の際に、より良いご提案ができるよう、少しだけ確認させてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
+<button class="jump-btn" onclick="navTo('bb-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
+<div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#C8C5BC;background:#fafaf8" id="bb-g3-shiryo"><div class="step-top"><span class="step-badge sb-warn">資料送付</span><span class="step-title">資料の送付方法を確認して終了</span></div>
 <div class="script-box">「かしこまりました。<b>メールと郵送</b>どちらがよろしいでしょうか？」<br>→ 送付先を確認 → 営業に引き継ぎ → 資料送付後に追電話</div></div>
@@ -1418,14 +1427,33 @@ function rpStopMic() {
     <div style="font-size:11px;color:#6B6860;background:#F9F8F5;border-radius:6px;padding:8px 10px;line-height:1.7"><b>話し方のポイント</b><br>・最初の1文は<b>ゆっくり誠実に</b>：相手の反発を「聞く耳」に変える<br>・「理由がありまして」からは<b>少しテンポを上げ</b>、プロとしての顔で伝える<br>・「<b>作戦</b>」という言葉でお客様と同じチームという仲間意識を持たせる</div>
   </div>
 </div>
-<div class="branch-grid" style="margin-top:8px">
-  <div class="branch-col yes" onclick="navTo('bb-appeal-loan')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-arrow">→ ローン訴求へ</div></div>
-  <div class="branch-col yes" onclick="navTo('bb-appeal-cash')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入予定</div><div class="branch-arrow">→ 非公開物件訴求へ</div></div>
+<div class="hint" style="margin-top:8px;margin-bottom:6px">※ 来店をすでに承諾している場合と、まだ誘導中の場合で分ける</div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr;margin-bottom:6px">
+  <div class="branch-col yes" onclick="navTo('bb-confirmed-loan')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">✅ 来店承諾済み<br>ローン利用</div><div class="branch-arrow">→ 期待値を高める</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-confirmed-cash')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">✅ 来店承諾済み<br>現金購入</div><div class="branch-arrow">→ 期待値を高める</div></div>
+</div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr">
+  <div class="branch-col yes" onclick="navTo('bb-appeal-loan')"><div class="branch-title yes">来店未承諾<br>ローン利用予定</div><div class="branch-arrow">→ 来店訴求へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-appeal-cash')" style="border-color:#6B6860"><div class="branch-title yes" style="color:#3D3B37">来店未承諾<br>現金購入</div><div class="branch-arrow">→ 来店訴求へ</div></div>
 </div></div>
 <div class="arr">↓</div>
 
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-confirmed-loan"><div class="step-top"><span class="step-badge sb-str">来店確定済み（ローン利用）</span><span class="step-title">来店を楽しみにしていただく・期待値を高める</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ご来店をお待ちしております。」</div>
+<div class="vivi-box" style="margin-bottom:8px">「当日は担当が○○様のご希望に合った物件を事前に調べてご用意しておきます。<br><br>せっかくお越しいただくので、<b>3つのことをご準備</b>しておきます。<br><br>1つ目は、<b>履歴を残さない安全なローン審査</b>です。複数の銀行で審査をすると信用情報に履歴が残ってしまいますが、弊社には履歴を残さずに借入可能額を把握できる独自のルートがあります。<br><br>2つ目は、<b>リノベーションのモデルルームのご見学</b>です。中古物件をお好みに綺麗にする場合のイメージをつかんでいただけます。<br><br>3つ目は、<b>業者専用のレインズで非公開物件をご覧いただける</b>ことです。SUUMOなどには出ない物件もご一緒に探せます。」</div>
+<div class="script-box">「当日いらっしゃる人数は何名様でしょうか？」</div>
+<button class="jump-btn" onclick="navTo('bb-apo')" style="margin-top:8px">→ 日程確定へ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-confirmed-cash"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">来店確定済み（現金購入）</span><span class="step-title">来店を楽しみにしていただく・期待値を高める</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ご来店をお待ちしております。」</div>
+<div class="vivi-box" style="margin-bottom:8px">「当日は担当が○○様のご希望に合った物件を事前に調べてご用意しておきます。<br><br>せっかくお越しいただくので、<b>2つのことをご準備</b>しておきます。<br><br>1つ目は、<b>業者専用のレインズで非公開物件をご覧いただける</b>ことです。現金購入の方は特に動きが速くできますので、掘り出し物をご一緒に探せます。<br><br>2つ目は、<b>リノベーションのモデルルームのご見学</b>です。弊社には自社工務部があり、中古物件をお好みに綺麗にする場合も他社より費用を抑えてワンストップでお手伝いできます。」</div>
+<div class="script-box">「当日いらっしゃる人数は何名様でしょうか？」</div>
+<button class="jump-btn" onclick="navTo('bb-apo')" style="margin-top:8px">→ 日程確定へ</button></div>
+<div class="arr">↓</div>
+
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-appeal-loan"><div class="step-top"><span class="step-badge sb-str">来店訴求（ローン利用）</span><span class="step-title">対話形式で3つのメリットを提示</span></div>
-<div class="green-box" style="margin-bottom:8px">「詳しく教えていただきありがとうございます！お客様のご希望、よくわかりました。」<br>「もしよろしければ、一度<b>「情報収集がてら」</b>お店に足を運んでみませんか？わざわざお越しいただくからには、絶対に損はさせない<b>3つのメリット</b>をご用意しているんです。」</div>
+<div class="green-box" style="margin-bottom:8px">「詳しく教えていただきありがとうございます！お客様のご希望、よくわかりました。」<br>「せっかくですので一度ご来店いただけませんか？わざわざお越しいただくからには、絶対に損はさせない<b>3つのお得なメリット</b>をご用意しています。」</div>
 <div class="vivi-box" style="margin-bottom:8px">「1つ目は、<b>「履歴を残さない安全なローン審査」</b>です。あちこちで審査をすると履歴が残って不利になりますが、弊社には履歴を残さずに<b>借入可能額や予算</b>を把握できる独自のルートがあります。」<br><br>「2つ目はいかがですか？<b>リノベーションのモデルルーム</b>を実際にご覧いただけます。弊社には自社工務部があり、中古をお好みに綺麗にする場合も他社より費用をグッと抑えてワンストップでお手伝いできます。」<br><br>「3つ目が一番喜ばれているのですが、<b>ネットに出ていない非公開物件</b>が見られます。業者専用の「レインズ」というサイトで、SUUMOなどに出ない掘り出し物をご紹介できます。」</div>
 <div class="script-box">「まだ本格的に決めていなくても全く構いません。<b>今週末の土日など、少しだけお時間は取れそうでしょうか？</b>」</div>
 <button class="jump-btn" onclick="navTo('bb-apo')" style="margin-top:8px">→ 日程打診へ</button></div>
