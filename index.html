@@ -1304,7 +1304,17 @@ function rpStopMic() {
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
   <div class="branch-col yes" onclick="navTo('bb-apo')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">来店・相談希望<br>案内希望</div><div class="branch-note" style="font-size:10px">「ありがとうございます！ではさっそく日程を決めましょう。」</div><div class="branch-arrow">→ 日程調整へ</div></div>
   <div class="branch-col yes" onclick="navTo('bb-group')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">その他の要望<br>（時間あり）</div><div class="branch-note" style="font-size:10px">詳細確認・ヒアリングが必要</div><div class="branch-arrow">→ グループ確認へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望確認後「30秒だけよろしいですか？」</div><div class="branch-arrow">→ 短いフックへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-tabou-youbou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望ヒアリングに徹する。フックは次回に</div><div class="branch-arrow">→ 要望ヒアリングへ</div></div>
+</div></div>
+
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou-youbou"><div class="step-top"><span class="step-badge sb-hook">多忙時の要望ヒアリング</span><span class="step-title">30秒で要望だけ確認して次回電話につなぐ</span></div>
+<div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
+<div class="script-box" style="margin-bottom:8px">「どのような情報をご希望でしょうか？資料のお送りや、詳しいご説明など、ご要望をお聞かせいただけますか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的な要望をメモする（資料送付・周辺環境・価格交渉・他の物件なども含む）</span></div>
+<div class="script-box" style="margin-bottom:8px">「承知しました。<b>担当よりご連絡させていただきます。</b>次回はお客様のご要望に合わせた情報もご用意してご連絡いたします。いつ頃でしたらお電話よろしいでしょうか？」<br>→ 日時を確認してメモ → 電話を切る</div>
+<div style="background:#FEF3E2;border-left:3px solid #EF9F27;border-radius:6px;padding:8px 12px;font-size:11px;color:#7A4500;line-height:1.7">
+  <b>📋 次回電話時の注意</b><br>
+  今回は要望ヒアリングに徹する。フック（非公開物件・ローン審査）は次回電話の冒頭でかける。<br>
+  「前回○○についてお聞きしましたが、実はもうひとつ知っておいて得な情報がありまして…」と自然につなぐ。
 </div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou"><div class="step-top"><span class="step-badge sb-hook">多忙ルート STEP1</span><span class="step-title">共感＋30秒お願い</span></div>
