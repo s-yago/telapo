@@ -1299,14 +1299,16 @@ function rpStopMic() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・お電話の目的</span></div>
-<div class="script-box">「先ほど弊社ホームページより<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
-<div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-group')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ グループ確認へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-arrow">→ 短いフックへ</div></div>
+<div class="script-box" style="margin-bottom:8px">「先ほど弊社ホームページより<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日はお問い合わせいただいた物件の<b>○○○（要望項目）</b>をご希望ということでよろしいでしょうか？」</div>
+<div class="hint" style="margin-bottom:8px">※ フォームのチェック項目を事前に確認。要望内容によってすぐ日程調整に進む</div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
+  <div class="branch-col yes" onclick="navTo('bb-apo')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">来店・相談希望<br>案内希望</div><div class="branch-note" style="font-size:10px">「ありがとうございます！ではさっそく日程を決めましょう。」</div><div class="branch-arrow">→ 日程調整へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-group')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">その他の要望<br>（時間あり）</div><div class="branch-note" style="font-size:10px">詳細確認・ヒアリングが必要</div><div class="branch-arrow">→ グループ確認へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望確認後「30秒だけよろしいですか？」</div><div class="branch-arrow">→ 短いフックへ</div></div>
 </div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou"><div class="step-top"><span class="step-badge sb-hook">多忙ルート STEP1</span><span class="step-title">共感＋30秒お願い</span></div>
-<div class="script-box">「そうですか、失礼しました。<b>30秒だけ</b>よろしいですか？」</div></div>
+<div class="script-box">「そうですか、失礼しました。ご要望は承りました。<b>30秒だけ</b>よろしいですか？」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou-reinz"><div class="step-top"><span class="step-badge sb-hook">多忙ルート STEP2</span><span class="step-title">レインズの説明（非公開物件）</span></div>
@@ -1345,8 +1347,7 @@ function rpStopMic() {
 <div class="arr">↓（時間ありの場合）</div>
 
 <div class="step-card" id="bb-group"><div class="step-top"><span class="step-badge sb-hear">STEP 1</span><span class="step-title">お問い合わせ内容を照合・確認してグループ分け</span></div>
-<div class="script-box" style="margin-bottom:8px">「本日はお問い合わせいただいた物件の<b>○○○（要望項目）</b>をご希望ということでよろしいでしょうか？」</div>
-<div class="hint" style="margin-bottom:8px">※ 問い合わせフォームのチェック項目を事前に確認し、お客様の選択内容を読み上げて照合する</div>
+<div class="hint" style="margin-bottom:8px">※ 挨拶時に要望確認済み。以下のグループに振り分ける</div>
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
   <div class="branch-col yes" onclick="navTo('bb-g1')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">グループ1<br>来店・相談希望</div><div class="branch-note" style="font-size:10px">・お店で相談したい<br>・購入を相談したい<br>・他の物件も紹介して</div></div>
   <div class="branch-col yes" onclick="navTo('bb-g2')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">グループ2<br>内見希望</div><div class="branch-note" style="font-size:10px">・実際に物件を見たい</div></div>
