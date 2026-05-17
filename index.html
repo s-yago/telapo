@@ -307,6 +307,28 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 </div>
 
 <script>
+
+// ===== PASSWORD =====
+function checkPw(){
+  var PW = 'vivi-telapo';
+  var val = document.getElementById('pw-input').value;
+  if(val === PW){
+    sessionStorage.setItem('vivi_auth','1');
+    document.getElementById('pw-screen').style.display='none';
+  } else {
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+(function(){
+  var PW = 'vivi-telapo';
+  if(sessionStorage.getItem('vivi_auth')==='1'){
+    var s=document.getElementById('pw-screen');
+    if(s) s.style.display='none';
+  }
+})();
+
 // ===== STATE =====
 let currentMode = null; // 'sell' or 'buy'
 let currentId = null;
@@ -1294,25 +1316,6 @@ function rpStopMic() {
 
 </body>
 </html>
-
-// ===== PASSWORD =====
-(function(){
-  var PW = 'vivi-telapo';
-  var ok = sessionStorage.getItem('vivi_auth') === '1';
-  if(ok){ document.getElementById('pw-screen').style.display='none'; }
-})();
-function checkPw(){
-  var PW = 'vivi-telapo';
-  var val = document.getElementById('pw-input').value;
-  if(val === PW){
-    sessionStorage.setItem('vivi_auth','1');
-    document.getElementById('pw-screen').style.display='none';
-  } else {
-    document.getElementById('pw-err').style.display='block';
-    document.getElementById('pw-input').value='';
-    document.getElementById('pw-input').focus();
-  }
-}
 
 </script>
 
