@@ -635,7 +635,7 @@ function sellScript() {
 <div class="step-card" id="s-kansha"><div class="step-top"><span class="step-badge sb-hook">感謝＋フック投下</span><span class="step-title">ヒアリング完了 → 損失回避トーク</span></div>
 <div class="green-box">「いろいろ答えていただきありがとうございます。とても助かります。」</div>
 <div class="hook-box" style="margin-top:8px">「せっかくのご縁ですのでこれだけは知っておいてください！査定や売却で一番失敗するパターンのことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
-<button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
+</div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">机上査定 or 訪問査定のご提案</span></div>
 <div class="script-box">「査定には<b>おおまかな金額を出す「机上査定」</b>と、<b>正確な売却金額・諸費用・税引き後の手取り額もわかる「訪問査定」</b>の二種類ありますが、どちらがよろしいでしょうか？」</div>
@@ -676,7 +676,7 @@ function sellScript() {
 </div></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 営業に引き継ぎ</span></div>
-<div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b><br>→ 営業より<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+<div class="script-box">「かしこまりました。おおまかな金額のみの机上査定でよろしいですね。査定結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b><br>→ 営業より：<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="s-noint-visit"><div class="step-top"><span class="step-badge sb-apo">訪問査定</span><span class="step-title">訪問査定の場合 → 感謝＋日程確定</span></div>
 <div class="green-box" style="margin-bottom:8px">「訪問査定のご依頼ありがとうございます。」</div>
@@ -738,7 +738,7 @@ function sellScript() {
 <div class="script-box" style="margin-bottom:5px"><b>「他社で決まりそう」</b>→ 「不動産会社はどこも同じではありません。そこの会社で決める方向でもちろん構いませんが、ぜひ比較いただけないでしょうか。選ぶべき不動産会社が分かる4つの質問のチェックシートも差し上げますので参考にしてみてください。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>「仲介手数料はいくら？」「賃貸中でも？」「残債があっても？」「相場はいくら？」</b>→ 「いろいろご興味をお持ちいただきありがとうございます。よろしければ改めて担当よりご連絡させていただきます。（または担当に代わらせていただきます）」</div>
 <div class="script-box" style="margin-bottom:5px"><b>※ ヒアリングを嫌がる</b>→ 「詳細は担当からご説明しますので、まずは日程だけ調整させてください。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>※ 温度感が高い</b>→ 電話に出やすい時間帯・メアドを優先確認し、スピーディに来店アポへ。</div>
+<div class="script-box" style="margin-bottom:5px"><b>※ 温度感が高い</b>→ 電話に出やすい時間帯・メアドを優先確認し、スピーディに訪問査定アポへ。</div>
 <div class="script-box"><b>※ 売却理由を言いたくない</b>→ 「おっしゃらなくて大丈夫です。それでは物件の確認をさせてください。」</div></div>`;
 }
 
@@ -1275,16 +1275,12 @@ function rpStopMic() {
       <div class="dq-option-text">「<b>専門のスタッフから改めてお電話させていただいてもよろしいでしょうか？</b>」<br>→「お電話しやすいお日にちとお時間帯はいつ頃でしょうか？」</div></div>
       <div class="dq-divider" style="color:#0C447C;font-weight:700">↓ 日時確認後、そのままヒアリングへ！</div>
       <div class="dq-option" style="background:#E6F1FB;border-left:3px solid #1A6DB5">
-        <div class="dq-option-title" style="color:#0C447C">【折り返し後のヒアリングへ自然につなぐ】</div>
-        <div class="dq-option-text" style="color:#042C53">「ありがとうございます。その際に<b>○○様にピッタリの物件があればご紹介できるよう</b>、少しだけ教えていただいてもよろしいでしょうか？」<br><br>
-        <b>① ご予算</b>「おおよそのご予算はどのくらいをお考えですか？」<br>
-        <b>② ご希望エリア</b>「ご希望の地域や沿線はございますか？」<br>
-        <b>③ 購入時期</b>「いつ頃までにとお考えですか？」<br>
-        <b>④ 物件の種別</b>「マンション・戸建・土地など、ご希望はありますか？」<br><br>
-        <span style="font-size:12px;color:#0C447C;font-weight:700">→ ヒアリング後：</span><br>
-        「ありがとうございます。専門のスタッフから改めてご連絡する際に、<b>○○様のご希望に合った物件もあわせてご提案させていただきます。</b>楽しみにしていてください！」</div>
+        <div class="dq-option-title" style="color:#0C447C">【日時確認後につなぐ一言】</div>
+        <div class="dq-option-text" style="color:#042C53">「ほかにもご質問やお気になることはございませんでしょうか。」<br><br>
+        <span style="font-size:12px;color:#042C53">（質問を受けた後）</span><br>
+        「○○の件、承りました。こちらも含めて担当に申し伝えさせていただきます。」</div>
       </div>
-      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ ヒアリング内容は右パネルのメモ欄に必ず記入して保存してください</div>
+      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ 内容は右パネルのメモ欄に必ず記入して保存してください</div>
     </div>
     <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
   </div>
