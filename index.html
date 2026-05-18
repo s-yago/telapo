@@ -1306,7 +1306,7 @@ function rpStopMic() {
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
   <div class="branch-col yes" onclick="navTo('bb-apo')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">来店・相談希望<br>案内希望</div><div class="branch-note" style="font-size:10px">「ありがとうございます！ではさっそく日程を決めましょう。」</div><div class="branch-arrow">→ 日程調整へ</div></div>
   <div class="branch-col yes" onclick="navTo('bb-group')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">その他の要望<br>（時間あり）</div><div class="branch-note" style="font-size:10px">詳細確認・ヒアリングが必要</div><div class="branch-arrow">→ グループ確認へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-tabou-youbou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望ヒアリングに徹する。フックは次回に</div><div class="branch-arrow">→ 要望ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望ヒアリングに徹する。フックは次回に</div><div class="branch-arrow">→ 要望ヒアリングへ</div></div>
 </div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou-youbou"><div class="step-top"><span class="step-badge sb-hook">多忙時の要望ヒアリング</span><span class="step-title">30秒で要望だけ確認して次回電話につなぐ</span></div>
@@ -1319,9 +1319,8 @@ function rpStopMic() {
   「前回○○についてお聞きしましたが、実はもうひとつ知っておいて得な情報がありまして…」と自然につなぐ。
 </div></div>
 
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou"><div class="step-top"><span class="step-badge sb-hook">多忙ルート</span><span class="step-title">30秒で要望確認→フック→反応を見て判断</span></div>
-<div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
-<div class="script-box" style="margin-bottom:8px">「どのような情報をご希望でしょうか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 要望をメモ。その流れで自然に次の話へつなぐ</span></div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-tabou"><div class="step-top"><span class="step-badge sb-hook">来店躊躇時フック</span><span class="step-title">メリットを伝えて来店の背中を押す</span></div>
+<div class="script-box" style="margin-bottom:8px">「実はご来店いただくと<b>3つのメリット</b>がありまして、<b>30秒だけ</b>聞いていただけますか？」</div>
 <div class="hook-box" style="margin-bottom:8px">「実は不動産業者だけが使える<b>「レインズ」</b>という専用サイトがありまして、アットホームやSUUMOなどには載っていない<b>非公開物件</b>も掲載されているんです。これはお店でしかお見せできないので、ご来店いただいた方だけにご紹介できる仕組みになっています。」<br><br>「ちなみに今回、住宅ローンのご利用はお考えでしょうか？」</div>
 <div class="branch-grid" style="margin-bottom:8px">
   <div class="branch-col yes" onclick="navTo('bb-tabou-loan')"><div class="branch-title yes">✓ ローン利用予定</div><div class="branch-arrow">→ ローンの説明へ</div></div>
@@ -1331,7 +1330,7 @@ function rpStopMic() {
 <div class="hook-box">「実は普通に複数の銀行で審査をすると<b>個人信用情報に履歴が残って</b>しまい、後々ローン審査に不利になることがあります。弊社には<b>ローン審査の履歴を残さずに審査できる独自のルート</b>がありまして、多くのお客様に喜んでいただいています。」</div>
 <button class="jump-btn" onclick="navTo('bb-tabou-come')" style="margin-top:8px">→ 来店打診へ</button></div>
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc;margin-top:8px" id="bb-tabou-come"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">反応を見て来店か次回電話か判断</span></div>
-<div class="script-box" style="margin-bottom:8px">「ぜひ一度、詳しいお話をお聞かせいただければと思うのですが、<b>今週末など少しだけお時間いただけませんか？</b>」</div>
+<div class="script-box" style="margin-bottom:8px">「いかがでしょうか？ぜひ<b>今週末など少しだけ</b>お越しいただけませんか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ ヒアリングへ</div></div>
   <div class="branch-col no"><div class="branch-title no">✗ 難しい・忙しい</div><div class="branch-note">「承知しました。それでは改めてご連絡させていただきます。次回はご要望に合った情報もご用意してご連絡いたします。<b>いつ頃でしたらお電話よろしいでしょうか？</b>」→ 日時メモ → 電話を切る<br><br><span style="font-size:11px;color:#7A4500">📋 次回電話冒頭で：「前回○○についてお聞きしましたが、実はもうひとつ知っておいて得な情報がありまして…」と自然につなぐ</span></div></div>
@@ -1464,7 +1463,11 @@ function rpStopMic() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="bb-apo"><div class="step-top"><span class="step-badge sb-apo">日程調整</span><span class="step-title">来店日程を確定する</span></div>
-<div class="script-box">「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div></div>
+<div class="script-box" style="margin-bottom:8px">「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-hosoku')"><div class="branch-title yes">✓ 日程確定</div><div class="branch-arrow">→ 補足ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">✗ 躊躇している</div><div class="branch-note">「実は来店いただくメリットがありまして…」</div><div class="branch-arrow">→ 30秒フックへ</div></div>
+</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
