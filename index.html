@@ -1341,7 +1341,7 @@ function rpStopMic() {
 <div class="step-card" id="bb-group"><div class="step-top"><span class="step-badge sb-hear">STEP 1</span><span class="step-title">お問い合わせ内容を照合・確認してグループ分け</span></div>
 <div class="hint" style="margin-bottom:8px">※ 挨拶時に要望確認済み。以下のグループに振り分ける</div>
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
-  <div class="branch-col yes" onclick="navTo('bb-g1')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">グループ1<br>来店・相談希望</div><div class="branch-note" style="font-size:10px">・お店で相談したい<br>・購入を相談したい<br>・他の物件も紹介して</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-hear')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">グループ1<br>来店・相談希望</div><div class="branch-note" style="font-size:10px">・お店で相談したい<br>・購入を相談したい<br>・他の物件も紹介して</div><div class="branch-arrow">→ ヒアリングへ直接</div></div>
   <div class="branch-col yes" onclick="navTo('bb-g2')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">グループ2<br>内見希望</div><div class="branch-note" style="font-size:10px">・実際に物件を見たい</div></div>
   <div class="branch-col no" onclick="navTo('bb-g3')"><div class="branch-title no">グループ3<br>情報収集</div><div class="branch-note" style="font-size:10px">・詳細が知りたい<br>・資料を送って<br>・写真・間取りを見たい</div></div>
 </div></div>
@@ -1361,13 +1361,17 @@ function rpStopMic() {
   <div class="branch-col no" onclick="navTo('bb-g2-genchi')"><div class="branch-title no">✗ 現地で会いたい</div><div class="branch-arrow">→ 現地対応へ</div></div>
 </div></div>
 
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-g2-genchi"><div class="step-top"><span class="step-badge sb-warn">現地希望の場合</span><span class="step-title">お客様の希望を受け入れて現地へ</span></div>
-<div class="script-box" style="margin-bottom:6px">「かしこまりました。それでは<b>現地でのご案内</b>を調整いたします。」</div>
-<div class="script-box">「念のため確認させてください。住所をお伝えしての<b>お一人での見学</b>をご希望ですか？それとも<b>担当がご案内</b>する形がよろしいですか？」</div>
-<div class="branch-grid">
-  <div class="branch-col no"><div class="branch-title no">住所だけ教えて</div><div class="branch-note">「申し訳ございません、住所のみのお伝えは対応しておりません。担当からご連絡させていただきます。」</div></div>
-  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">担当に案内してほしい</div><div class="branch-arrow">→ ヒアリングへ（日程調整）</div></div>
-</div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-g2-genchi"><div class="step-top"><span class="step-badge sb-warn">現地希望の場合</span><span class="step-title">担当が必ず同行する形で現地へ</span></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。ぜひ担当がご案内させていただきます。現地でお待ち合わせいたしましょう。」</div>
+<div class="script-box" style="margin-bottom:8px">「物件の場所はご存知でしょうか？」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo('bb-g2-genchi-date')"><div class="branch-title yes">✓ 場所がわかる</div><div class="branch-note">「では現地でお待ち合わせいたします。」→ 日程調整へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-g2-genchi-date')"><div class="branch-title no">場所がわからない</div><div class="branch-note">「近くのわかりやすい目印になる場所（コンビニ・駅など）でお待ち合わせはいかがでしょうか？」→ 待ち合わせ場所を確認して日程調整へ</div></div>
+</div>
+<div class="memo-pill">⚠️ 住所だけ教えてほしいと言われた場合は「申し訳ございません。担当がご案内する形のみとなっております。」とお断りする</div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8;margin-top:8px" id="bb-g2-genchi-date"><div class="step-top"><span class="step-badge sb-apo">現地待ち合わせ日程調整</span><span class="step-title">日時を確定して補足ヒアリング</span></div>
+<div class="script-box" style="margin-bottom:8px">「週末か平日でしたらどちらがご都合よろしいでしょうか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:6px">→ 補足ヒアリングへ</button></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#C8C5BC;background:#fafaf8" id="bb-g3"><div class="step-top"><span class="step-badge sb-warn">グループ3</span><span class="step-title">情報収集 → まず要望を聞いてからフック</span></div>
