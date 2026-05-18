@@ -187,7 +187,7 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 .pw-input:focus{outline:none;border-color:#1A6DB5}
 .pw-btn{width:100%;background:#0C447C;color:white;border:none;padding:12px;border-radius:8px;font-size:14px;font-family:inherit;font-weight:500;cursor:pointer}
 .pw-btn:hover{background:#1A6DB5}
-.pw-err{font-size:12px;color:#8B1A00;margin-top:8px;display:none}
+.pw-err{font-size:12px;color:#8B1A00;margin-top:8px;padding:6px 10px;background:#FDE8E4;border-radius:6px;display:none}
 
 
 /* ===== MOBILE RESPONSIVE ===== */
@@ -294,9 +294,12 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
   <div class="pw-box">
     <div class="pw-logo">vivi<span>不動産</span></div>
     <div class="pw-sub">テレアポツール</div>
-    <input class="pw-input" id="pw-input" type="password" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')checkPw()"/>
+    <div style="position:relative;margin-bottom:10px">
+      <input class="pw-input" id="pw-input" type="password" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')checkPw()" style="margin-bottom:0;padding-right:44px"/>
+      <button onclick="togglePwView()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:#6B6860;line-height:1" id="pw-eye">👁</button>
+    </div>
     <button class="pw-btn" onclick="checkPw()">ログイン</button>
-    <div class="pw-err" id="pw-err">パスワードが違います</div>
+    <div class="pw-err" id="pw-err" style="display:none">⚠️ パスワードが違います。もう一度入力してください。</div>
   </div>
 </div>
 
@@ -404,6 +407,17 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 <script>
 
 // ===== PASSWORD =====
+function togglePwView(){
+  var input=document.getElementById('pw-input');
+  var eye=document.getElementById('pw-eye');
+  if(input.type==='password'){
+    input.type='text';
+    eye.textContent='🙈';
+  } else {
+    input.type='password';
+    eye.textContent='👁';
+  }
+}
 function checkPw(){
   var PW = 'vivi-telapo';
   var val = document.getElementById('pw-input').value;
@@ -740,7 +754,9 @@ function buildScript(mode) {
   } else if (mode === 'buy_bukken') {
     el.innerHTML = document.getElementById('bukken-script-template').innerHTML;
   } else {
-    el.innerHTML = buyScript();
+    var base = buyScript();
+    var extra = document.getElementById('b-apo-template');
+    el.innerHTML = base + (extra ? extra.innerHTML : '');
   }
 }
 
@@ -963,6 +979,12 @@ function buyScript() {
   <div class="branch-col yes" onclick="navTo('b-apo-loan')"><div class="branch-title yes">✓ ローン利用予定・未定</div><div class="branch-arrow">→ 無料簡易審査・お得なローンを訴求</div></div>
   <div class="branch-col no" onclick="navTo('b-cash')"><div class="branch-title no">現金購入予定</div><div class="branch-arrow">→ 非公開物件・スピード対応を訴求</div></div>
 </div></div>
+`;
+}
+</script>
+
+<!-- 会員登録来店訴求テンプレート -->
+<div id="b-apo-template" style="display:none">
 <div class="arr">↓</div>
 <div class="step-card" id="b-apo-loan"><div class="step-top"><span class="step-badge sb-str">来店訴求</span><span class="step-title">メリット1→2→3の順で対話形式で来店打診</span></div>
 <div class="green-box" style="margin-bottom:8px">「詳しく教えていただきありがとうございます！お客様のご希望、よくわかりました。」<br>「せっかくですので一度ご来店いただけませんか？わざわざお越しいただくからには、<b>3つのお得なメリット</b>をご用意しています。」</div>
@@ -986,5 +1008,6 @@ function buyScript() {
   <div class="branch-col yes" onclick="navTo('b-apo')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 来店日程へ</div></div>
   <div class="branch-col no" onclick="navTo('b-cash')"><div class="branch-title no">✗ 難しい</div><div class="branch-arrow">→ WEB面談・次回電話へ</div></div>
 </div></div>
-
->
+</div>
+</body>
+</html>
