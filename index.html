@@ -1025,7 +1025,7 @@ function buyScript() {
 <div class="script-box" style="margin-bottom:8px">「先ほど<b>○○○（アットホーム・スーモ・当社HPなど）</b>より<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日はお問い合わせいただいた物件の<b>○○○（要望項目）</b>をご希望ということでよろしいでしょうか？」</div>
 <div class="hint" style="margin-bottom:8px">※ フォームのチェック項目を事前に確認。要望内容によってすぐ日程調整に進む</div>
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
-  <div class="branch-col yes" onclick="navTo('bb-apo')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">来店・相談希望<br>案内希望</div><div class="branch-note" style="font-size:10px">「ありがとうございます！ではさっそく日程を決めましょう。」</div><div class="branch-arrow">→ 日程調整へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-come-first')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">来店・相談希望<br>案内希望</div><div class="branch-note" style="font-size:10px">「ありがとうございます！」→ まず来店誘導へ</div><div class="branch-arrow">→ 来店誘導へ</div></div>
   <div class="branch-col yes" onclick="navTo('bb-group')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">その他の要望<br>（時間あり）</div><div class="branch-note" style="font-size:10px">詳細確認・ヒアリングが必要</div><div class="branch-arrow">→ グループ確認へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-tabou')"><div class="branch-title no">今は忙しい</div><div class="branch-note" style="font-size:10px">要望確認後「30秒だけよろしいですか？」</div><div class="branch-arrow">→ フックへ</div></div>
 </div></div>
@@ -1044,11 +1044,25 @@ function buyScript() {
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc;margin-top:8px" id="bb-tabou-come"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">反応を見て来店か次回電話か判断</span></div>
 <div class="script-box" style="margin-bottom:8px">「ぜひ一度、<b>今週末など少しだけ</b>お越しいただけませんか？」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ ヒアリングへ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-come-first')"><div class="branch-title yes">✓ 興味あり</div><div class="branch-arrow">→ 来店誘導へ</div></div>
   <div class="branch-col no"><div class="branch-title no">✗ 難しい</div><div class="branch-note">「承知しました。それでは改めてご連絡させていただきます。<b>いつ頃でしたらお電話よろしいでしょうか？</b>」→ 日時メモ → 電話を切る<br><span style="font-size:11px;color:#7A4500">📋 次回電話冒頭でフックをかける</span></div></div>
 </div></div>
 </div>
-<div class="arr">↓</div>
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-come-first"><div class="step-top"><span class="step-badge sb-str">まず来店誘導</span><span class="step-title">どの約束でも必ず来店を優先して提案</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ぜひ一度<b>当社にお越しいただけませんか？</b><br>ご来店いただければ、○○（物件名）以外の<b>非公開物件</b>もご覧いただけますし、リフォームのイメージができる<b>モデルルーム</b>もございます。」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-genchi-first')"><div class="branch-title no">✗ 現地がいい</div><div class="branch-arrow">→ 現地集合へ</div></div>
+</div></div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-genchi-first"><div class="step-top"><span class="step-badge sb-warn">現地集合</span><span class="step-title">現地での待ち合わせを調整する</span></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。では担当がご案内いたします。物件の場所はご存知でしょうか？」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 場所がわかる</div><div class="branch-note">「では現地でお待ち合わせいたします。」</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-hear')"><div class="branch-title no">場所がわからない</div><div class="branch-note">「近くのわかりやすい目印（コンビニ・駅など）でお待ち合わせはいかがでしょうか？」</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+</div>
+<div class="memo-pill">⚠️ 住所だけ教えてほしいと言われた場合「申し訳ございません。担当がご案内する形のみとなっております。」</div></div>
+<div class="arr">↓（どちらの場合も条件ヒアリングへ）</div>
+
 <div class="step-card" id="bb-group"><div class="step-top"><span class="step-badge sb-hear">STEP 1</span><span class="step-title">お問い合わせ内容を照合・確認してグループ分け</span></div>
 <div class="hint" style="margin-bottom:8px">※ 挨拶時に要望確認済み。以下のグループに振り分ける</div>
 <div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr">
@@ -1057,30 +1071,25 @@ function buyScript() {
   <div class="branch-col no" onclick="navTo('bb-g3')"><div class="branch-title no">グループ3<br>情報収集</div><div class="branch-note" style="font-size:10px">・詳細が知りたい<br>・資料を送って<br>・写真・間取りを見たい</div></div>
 </div></div>
 <div class="arr">↓</div>
-<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-g2"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">グループ2</span><span class="step-title">内見希望 → 来店フックをかけて来店打診</span></div>
-<div class="script-box" style="margin-bottom:8px">「ありがとうございます。もちろん内見のご案内は可能です。ただ、初めてのお客様には、まず一度ご来店いただいてから現地にご案内するようにしております。」</div>
-<div class="vivi-box" style="margin-bottom:8px">「ご来店いただければ、<b>○○以外の類似の非公開物件</b>もあわせてご覧いただけますし、<b>住宅ローンの審査方法</b>についても担当から直接ご説明できます。多くのお客様に喜んでいただいています。」</div>
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-g2"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">グループ2</span><span class="step-title">内見希望 → まず来店を提案・断られたら現地へ</span></div>
+<div class="script-box" style="margin-bottom:8px">「ありがとうございます。ぜひ一度<b>当社にお越しいただけませんか？</b>ご来店いただければ、○○以外の<b>非公開物件</b>もあわせてご覧いただけますし、リフォームのイメージができる<b>モデルルーム</b>もございます。」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ ヒアリングへ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-g2-genchi')"><div class="branch-title no">✗ 現地で会いたい</div><div class="branch-arrow">→ 現地対応へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-g2-genchi')"><div class="branch-title no">✗ 現地がいい</div><div class="branch-arrow">→ 現地集合へ</div></div>
 </div></div>
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-g2-genchi"><div class="step-top"><span class="step-badge sb-warn">現地希望の場合</span><span class="step-title">担当が必ず同行する形で現地へ</span></div>
-<div class="script-box" style="margin-bottom:8px">「かしこまりました。ぜひ担当がご案内させていただきます。現地でお待ち合わせいたしましょう。」</div>
-<div class="script-box" style="margin-bottom:8px">「物件の場所はご存知でしょうか？」</div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-g2-genchi"><div class="step-top"><span class="step-badge sb-warn">現地集合</span><span class="step-title">担当が必ず同行する形で現地へ</span></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。では担当がご案内いたします。物件の場所はご存知でしょうか？」</div>
 <div class="branch-grid" style="margin-bottom:8px">
-  <div class="branch-col yes" onclick="navTo('bb-g2-genchi-date')"><div class="branch-title yes">✓ 場所がわかる</div><div class="branch-note">「では現地でお待ち合わせいたします。」→ 日程調整へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-g2-genchi-date')"><div class="branch-title no">場所がわからない</div><div class="branch-note">「近くのわかりやすい目印になる場所でお待ち合わせはいかがでしょうか？」→ 日程調整へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ 場所がわかる</div><div class="branch-note">「では現地でお待ち合わせいたします。」</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-hear')"><div class="branch-title no">場所がわからない</div><div class="branch-note">「近くのわかりやすい目印（コンビニ・駅など）でお待ち合わせはいかがでしょうか？」</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
 </div>
-<div class="memo-pill">⚠️ 住所だけ教えてほしいと言われた場合は「申し訳ございません。担当がご案内する形のみとなっております。」とお断りする</div></div>
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-g2-genchi-date"><div class="step-top"><span class="step-badge sb-apo">現地待ち合わせ日程調整</span><span class="step-title">日時を確定して補足ヒアリング</span></div>
-<div class="script-box">「週末か平日でしたらどちらがご都合よろしいでしょうか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
-<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:6px">→ 補足ヒアリングへ</button></div>
+<div class="memo-pill">⚠️ 住所だけ教えてほしいと言われた場合「申し訳ございません。担当がご案内する形のみとなっております。」</div></div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#C8C5BC;background:#fafaf8" id="bb-g3"><div class="step-top"><span class="step-badge sb-warn">グループ3</span><span class="step-title">情報収集 → まず要望を聞いてからフック</span></div>
 <div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする</span></div>
 <div class="script-box" style="margin-bottom:8px">「承知しました。もしよろしければ、一度ご来店いただければ、ネットに出ていない<b>非公開物件や類似物件</b>もあわせてご覧いただけます。また当社には<b>リフォームがイメージできるモデルルーム</b>もありますので、いかがでしょうか？」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-g3-hear')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 直接ヒアリングへ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-come-first')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ まず来店誘導へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-g3-shiryo')"><div class="branch-title no">✗ 資料だけでいい</div><div class="branch-arrow">→ 資料送付へ</div></div>
 </div></div>
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-g3-hear"><div class="step-top"><span class="step-badge sb-hear">G3来店OK</span><span class="step-title">ありがとうございます！希望条件をヒアリング</span></div>
