@@ -708,7 +708,8 @@ function buildNav(mode) {
       <div class="nav-item branch-no" data-target="b-rule2" onclick="navTo('b-rule2')">⏰ ルール2：時間がない</div>
       <div class="nav-section">共通</div>
       <div class="nav-item branch-yes" data-target="b-date" onclick="navTo('b-date')">📅 日程確定</div>
-      <div class="nav-item branch-yes" data-target="b-hear-come" onclick="navTo('b-hear-come')">📋 ヒアリング（来店予定）</div>
+      <div class="nav-item branch-yes" data-target="b-hear-before" onclick="navTo('b-hear-before')">📋 ヒアリング（来店前）</div>
+      <div class="nav-item branch-yes" data-target="b-hear-come" onclick="navTo('b-hear-come')">📋 ヒアリング（来店確定後）</div>
       <div class="nav-item" data-target="b-hook" onclick="navTo('b-hook')">🎯 来店フック1〜3</div>
       <div class="nav-item branch-no" data-target="b-hear-nocome" onclick="navTo('b-hear-nocome')">📋 ヒアリング（来店なし）</div>
       <div class="nav-item" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 連絡先確認</div>
@@ -922,7 +923,7 @@ function buyScript() {
 <!-- ルール1：時間あり -->
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="b-rule1"><div class="step-top"><span class="step-badge sb-str">ルール1</span><span class="step-title">時間あり → まず条件ヒアリング → フックで来店誘導 → 日程確定</span></div>
 <div class="script-box">「ありがとうございます。ではいくつかお伺いしてもよろしいでしょうか？」</div>
-<button class="jump-btn" onclick="navTo(\'b-hear-come\')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
+<button class="jump-btn" onclick="navTo(\'b-hear-before\')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
 <div class="arr">↓</div>
 
 <!-- ルール2：時間がない -->
@@ -943,8 +944,17 @@ function buyScript() {
 <button class="jump-btn" onclick="navTo(\'b-hear-come\')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
 <div class="arr">↓</div>
 
-<div class="step-card" id="b-hear-come"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング（来店予定）</span><span class="step-title">ご来店時に合った物件をご用意するために</span></div>
-<div class="script-box" style="margin-bottom:8px">「ご来店いただいたときにお客様にぴったりの物件をご用意しておきたいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
+<div class="step-card" id="b-hear-before"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング（来店未確定）</span><span class="step-title">お客様のご希望を把握するために</span></div>
+<div class="script-box" style="margin-bottom:8px">「ネット非公開の物件も含めてお客様にぴったりの物件をご紹介したいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いものですから、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
+<button class="jump-btn" onclick="navTo(\'b-hook\')" style="margin-top:8px">→ 来店フックへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-hear-come"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング（来店確定後）</span><span class="step-title">ご来店時に合った物件をご用意するために</span></div>
+<div class="script-box" style="margin-bottom:8px">「ご来店いただくにあたり、お客様にぴったりの物件を事前にご用意しておきたいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いものですから、大体で良いのですがご希望エリアを教えていただけますか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
 <div class="script-box"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
