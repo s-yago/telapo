@@ -734,7 +734,7 @@ function sellScript() {
 <div class="script-box">「先ほど<b>○○（査定サイト名）</b>より査定のご依頼をいただきまして誠にありがとうございます。いくつか確認させていただいてもよろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-jiyuu')"><div class="branch-title yes">✓ 時間あり</div><div class="branch-arrow">→ ヒアリング本流へ</div></div>
-  <div class="branch-col no" onclick="navTo('s-tabou')"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-arrow">→ 1分ルートへ</div></div>
+  <div class="branch-col no" onclick="navTo('s-tabou')"><div class="branch-title no">✗ NO（多忙）</div><div class="branch-arrow">→ 30秒ルートへ</div></div>
 </div></div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="s-jiyuu"><div class="step-top"><span class="step-badge sb-hear">最初に</span><span class="step-title">申込みの理由を確認する（本気 or 冷やかし）</span></div>
@@ -755,7 +755,7 @@ function sellScript() {
 
 <div class="step-card" id="s-kansha"><div class="step-top"><span class="step-badge sb-hook">感謝＋フック投下</span><span class="step-title">ヒアリング完了 → 損失回避トーク</span></div>
 <div class="green-box">「いろいろ答えていただきありがとうございます。とても助かります。」</div>
-<div class="hook-box" style="margin-top:8px">「実はお役立ていただける情報が一つあるのですが、よろしいですか？<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div>
+<div class="hook-box" style="margin-top:8px">「実は<b>不動産の会社選びで失敗をされる方が多い</b>ので、知っておいていただきたい情報が一つあります。<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、一番多い失敗は<b>「一番高い査定額を出した会社に任せてしまう」</b>ことです。高すぎる価格で売り出すと結局買い手がつかず、売れ残ってしまい、最終的には<b>相場より安く手放すことになりかねません。</b>会社選びは、<b>査定額の高さだけで決めないこと</b>が成功の秘訣となります。」</div>
 <button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-cold"><div class="step-top"><span class="step-badge sb-warn">冷やかし対応</span><span class="step-title">冷やかし 又は 打合せNOだった場合　机上査定 or 訪問査定のご提案</span></div>
@@ -769,16 +769,16 @@ function sellScript() {
 <div class="script-box" style="margin-bottom:8px">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b></div>
 <div class="script-box">営業より：「<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
 
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋お詫び＋1分お願い</span></div>
-<div class="script-box">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div></div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋30秒お願い</span></div>
+<div class="script-box">「そうですか、失礼しました。では<b>30秒だけ</b>お時間ください。」</div></div>
 <div class="arr">↓</div>
 
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">1分フック（損失回避・1分で話し切る）</span></div>
-<div class="hook-box">「実はお役立ていただける情報が一つあるのですが、よろしいですか？<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、<b>高い数字を出した不動産会社に頼む方が多い</b>んです。でもその価格で売り出すと、高すぎて誰にも見向きされず、広告もあまりしてもらえず、3〜6ヶ月と時間が経ち、<b>売れ残り扱いされて大幅値下げになって、最後は相場よりも安くしか決まらない。</b>これが一番多い失敗のパターンです。」</div></div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">30秒フック（損失回避・30秒で話し切る）</span></div>
+<div class="hook-box">「実は<b>不動産の会社選びで失敗をされる方が多い</b>ので、知っておいていただきたい情報が一つあります。<b>査定や売却で一番失敗するパターン</b>のことです。<br><br>一括査定などで複数の不動産会社に依頼した場合、一番多い失敗は<b>「一番高い査定額を出した会社に任せてしまう」</b>ことです。高すぎる価格で売り出すと結局買い手がつかず、売れ残ってしまい、最終的には<b>相場より安く手放すことになりかねません。</b>会社選びは、<b>査定額の高さだけで決めないこと</b>が成功の秘訣となります。」</div></div>
 <div class="arr">↓</div>
 
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-yakusoku"><div class="step-top"><span class="step-badge sb-apo">STEP 3</span><span class="step-title">1分の約束を守る</span></div>
-<div class="script-box">「以上です。<b>これで1分経過しました。</b>お付き合いありがとうございます。」</div></div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-yakusoku"><div class="step-top"><span class="step-badge sb-apo">STEP 3</span><span class="step-title">30秒の約束を守る</span></div>
+<div class="script-box">「以上です。<b>これで30秒経過しました。</b>お付き合いありがとうございます。」</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tsuzuki"><div class="step-top"><span class="step-badge sb-hook">STEP 4</span><span class="step-title">続きフック → 選ばせる</span></div>
