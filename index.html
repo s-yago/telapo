@@ -918,49 +918,33 @@ function buyScript() {
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋お詫び＋1分お願い</span></div>
 <div class="script-box">「大変申し訳ありません。それでは<b>1分だけ</b>お時間ください。」</div></div>
 <div class="arr">↓</div>
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">レインズで非公開物件が見られる（1分フック）</span></div>
-<div class="hook-box">「実は一般の方が見ることのできない業者専用の<b>「レインズ」</b>というサイトがあります。そこではネットに出ていない全業者の<b>非公開物件</b>も見られるのですが、残念ながら、<b>当社にお越しいただかないとご覧いただくことができません。</b><br><br>あっ！ここまでで<b>1分経過しました。</b>お付き合いありがとうございます。」</div>
-<div class="script-box" style="margin-top:8px"><b>「もしよろしければもう少しだけお話続けてもよろしいでしょうか？」</b></div>
-<div class="branch-grid" style="margin-top:8px">
-  <div class="branch-col yes" onclick="navTo(\'b-apo\')"><div class="branch-title yes">✓ YES（興味あり）</div><div class="branch-arrow">→ レインズの説明へ</div></div>
-  <div class="branch-col no" onclick="navTo(\'b-hosoku\')"><div class="branch-title no">✗ NO（興味なし）</div><div class="branch-arrow">→ 折り返しへ</div></div>
-</div></div>
-
-<div class="arr">↓</div>
-<div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜④</span><span class="step-title">物件条件のヒアリング</span></div>
-<div class="script-box" style="margin-bottom:8px">「よりお客様に合った物件情報をご紹介させていただきたいので教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>①購入予定時期</b>「いつまでに購入したいなどお時期はございますか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>②ご予算</b>「ご予算やご希望の金額の範囲など、おおよその金額はございますでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③希望エリア</b>「沿線や地域など、ご希望のエリアはございますでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>④気になる物件</b>「ネット検索などでご興味があった物件はございますか？ある場合：「気になった物件の金額とエリアをお伺いできますでしょうか？」</div>
-<div class="memo-pill">⚠️ 嫌がる・答えたくなさそうな場合はさらっと流して次へ。トラブル防止優先！</div>
-<button class="jump-btn" onclick="navTo('b-hook')" style="margin-top:8px">→ 来店フックへ</button></div>
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-reinz"><div class="step-top"><span class="step-badge sb-str">STEP 4</span><span class="step-title">ローンの失敗を伝える → 来店打診</span></div>
-<div class="hook-box">「○○様、家探しをされる際、多くの方が<b>「失敗」</b>をしてしまうポイントがあるんですが、どういうことかと思われますか？<br><br>……実はこれ、<b>「住宅ローンの事前審査」</b>なんです。<br><br>普通に審査をすると個人情報に履歴が残ってしまいますが、弊社には<b>履歴に傷をつけずに審査できる独自のルート</b>があります。それに加えて、リフォームローンも組み方次第で<b>金利も総支払額も劇的に変わります。</b><br><br>この<b>ふたつだけでも</b>知っておいて損はありません。」</div>
-<button class="jump-btn" onclick="navTo(\'b-apo\')" style="margin-top:8px">→ 来店打診へ</button></div>
-<div class="arr">↓</div>
-<div class="step-card" id="b-apo"><div class="step-top"><span class="step-badge sb-apo">来店打診</span><span class="step-title">「今週の週末はいかがですか？」</span></div>
-<div class="script-box" style="margin-bottom:8px">「一度ぜひ当社にお越しになりませんか？<b>今週の週末はいかがですか？</b>」</div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="b-hook"><div class="step-top"><span class="step-badge sb-hook">STEP 2</span><span class="step-title">レインズ＋モデルルーム（1分フック）</span></div>
+<div class="hook-box" style="margin-bottom:8px">「実は一般の方が見ることのできない業者専用の<b>「レインズ」</b>というサイトがあります。当社にお越しいただければ、ネットに出ていない全業者の<b>非公開物件</b>も見られます。」<br><br>「また、当社には<b>モデルルーム</b>がありますので最新の住宅設備を体験いただけます。ぜひ一度お越しいただきたいのですが、<b>今週末などお時間ありませんか？</b>」<br><br><span style="font-size:11px;color:var(--gray-500)">※ 返事を待つ</span><br><br>「……あっ！ここまでで<b>1分経過しました。</b>お付き合いありがとうございます。」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo(\'b-apo\')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo(\'b-hook-mayoi\')"><div class="branch-title no">迷っている・難しい</div><div class="branch-arrow">→ 迷い対応へ</div></div>
+</div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8;margin-top:4px" id="b-hook-mayoi"><div class="step-top"><span class="step-badge sb-hook">迷い対応</span><span class="step-title">迷いを肯定して次のフックへ</span></div>
+<div class="script-box" style="margin-bottom:8px">「そうですよね！まだ具体的に決まっていない段階でお店に行くのは、少しハードルが高いと思います。お気になさらないでくださいね。」</div>
+<div class="script-box" style="margin-bottom:8px">「ただ、もし今後お越しいただける機会があれば、○○様に一番お役立ていただける情報をしっかり準備してお伝えしたいなと思っておりまして……今後の参考までに一つだけ教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px">「今回、ご購入されるとしたら<b>【住宅ローン】</b>のご利用をお考えでしょうか？それとも<b>【現金】</b>でのご検討でしょうか？」</div>
 <div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('b-hosoku')"><div class="branch-title yes">✓ YES → 日程確定</div><div class="branch-note">候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div><div class="branch-arrow">→ 補足ヒアリングへ</div></div>
-  <div class="branch-col no"><div class="branch-title no">✗ 都合が合わない</div><div class="branch-note">「それでは（次の候補日）はご都合いかがでしょうか？」Web面談も可能</div></div>
+  <div class="branch-col yes" onclick="navTo(\'b-hook-loan\')"><div class="branch-title yes">🏦 住宅ローン</div><div class="branch-arrow">→ ローン再フックへ</div></div>
+  <div class="branch-col yes" onclick="navTo(\'b-hook-cash\')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入</div><div class="branch-arrow">→ 現金再フックへ</div></div>
 </div></div>
-<div class="arr">↓</div>
-<div class="step-card" id="b-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
-<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？担当携帯か下4桁<b>○○○○</b>の固定電話からご連絡します。」</div>
-<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」→ 読み上げ確認</div>
-<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div></div>
-<div class="arr">↓</div>
-<div class="step-card" id="b-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
-<div class="script-box">「ご確認は以上となりますが、何かご不明点はございますか？では、改めて担当よりご連絡をさせていただきますが、資料のお渡し等、メールを活用させていただくことも多いので、ViVi不動産からのご連絡はお目通しいただけますと幸いです。お忙しい中ご対応いただきありがとうございました。失礼いたします。」</div>
-<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
-<div class="step-card" id="b-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
-<div class="script-box" style="margin-bottom:5px"><b>賃貸中の物件</b>→ 「室内はご覧いただけませんが、周辺環境であればご案内可能です。よろしいですか？」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「内覧時間はどれくらい？」</b>→ 「移動時間も含めて約2時間ほどを予定しております。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「物件の住所だけ教えてほしい」</b>→ 「申し訳ございません。お応えいたしかねます。担当よりご連絡させていただきます。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「建築条件付き土地って何？」「利回りは？」「仲介手数料は？」「価格交渉は？」</b>→ 「改めて担当よりご連絡させていただきます。」</div>
-<div class="script-box"><b>専門用語メモ</b>：賃貸中＝今人が住んでいる物件　利回り＝購入額に対するリターンの割合　更地渡し＝売主負担で解体・整地して引渡し</div></div>`;
-}
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc;margin-top:4px" id="b-hook-loan"><div class="step-top"><span class="step-badge sb-str">再フックA：ローン利用</span><span class="step-title">絶対に失敗しないローンの組み方を提示</span></div>
+<div class="vivi-box" style="margin-bottom:8px">「かしこまりました！実はお家探しで皆さん一番不安に思われるのって<b>『お金（住宅ローン）』</b>のことなんです。」<br><br>「もしお店にいらしていただけた際には、モデルルーム見学の『ついで』に、私たちプロから見た<b>【絶対に失敗しない住宅ローンの組み方】</b>や、ご自身の正確な予算が分かる<b>『事前審査の賢い受け方』</b>もお伝えさせていただきますね。これを知っておくだけでも、今後の安心感が全く違ってくるはずです！」</div>
+<button class="jump-btn" onclick="navTo(\'b-hook-close\')" style="margin-top:6px">→ 来店打診（クロージング）へ</button></div>
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff;margin-top:4px" id="b-hook-cash"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">再フックB：現金購入</span><span class="step-title">現金購入の強みを活かした交渉コツを提示</span></div>
+<div class="vivi-box" style="margin-bottom:8px">「現金でのご検討ですね！実は現金でのご購入は、ローン審査（白紙解約のリスク）がないため、売主様から一番安心してもらえる<b>『最強の条件』</b>なんです。」<br><br>「もしお店にいらしていただけた際には、モデルルーム見学の『ついで』に、お客様のその圧倒的な強みを活かして<b>【価格や条件の交渉を一番有利に進めるコツ】</b>についても私からしっかりアドバイスさせていただきますね！」</div>
+<button class="jump-btn" onclick="navTo(\'b-hook-close\')" style="margin-top:6px">→ 来店打診（クロージング）へ</button></div>
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc;margin-top:4px" id="b-hook-close"><div class="step-top"><span class="step-badge sb-apo">来店打診（クロージング）</span><span class="step-title">作戦会議として来店を促す</span></div>
+<div class="green-box" style="margin-bottom:8px">「こういった資金計画のアドバイスや非公開物件の資料もしっかり準備しておきますので、ぜひ今後の<b>『作戦会議』</b>として、一度情報収集にいらっしゃいませんか？」</div>
+<div class="script-box" style="margin-bottom:8px">「例えば、今週末や来週の平日などでしたら、少しお時間取れそうな日はございますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'b-apo\')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo(\'b-hosoku\')"><div class="branch-title no">✗ やっぱり難しい</div><div class="branch-note">「続きフックへ（もしよろしければもう少しだけ…）」の流れへ</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
+</div></div>}
 
 function saveAndFinish() {
   const d=getFormData();
@@ -975,6 +959,54 @@ function saveAndFinish() {
     showToast('⚠️ 氏名か電話番号を入力してください');
   }
   setTimeout(()=>switchView('list'), 800);
+
+
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜④</span><span class="step-title">物件条件のヒアリング</span></div>
+<div class="script-box" style="margin-bottom:8px">「よりお客様に合った物件情報をご紹介させていただきたいので教えてください。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①購入予定時期</b>「いつまでに購入したいなどお時期はございますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②ご予算</b>「ご予算やご希望の金額の範囲など、おおよその金額はございますでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③希望エリア</b>「沿線や地域など、ご希望のエリアはございますでしょうか？」</div>
+<div class="script-box"><b>④気になる物件</b>「ネット検索などでご興味があった物件はございますか？ある場合：「気になった物件の金額とエリアをお伺いできますでしょうか？」</div>
+<div class="memo-pill">⚠️ 嫌がる・答えたくなさそうな場合はさらっと流して次へ。トラブル防止優先！</div>
+<button class="jump-btn" onclick="navTo(\'b-hook\')" style="margin-top:8px">→ 来店フックへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-apo"><div class="step-top"><span class="step-badge sb-apo">日程確定</span><span class="step-title">来店日程を決める</span></div>
+<div class="script-box" style="margin-bottom:8px">「それでは日程を決めましょう。今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="script-box">「後ほど担当よりご連絡させていただきますが、<b>ご挨拶がてら</b>改めてご来店日の確認とご案内をさせていただきます。」</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo(\'b-hear-come\')"><div class="branch-title yes">まだ条件ヒアリングしていない</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col yes" onclick="navTo(\'b-hosoku\')"><div class="branch-title yes">すでにヒアリング済み</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-hear-come"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング（来店確定後）</span><span class="step-title">ご来店時に合った物件をご用意するために</span></div>
+<div class="script-box" style="margin-bottom:8px">「ご来店いただくにあたり、お客様にぴったりの物件を事前にご用意しておきたいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①希望エリア</b>「富山市は広いものですから、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>③購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
+<button class="jump-btn" onclick="navTo(\'b-hosoku\')" style="margin-top:8px">→ 連絡先確認へ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">メールアドレスを確認して終了</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡のつきやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
+<div class="script-box"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。ご記載いただいたメールアドレスは<b>○○○＠○○</b>ですね。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
+<button class="jump-btn" onclick="navTo(\'b-close\')" style="margin-top:8px">→ クロージングへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="b-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
+
+<div class="step-card" id="b-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
+<div class="script-box" style="margin-bottom:5px"><b>「ローンが通るか不安」</b>→ 「当社では早ければ当日に結果がわかる住宅ローン診断ツールがございます。ぜひご来店いただけましたらご利用いただけます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他にも良い物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も多数ございます。ご来店いただければ一緒に探せます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「まだ買うか決めていない」</b>→ 「全く構いません。情報収集としてぜひご来店ください。」</div>
+<div class="script-box"><b>専門的な質問全般</b>→ 「担当よりご連絡させていただきます。」</div></div>
+`;
 }
 
 // ===== DYNAMIC FIELDS =====
