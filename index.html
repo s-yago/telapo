@@ -946,252 +946,6 @@ function buyScript() {
   <div class="branch-col yes" onclick="navTo(\'b-apo\')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
   <div class="branch-col no" onclick="navTo(\'b-hosoku\')"><div class="branch-title no">✗ やっぱり難しい</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
 </div></div>
-`;
-}
-
-function saveAndFinish() {
-  const d=getFormData();
-  if(d.name||d.tel){
-    const records=getRecords();
-    const idx=records.findIndex(r=>r.id===d.id);
-    if(idx>=0) records[idx]=d; else records.unshift(d);
-    saveRecords(records);
-    currentId=d.id;
-    showToast('💾 保存しました！');
-  } else {
-    showToast('⚠️ 氏名か電話番号を入力してください');
-  }
-  setTimeout(()=>switchView('list'), 800);
-}
-
-</script>
-
-<button class="float-btn" id="floatBtn" onclick="openDQ()">❓ 難しい質問<br>をされたとき</button>
-<div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
-  <div class="dq-modal" onclick="event.stopPropagation()">
-    <div class="dq-header"><div class="dq-header-title">❓ 答えることができない質問をされたとき</div><button class="dq-close" onclick="closeDQDirect()">✕</button></div>
-    <div class="dq-body">
-      <div><div class="dq-label">まず感謝と謝罪</div>
-      <div class="dq-script">「大変申し訳ありません。私の話にご興味をお持ちいただいて、<b>鋭い質問もしていただいてありがとうございます。</b>ただ、私ではそこまでの専門的な質問にお答えできないので…」</div></div>
-      <div class="dq-divider">↓ 状況に応じてどちらかを選ぶ</div>
-      <div class="dq-option"><div class="dq-option-title">【その場で担当に代われる場合】</div>
-      <div class="dq-option-text">「<b>専門のスタッフに代わらせていただいてもよろしいでしょうか？</b>」<br>→ 担当者に電話を引き継ぐ</div></div>
-      <div class="dq-option"><div class="dq-option-title">【担当が不在・後日折り返す場合】← こちらをきっかけにヒアリングへ</div>
-      <div class="dq-option-text">「<b>専門のスタッフから改めてお電話させていただいてもよろしいでしょうか？</b>」<br>→「お電話しやすいお日にちとお時間帯はいつ頃でしょうか？」</div></div>
-      <div class="dq-divider" style="color:#0C447C;font-weight:700">↓ 日時確認後、そのままヒアリングへ！</div>
-      <div class="dq-option" style="background:#E6F1FB;border-left:3px solid #1A6DB5">
-        <div class="dq-option-title" style="color:#0C447C">【折り返し後のヒアリングへ自然につなぐ】</div>
-        <div class="dq-option-text" style="color:#042C53">「ありがとうございます。その際に<b>○○様にピッタリの物件があればご紹介できるよう</b>、少しだけ教えていただいてもよろしいでしょうか？」<br><br>
-        <b>① ご予算</b>「おおよそのご予算はどのくらいをお考えですか？」<br>
-        <b>② ご希望エリア</b>「ご希望の地域や沿線はございますか？」<br>
-        <b>③ 購入時期</b>「いつ頃までにとお考えですか？」<br>
-        <b>④ 物件の種別</b>「マンション・戸建・土地など、ご希望はありますか？」<br><br>
-        <span style="font-size:12px;color:#0C447C;font-weight:700">→ ヒアリング後：</span><br>
-        「ありがとうございます。専門のスタッフから改めてご連絡する際に、<b>○○様のご希望に合った物件もあわせてご提案させていただきます。</b>楽しみにしていてください！」</div>
-      </div>
-      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ ヒアリング内容は右パネルのメモ欄に必ず記入して保存してください</div>
-    </div>
-    <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
-  </div>
-</div>
-<script>
-</script>
-
-
-<div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
-  <div class="dq-modal" onclick="event.stopPropagation()">
-    <div class="dq-header"><div class="dq-header-title">❓ 答えることができない質問をされたとき</div><button class="dq-close" onclick="closeDQDirect()">✕</button></div>
-    <div class="dq-body">
-      <div><div class="dq-label">まず感謝と謝罪</div>
-      <div class="dq-script">「大変申し訳ありません。私の話にご興味をお持ちいただいて、<b>鋭い質問もしていただいてありがとうございます。</b>ただ、私ではそこまでの専門的な質問にお答えできないので…」</div></div>
-      <div class="dq-divider">↓ 状況に応じてどちらかを選ぶ</div>
-      <div class="dq-option"><div class="dq-option-title">【その場で担当に代われる場合】</div>
-      <div class="dq-option-text">「<b>専門のスタッフに代わらせていただいてもよろしいでしょうか？</b>」<br>→ 担当者に電話を引き継ぐ</div></div>
-      <div class="dq-option"><div class="dq-option-title">【担当が不在・後日折り返す場合】← こちらをきっかけにヒアリングへ</div>
-      <div class="dq-option-text">「<b>専門のスタッフから改めてお電話させていただいてもよろしいでしょうか？</b>」<br>→「お電話しやすいお日にちとお時間帯はいつ頃でしょうか？」</div></div>
-      <div class="dq-divider" style="color:#0C447C;font-weight:700">↓ 日時確認後、そのままヒアリングへ！</div>
-      <div class="dq-option" style="background:#E6F1FB;border-left:3px solid #1A6DB5">
-        <div class="dq-option-title" style="color:#0C447C">【折り返し後のヒアリングへ自然につなぐ】</div>
-        <div class="dq-option-text" style="color:#042C53">「ありがとうございます。その際に<b>○○様にピッタリの物件があればご紹介できるよう</b>、少しだけ教えていただいてもよろしいでしょうか？」<br><br>
-        <b>① ご予算</b>「おおよそのご予算はどのくらいをお考えですか？」<br>
-        <b>② ご希望エリア</b>「ご希望の地域や沿線はございますか？」<br>
-        <b>③ 購入時期</b>「いつ頃までにとお考えですか？」<br>
-        <b>④ 物件の種別</b>「マンション・戸建・土地など、ご希望はありますか？」<br><br>
-        <span style="font-size:12px;color:#0C447C;font-weight:700">→ ヒアリング後：</span><br>
-        「ありがとうございます。専門のスタッフから改めてご連絡する際に、<b>○○様のご希望に合った物件もあわせてご提案させていただきます。</b>楽しみにしていてください！」</div>
-      </div>
-      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ ヒアリング内容は右パネルのメモ欄に必ず記入して保存してください</div>
-    </div>
-    <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
-  </div>
-</div>
-<script>
-function openDQ(){document.getElementById('dqOverlay').classList.add('open')}
-function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))closeDQDirect()}
-function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
-</script>
-
-
-
-
-
-<script>
-
-// ===== PASSWORD =====
-function togglePwView(){
-  var input=document.getElementById('pw-input');
-  var eye=document.getElementById('pw-eye');
-  if(input.type==='password'){
-    input.type='text';
-    eye.textContent='🙈';
-  } else {
-    input.type='password';
-    eye.textContent='👁';
-  }
-}
-function checkPw(){
-  var PW = 'vivi-telapo';
-  var val = document.getElementById('pw-input').value;
-  if(val === PW){
-    sessionStorage.setItem('vivi_auth','1');
-    document.getElementById('pw-screen').style.display='none';
-  } else {
-    document.getElementById('pw-err').style.display='block';
-    document.getElementById('pw-input').value='';
-    document.getElementById('pw-input').focus();
-  }
-}
-(function(){
-  var PW = 'vivi-telapo';
-  if(sessionStorage.getItem('vivi_auth')==='1'){
-    var s=document.getElementById('pw-screen');
-    if(s) s.style.display='none';
-  }
-})();
-
-</script>
-
-<!-- 物件反響スクリプトテンプレート -->
-<div id="bukken-script-template" style="display:none">
-<div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信</span></div><div class="hint">問い合わせ後できるだけ早く発信。フォームのチェック項目を事前に確認しておく</div></div>
-<div class="arr">↓</div>
-<div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
-<div class="script-box">「お忙しいところ恐れ入ります。<b>ViVi不動産の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
-<div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
-  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note"><b>携帯の場合：</b>間違い電話・いたずらの可能性を確認<br><b>固定の場合：</b>「お手数ですがご本人様にお代わりいただけますか？」<br><br>それでも難しい場合：<br>「それでは改めてご連絡させていただきます。何時頃であればご在宅でしょうか？」<br>→ 時間帯をメモして電話を切る</div></div>
-</div></div>
-<div class="arr">↓</div>
-<div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・要望確認</span></div>
-<div class="script-box" style="margin-bottom:8px">「先ほど<b>○○○（アットホーム・スーモ・当社HPなど）</b>より<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日は<b>○○○（要望項目を読み上げる）</b>をご希望ということでよろしいでしょうか？」</div>
-<div class="hint">※ フォームのチェック項目を読み上げて確認する</div>
-<div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">【ルール1】<br>来店・相談・案内希望</div><div class="branch-note" style="font-size:10px">まず日程確定 → ヒアリング</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule3')"><div class="branch-title no">【ルール3】<br>今は忙しい</div><div class="branch-note" style="font-size:10px">30秒フック → 来店打診</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule2')" style="border-color:#6B6860"><div class="branch-title no" style="color:#3D3B37">【ルール2】<br>資料のみ・情報収集</div><div class="branch-note" style="font-size:10px">フックをかけて来店促進</div></div>
-</div></div>
-<div class="arr">↓</div>
-<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-rule1"><div class="step-top"><span class="step-badge sb-apo">ルール1</span><span class="step-title">まず日程を決定する</span></div>
-<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程を決めましょう。」<br>「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
-<div class="script-box">「後ほど担当よりご連絡させていただきますが、<b>ご挨拶がてら</b>改めてご来店日の確認とご案内をさせていただきます。」</div>
-<button class="jump-btn" onclick="navTo('bb-hear')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
-<div class="arr">↓</div>
-<div class="step-card" style="border-color:#6B6860;background:#fafaf8" id="bb-rule2"><div class="step-top"><span class="step-badge sb-warn">ルール2</span><span class="step-title">資料のみ希望 → 3段階フックで来店を促す</span></div>
-<div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする（周辺環境・価格・間取り・販売状況など）</span></div>
-<div class="script-box" style="margin-bottom:8px">「承知しました。ご説明できる資料をご用意いたします。実は、より詳しい情報や類似の物件資料もご来店いただければ非公開情報も含めてお伝えできることも多いのですが、よろしければ一度お越しいただけませんか？いくつかメリットもご用意しています。」</div>
-<div class="vivi-box" style="margin-bottom:8px"><b>フック1</b>「業者専用の<b>「レインズ」</b>というサイトがありまして、アットホームやSUUMOには載っていない<b>非公開物件</b>もご覧いただけます。ご来店いただいた方だけにご紹介できる仕組みです。」<br><br><b>フック2</b>「また当社には<b>モデルルーム</b>がありますので、中古物件を購入してリフォームをした場合の<b>イメージをつかんでいただける</b>んです。」</div>
-<div class="script-box" style="margin-bottom:8px">「いかがでしょうか？少しだけお時間いただけませんか？」</div>
-<div class="branch-grid" style="margin-bottom:8px">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule2-hook3')"><div class="branch-title no">悩んでいる</div><div class="branch-arrow">→ 切り札へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ 断られた</div><div class="branch-arrow">→ ルール4へ</div></div>
-</div>
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8;margin-top:8px" id="bb-rule2-hook3"><div class="step-top"><span class="step-badge sb-hook">切り札</span><span class="step-title">即日わかるローン診断ツール</span></div>
-<div class="hook-box" style="margin-bottom:8px">「さらに当社では<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。気に入った物件をすぐに押さえる判断ができます。」</div>
-<div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり資料だけ</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ ルール4へ</div></div>
-</div></div></div>
-<div class="arr">↓</div>
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-rule3"><div class="step-top"><span class="step-badge sb-hook">ルール3</span><span class="step-title">時間がない → 30秒フック → 来店打診</span></div>
-<div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
-<div class="hook-box" style="margin-bottom:8px">「実は業者専用の<b>「レインズ」</b>というサイトがありまして、SUUMOなどには載っていない<b>非公開物件</b>もご来店いただいた方だけにご紹介できます。また当社には<b>モデルルーム</b>もありますのでリフォームのイメージもつかんでいただけます。さらに<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。」</div>
-<div class="script-box" style="margin-bottom:8px">「ぜひ一度ご来店いただけませんか？」</div>
-<div class="branch-grid">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり無理</div><div class="branch-arrow">→ ルール4へ</div></div>
-</div></div>
-<div class="arr">↓</div>
-<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-rule4"><div class="step-top"><span class="step-badge sb-warn">ルール4</span><span class="step-title">来店断られた → 資料送付 → ヒアリング → 連絡先確認</span></div>
-<div class="script-box" style="margin-bottom:8px">「承知しました。それでは<b>資料をお送り</b>させていただきます。メールと郵送どちらがよろしいでしょうか？」<br>→ 送付先を確認してメモ</div>
-<div class="script-box" style="margin-bottom:8px">「よろしければ、簡単にご条件だけお聞きしてもよろしいでしょうか？担当がお客様に合った情報をご用意してご連絡いたします。」</div>
-<div class="branch-grid" style="margin-bottom:8px">
-  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ ヒアリングOK</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
-  <div class="branch-col no" onclick="navTo('bb-hosoku')"><div class="branch-title no">✗ それも不要</div><div class="branch-arrow">→ 連絡先確認して終了</div></div>
-</div></div>
-<div class="arr">↓</div>
-<div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング ①〜④</span><span class="step-title">希望条件・家族構成・購入理由のヒアリング</span></div>
-<div class="script-box" style="margin-bottom:8px">「お問い合わせいただきました物件の他にも、お客様にぴったりの物件をご紹介したいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>①問い合わせ物件の確認</b>「○○（物件名）のどんなところがお気に入りでしたか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
-<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
-<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
-<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
-<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:8px">→ 連絡先確認へ</button></div>
-<div class="arr">↓</div>
-<div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">メールアドレス・住所を確認して終了</span></div>
-<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
-<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。ご記載いただいたメールアドレスは<b>○○○＠○○</b>ですね。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
-<div class="script-box"><b>郵送先住所</b>「現在のご住所はご記載いただいた<b>○○</b>でお間違えございませんでしょうか。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
-<button class="jump-btn" onclick="navTo('bb-close')" style="margin-top:8px">→ クロージングへ</button></div>
-<div class="arr">↓</div>
-<div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
-<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
-<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
-<div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
-<div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「現地待ち合わせも可能ですが、初めての方の場合、ご来店いただければ類似の非公開物件のご紹介と住宅ローンのお話も併せてご案内できますので、皆様にお寄りいただいております。それでも現地を強くご希望でしたら担当が現地にてご案内いたします。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も多数ございます。ご来店いただければ一緒に探せます。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「住所だけ教えてほしい」</b>→ 「申し訳ございません。お応えいたしかねます。担当から改めてご連絡させていただきます。」</div>
-<div class="script-box" style="margin-bottom:5px"><b>「資料だけ送ってほしい」</b>→ 「かしこまりました。メールと郵送どちらがよろしいでしょうか？」→ 資料送付後に追電話</div>
-<div class="script-box" style="margin-bottom:5px"><b>賃貸中の物件</b>→ 「こちらはオーナーチェンジ物件といって投資家向けの物件です。住宅ローンはご利用いただけず、室内見学もできません。」</div>
-<div class="script-box"><b>専門的な質問全般</b>→ 「私では分かりかねますので、担当よりご連絡させていただきます。」</div></div>
-</div>
-
-<!-- 物件反響パネルテンプレート -->
-<div id="bukken-panel-template" style="display:none">
-<div class="section-title">基本情報</div>
-<div class="fields-row">
-  <div class="field-group"><div class="field-label">お客様氏名</div><input class="field-input" id="f-name" placeholder="山田 太郎"/></div>
-  <div class="field-group"><div class="field-label">電話番号</div><input class="field-input" id="f-tel" placeholder="090-0000-0000"/></div>
-</div>
-<div class="field-group"><div class="field-label">メールアドレス</div><input class="field-input" id="f-email" placeholder="example@email.com"/></div>
-<div class="divider"></div>
-<div class="section-title">問い合わせ物件</div>
-<div class="field-group"><div class="field-label">物件名・所在地</div><input class="field-input" id="f-bukken" placeholder="例：○○マンション201号室"/></div>
-<div class="fields-row">
-  <div class="field-group"><div class="field-label">気に入ったポイント</div><input class="field-input" id="f-point" placeholder="例：価格・立地"/></div>
-</div>
-<div class="divider"></div>
-<div class="section-title">ヒアリング</div>
-<div class="field-group"><div class="field-label">希望エリア</div><input class="field-input" id="f-area" placeholder="例：富山市大沢野付近"/></div>
-<div class="field-group"><div class="field-label">家族構成</div><input class="field-input" id="f-family" placeholder="例：夫婦＋子供1人"/></div>
-<div class="field-group"><div class="field-label">購入理由</div>
-  <select class="field-select" id="f-reason"><option value="">選択</option><option>住み替え</option><option>転勤</option><option>家族構成の変化</option><option>賃貸からの転居</option><option>投資</option><option>その他</option></select></div>
-<div class="divider"></div>
-<div class="section-title">アポイント</div>
-<div class="field-group"><div class="field-label">アポ日時</div><input class="field-input" type="datetime-local" id="f-apo"/></div>
-<div class="field-group"><div class="field-label">来店人数</div><input class="field-input" id="f-ninzu" placeholder="例：ご夫婦2名"/></div>
-<div class="field-group"><div class="field-label">結果</div>
-  <select class="field-select" id="f-result"><option value="">未確定</option><option>来店アポ確約</option><option>Web面談アポ確約</option><option>長期追客代行へ</option><option>お断り</option><option>折り返し待ち</option></select></div>
-<div class="field-group"><div class="field-label">架電者メモ</div><textarea class="field-textarea" id="f-memo" placeholder="温度感・気になる点等"></textarea></div>
-<div class="divider"></div>
-<div class="section-title">営業スタッフへ送信</div>
-<div style="display:flex;gap:6px">
-  <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 コピー</button>
-  <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール</button>
-</div>
-<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！</div>
-</div>
 
 <div class="arr">↓</div>
 
@@ -1241,7 +995,22 @@ function checkPw(){
 `;
 }
 
-// ===== DYNAMIC FIELDS =====
+function saveAndFinish() {
+  const d=getFormData();
+  if(d.name||d.tel){
+    const records=getRecords();
+    const idx=records.findIndex(r=>r.id===d.id);
+    if(idx>=0) records[idx]=d; else records.unshift(d);
+    saveRecords(records);
+    currentId=d.id;
+    showToast('💾 保存しました！');
+  } else {
+    showToast('⚠️ 氏名か電話番号を入力してください');
+  }
+  setTimeout(()=>switchView('list'), 800);
+}
+
+
 function toggleMansionField() {
   const el=document.getElementById('mansion-field');
   if(el) el.style.display=(v('f-type')==='マンション')?'block':'none';
@@ -1476,6 +1245,236 @@ function checkPw(){
     if(s)s.style.display='none';
   }
 })();
+
+
+</script>
+
+<button class="float-btn" id="floatBtn" onclick="openDQ()">❓ 難しい質問<br>をされたとき</button>
+<div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
+  <div class="dq-modal" onclick="event.stopPropagation()">
+    <div class="dq-header"><div class="dq-header-title">❓ 答えることができない質問をされたとき</div><button class="dq-close" onclick="closeDQDirect()">✕</button></div>
+    <div class="dq-body">
+      <div><div class="dq-label">まず感謝と謝罪</div>
+      <div class="dq-script">「大変申し訳ありません。私の話にご興味をお持ちいただいて、<b>鋭い質問もしていただいてありがとうございます。</b>ただ、私ではそこまでの専門的な質問にお答えできないので…」</div></div>
+      <div class="dq-divider">↓ 状況に応じてどちらかを選ぶ</div>
+      <div class="dq-option"><div class="dq-option-title">【その場で担当に代われる場合】</div>
+      <div class="dq-option-text">「<b>専門のスタッフに代わらせていただいてもよろしいでしょうか？</b>」<br>→ 担当者に電話を引き継ぐ</div></div>
+      <div class="dq-option"><div class="dq-option-title">【担当が不在・後日折り返す場合】← こちらをきっかけにヒアリングへ</div>
+      <div class="dq-option-text">「<b>専門のスタッフから改めてお電話させていただいてもよろしいでしょうか？</b>」<br>→「お電話しやすいお日にちとお時間帯はいつ頃でしょうか？」</div></div>
+      <div class="dq-divider" style="color:#0C447C;font-weight:700">↓ 日時確認後、そのままヒアリングへ！</div>
+      <div class="dq-option" style="background:#E6F1FB;border-left:3px solid #1A6DB5">
+        <div class="dq-option-title" style="color:#0C447C">【折り返し後のヒアリングへ自然につなぐ】</div>
+        <div class="dq-option-text" style="color:#042C53">「ありがとうございます。その際に<b>○○様にピッタリの物件があればご紹介できるよう</b>、少しだけ教えていただいてもよろしいでしょうか？」<br><br>
+        <b>① ご予算</b>「おおよそのご予算はどのくらいをお考えですか？」<br>
+        <b>② ご希望エリア</b>「ご希望の地域や沿線はございますか？」<br>
+        <b>③ 購入時期</b>「いつ頃までにとお考えですか？」<br>
+        <b>④ 物件の種別</b>「マンション・戸建・土地など、ご希望はありますか？」<br><br>
+        <span style="font-size:12px;color:#0C447C;font-weight:700">→ ヒアリング後：</span><br>
+        「ありがとうございます。専門のスタッフから改めてご連絡する際に、<b>○○様のご希望に合った物件もあわせてご提案させていただきます。</b>楽しみにしていてください！」</div>
+      </div>
+      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ ヒアリング内容は右パネルのメモ欄に必ず記入して保存してください</div>
+    </div>
+    <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
+  </div>
+</div>
+<script>
+</script>
+
+
+<div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
+  <div class="dq-modal" onclick="event.stopPropagation()">
+    <div class="dq-header"><div class="dq-header-title">❓ 答えることができない質問をされたとき</div><button class="dq-close" onclick="closeDQDirect()">✕</button></div>
+    <div class="dq-body">
+      <div><div class="dq-label">まず感謝と謝罪</div>
+      <div class="dq-script">「大変申し訳ありません。私の話にご興味をお持ちいただいて、<b>鋭い質問もしていただいてありがとうございます。</b>ただ、私ではそこまでの専門的な質問にお答えできないので…」</div></div>
+      <div class="dq-divider">↓ 状況に応じてどちらかを選ぶ</div>
+      <div class="dq-option"><div class="dq-option-title">【その場で担当に代われる場合】</div>
+      <div class="dq-option-text">「<b>専門のスタッフに代わらせていただいてもよろしいでしょうか？</b>」<br>→ 担当者に電話を引き継ぐ</div></div>
+      <div class="dq-option"><div class="dq-option-title">【担当が不在・後日折り返す場合】← こちらをきっかけにヒアリングへ</div>
+      <div class="dq-option-text">「<b>専門のスタッフから改めてお電話させていただいてもよろしいでしょうか？</b>」<br>→「お電話しやすいお日にちとお時間帯はいつ頃でしょうか？」</div></div>
+      <div class="dq-divider" style="color:#0C447C;font-weight:700">↓ 日時確認後、そのままヒアリングへ！</div>
+      <div class="dq-option" style="background:#E6F1FB;border-left:3px solid #1A6DB5">
+        <div class="dq-option-title" style="color:#0C447C">【折り返し後のヒアリングへ自然につなぐ】</div>
+        <div class="dq-option-text" style="color:#042C53">「ありがとうございます。その際に<b>○○様にピッタリの物件があればご紹介できるよう</b>、少しだけ教えていただいてもよろしいでしょうか？」<br><br>
+        <b>① ご予算</b>「おおよそのご予算はどのくらいをお考えですか？」<br>
+        <b>② ご希望エリア</b>「ご希望の地域や沿線はございますか？」<br>
+        <b>③ 購入時期</b>「いつ頃までにとお考えですか？」<br>
+        <b>④ 物件の種別</b>「マンション・戸建・土地など、ご希望はありますか？」<br><br>
+        <span style="font-size:12px;color:#0C447C;font-weight:700">→ ヒアリング後：</span><br>
+        「ありがとうございます。専門のスタッフから改めてご連絡する際に、<b>○○様のご希望に合った物件もあわせてご提案させていただきます。</b>楽しみにしていてください！」</div>
+      </div>
+      <div style="font-size:11px;color:#6B6860;padding:4px 2px">※ ヒアリング内容は右パネルのメモ欄に必ず記入して保存してください</div>
+    </div>
+    <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
+  </div>
+</div>
+<script>
+function openDQ(){document.getElementById('dqOverlay').classList.add('open')}
+function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))closeDQDirect()}
+function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
+</script>
+
+
+
+
+
+<script>
+
+// ===== PASSWORD =====
+function togglePwView(){
+  var input=document.getElementById('pw-input');
+  var eye=document.getElementById('pw-eye');
+  if(input.type==='password'){
+    input.type='text';
+    eye.textContent='🙈';
+  } else {
+    input.type='password';
+    eye.textContent='👁';
+  }
+}
+function checkPw(){
+  var PW = 'vivi-telapo';
+  var val = document.getElementById('pw-input').value;
+  if(val === PW){
+    sessionStorage.setItem('vivi_auth','1');
+    document.getElementById('pw-screen').style.display='none';
+  } else {
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+(function(){
+  var PW = 'vivi-telapo';
+  if(sessionStorage.getItem('vivi_auth')==='1'){
+    var s=document.getElementById('pw-screen');
+    if(s) s.style.display='none';
+  }
+})();
+
+</script>
+
+<!-- 物件反響スクリプトテンプレート -->
+<div id="bukken-script-template" style="display:none">
+<div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信</span></div><div class="hint">問い合わせ後できるだけ早く発信。フォームのチェック項目を事前に確認しておく</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
+<div class="script-box">「お忙しいところ恐れ入ります。<b>ViVi不動産の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note"><b>携帯の場合：</b>間違い電話・いたずらの可能性を確認<br><b>固定の場合：</b>「お手数ですがご本人様にお代わりいただけますか？」<br><br>それでも難しい場合：<br>「それでは改めてご連絡させていただきます。何時頃であればご在宅でしょうか？」<br>→ 時間帯をメモして電話を切る</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・要望確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「先ほど<b>○○○（アットホーム・スーモ・当社HPなど）</b>より<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日は<b>○○○（要望項目を読み上げる）</b>をご希望ということでよろしいでしょうか？」</div>
+<div class="hint">※ フォームのチェック項目を読み上げて確認する</div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
+  <div class="branch-col yes" onclick="navTo('bb-rule1')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">【ルール1】<br>来店・相談・案内希望</div><div class="branch-note" style="font-size:10px">まず日程確定 → ヒアリング</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule3')"><div class="branch-title no">【ルール3】<br>今は忙しい</div><div class="branch-note" style="font-size:10px">30秒フック → 来店打診</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule2')" style="border-color:#6B6860"><div class="branch-title no" style="color:#3D3B37">【ルール2】<br>資料のみ・情報収集</div><div class="branch-note" style="font-size:10px">フックをかけて来店促進</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-rule1"><div class="step-top"><span class="step-badge sb-apo">ルール1</span><span class="step-title">まず日程を決定する</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程を決めましょう。」<br>「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="script-box">「後ほど担当よりご連絡させていただきますが、<b>ご挨拶がてら</b>改めてご来店日の確認とご案内をさせていただきます。」</div>
+<button class="jump-btn" onclick="navTo('bb-hear')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
+<div class="arr">↓</div>
+<div class="step-card" style="border-color:#6B6860;background:#fafaf8" id="bb-rule2"><div class="step-top"><span class="step-badge sb-warn">ルール2</span><span class="step-title">資料のみ希望 → 3段階フックで来店を促す</span></div>
+<div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする（周辺環境・価格・間取り・販売状況など）</span></div>
+<div class="script-box" style="margin-bottom:8px">「承知しました。ご説明できる資料をご用意いたします。実は、より詳しい情報や類似の物件資料もご来店いただければ非公開情報も含めてお伝えできることも多いのですが、よろしければ一度お越しいただけませんか？いくつかメリットもご用意しています。」</div>
+<div class="vivi-box" style="margin-bottom:8px"><b>フック1</b>「業者専用の<b>「レインズ」</b>というサイトがありまして、アットホームやSUUMOには載っていない<b>非公開物件</b>もご覧いただけます。ご来店いただいた方だけにご紹介できる仕組みです。」<br><br><b>フック2</b>「また当社には<b>モデルルーム</b>がありますので、中古物件を購入してリフォームをした場合の<b>イメージをつかんでいただける</b>んです。」</div>
+<div class="script-box" style="margin-bottom:8px">「いかがでしょうか？少しだけお時間いただけませんか？」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule2-hook3')"><div class="branch-title no">悩んでいる</div><div class="branch-arrow">→ 切り札へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ 断られた</div><div class="branch-arrow">→ ルール4へ</div></div>
+</div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8;margin-top:8px" id="bb-rule2-hook3"><div class="step-top"><span class="step-badge sb-hook">切り札</span><span class="step-title">即日わかるローン診断ツール</span></div>
+<div class="hook-box" style="margin-bottom:8px">「さらに当社では<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。気に入った物件をすぐに押さえる判断ができます。」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり資料だけ</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ ルール4へ</div></div>
+</div></div></div>
+<div class="arr">↓</div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-rule3"><div class="step-top"><span class="step-badge sb-hook">ルール3</span><span class="step-title">時間がない → 30秒フック → 来店打診</span></div>
+<div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
+<div class="hook-box" style="margin-bottom:8px">「実は業者専用の<b>「レインズ」</b>というサイトがありまして、SUUMOなどには載っていない<b>非公開物件</b>もご来店いただいた方だけにご紹介できます。また当社には<b>モデルルーム</b>もありますのでリフォームのイメージもつかんでいただけます。さらに<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。」</div>
+<div class="script-box" style="margin-bottom:8px">「ぜひ一度ご来店いただけませんか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり無理</div><div class="branch-arrow">→ ルール4へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-rule4"><div class="step-top"><span class="step-badge sb-warn">ルール4</span><span class="step-title">来店断られた → 資料送付 → ヒアリング → 連絡先確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「承知しました。それでは<b>資料をお送り</b>させていただきます。メールと郵送どちらがよろしいでしょうか？」<br>→ 送付先を確認してメモ</div>
+<div class="script-box" style="margin-bottom:8px">「よろしければ、簡単にご条件だけお聞きしてもよろしいでしょうか？担当がお客様に合った情報をご用意してご連絡いたします。」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo('bb-hear')"><div class="branch-title yes">✓ ヒアリングOK</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-hosoku')"><div class="branch-title no">✗ それも不要</div><div class="branch-arrow">→ 連絡先確認して終了</div></div>
+</div></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング ①〜④</span><span class="step-title">希望条件・家族構成・購入理由のヒアリング</span></div>
+<div class="script-box" style="margin-bottom:8px">「お問い合わせいただきました物件の他にも、お客様にぴったりの物件をご紹介したいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①問い合わせ物件の確認</b>「○○（物件名）のどんなところがお気に入りでしたか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>②希望エリア</b>「富山市は広いので、大体で良いのですがご希望エリアを教えていただけますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「どのくらいの大きさのものをご紹介するかを検討するのに必要なので、家族構成を教えていただけますか？」</div>
+<div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は現住居に問題を感じている方が多いのですが、参考までに購入理由を教えていただけますか？」</div>
+<div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
+<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:8px">→ 連絡先確認へ</button></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">メールアドレス・住所を確認して終了</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。ご記載いただいたメールアドレスは<b>○○○＠○○</b>ですね。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
+<div class="script-box"><b>郵送先住所</b>「現在のご住所はご記載いただいた<b>○○</b>でお間違えございませんでしょうか。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
+<button class="jump-btn" onclick="navTo('bb-close')" style="margin-top:8px">→ クロージングへ</button></div>
+<div class="arr">↓</div>
+<div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
+<div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
+<div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「現地待ち合わせも可能ですが、初めての方の場合、ご来店いただければ類似の非公開物件のご紹介と住宅ローンのお話も併せてご案内できますので、皆様にお寄りいただいております。それでも現地を強くご希望でしたら担当が現地にてご案内いたします。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も多数ございます。ご来店いただければ一緒に探せます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「住所だけ教えてほしい」</b>→ 「申し訳ございません。お応えいたしかねます。担当から改めてご連絡させていただきます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「資料だけ送ってほしい」</b>→ 「かしこまりました。メールと郵送どちらがよろしいでしょうか？」→ 資料送付後に追電話</div>
+<div class="script-box" style="margin-bottom:5px"><b>賃貸中の物件</b>→ 「こちらはオーナーチェンジ物件といって投資家向けの物件です。住宅ローンはご利用いただけず、室内見学もできません。」</div>
+<div class="script-box"><b>専門的な質問全般</b>→ 「私では分かりかねますので、担当よりご連絡させていただきます。」</div></div>
+</div>
+
+<!-- 物件反響パネルテンプレート -->
+<div id="bukken-panel-template" style="display:none">
+<div class="section-title">基本情報</div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">お客様氏名</div><input class="field-input" id="f-name" placeholder="山田 太郎"/></div>
+  <div class="field-group"><div class="field-label">電話番号</div><input class="field-input" id="f-tel" placeholder="090-0000-0000"/></div>
+</div>
+<div class="field-group"><div class="field-label">メールアドレス</div><input class="field-input" id="f-email" placeholder="example@email.com"/></div>
+<div class="divider"></div>
+<div class="section-title">問い合わせ物件</div>
+<div class="field-group"><div class="field-label">物件名・所在地</div><input class="field-input" id="f-bukken" placeholder="例：○○マンション201号室"/></div>
+<div class="fields-row">
+  <div class="field-group"><div class="field-label">気に入ったポイント</div><input class="field-input" id="f-point" placeholder="例：価格・立地"/></div>
+</div>
+<div class="divider"></div>
+<div class="section-title">ヒアリング</div>
+<div class="field-group"><div class="field-label">希望エリア</div><input class="field-input" id="f-area" placeholder="例：富山市大沢野付近"/></div>
+<div class="field-group"><div class="field-label">家族構成</div><input class="field-input" id="f-family" placeholder="例：夫婦＋子供1人"/></div>
+<div class="field-group"><div class="field-label">購入理由</div>
+  <select class="field-select" id="f-reason"><option value="">選択</option><option>住み替え</option><option>転勤</option><option>家族構成の変化</option><option>賃貸からの転居</option><option>投資</option><option>その他</option></select></div>
+<div class="divider"></div>
+<div class="section-title">アポイント</div>
+<div class="field-group"><div class="field-label">アポ日時</div><input class="field-input" type="datetime-local" id="f-apo"/></div>
+<div class="field-group"><div class="field-label">来店人数</div><input class="field-input" id="f-ninzu" placeholder="例：ご夫婦2名"/></div>
+<div class="field-group"><div class="field-label">結果</div>
+  <select class="field-select" id="f-result"><option value="">未確定</option><option>来店アポ確約</option><option>Web面談アポ確約</option><option>長期追客代行へ</option><option>お断り</option><option>折り返し待ち</option></select></div>
+<div class="field-group"><div class="field-label">架電者メモ</div><textarea class="field-textarea" id="f-memo" placeholder="温度感・気になる点等"></textarea></div>
+<div class="divider"></div>
+<div class="section-title">営業スタッフへ送信</div>
+<div style="display:flex;gap:6px">
+  <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 コピー</button>
+  <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール</button>
+</div>
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！</div>
+</div>
 
 </body>
 </html>
