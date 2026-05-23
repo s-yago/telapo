@@ -1278,7 +1278,7 @@ function checkPw(){
 <script>
 </script>
 
-<button class="float-btn" id="floatBtn" onclick="openDQ()">❓ 難しい質問<br>をされたとき</button>
+
 <div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
   <div class="dq-modal" onclick="event.stopPropagation()">
     <div class="dq-header"><div class="dq-header-title">❓ 答えることができない質問をされたとき</div><button class="dq-close" onclick="closeDQDirect()">✕</button></div>
@@ -1312,7 +1312,7 @@ function closeDQModal(e){if(e.target===document.getElementById('dqOverlay'))clos
 function closeDQDirect(){document.getElementById('dqOverlay').classList.remove('open')}
 </script>
 
-<button class="float-btn" id="floatBtn" onclick="openDQ()">❓ 難しい質問<br>をされたとき</button>
+
 
 
 
