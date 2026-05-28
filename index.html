@@ -797,7 +797,13 @@ function sellScript() {
 </div></div>
 
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="s-noint-desk"><div class="step-top"><span class="step-badge sb-warn">机上査定</span><span class="step-title">送付方法の確認 → 営業に引き継ぎ</span></div>
-<div class="script-box">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認 → <b>営業に引き継ぎ</b><br>→ 営業より<b>送付3日後に追電話</b>「査定書はご覧いただけましたか？」→ 以降は<b>長期追客代行へ</b></div></div>
+<div class="script-box" style="margin-bottom:8px">「かしこまりました。机上査定ですね。結果は<b>郵送</b>でよろしいでしょうか？<b>メールと郵送両方</b>でも承っておりますのでご希望の方法を教えてください。」<br>→ 送付先を確認してメモ</div>
+<button class="jump-btn" onclick="navTo(\'s-hosoku\')" style="margin-top:6px">→ 補足ヒアリングへ</button>
+<div style="background:#F9F8F5;border-left:3px solid #C8C5BC;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:11px;color:#3D3B37;line-height:1.7">
+  <b>📋 営業に引き継ぎ</b><br>
+  営業より：送付3日後に追電話「査定書はご覧いただけましたか？」<br>
+  → 以降は<b>長期追客代行へ</b>
+</div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-4q"><div class="step-top"><span class="step-badge sb-str">STEP 5</span><span class="step-title">本当に売ってくれる不動産会社を数字で見て決める4つの質問</span></div>
 <div class="vivi-box">「不動産会社を選ぶとき、<b>この4つを必ず聞いてください。</b><br><br>
@@ -859,7 +865,12 @@ function sellScript() {
 <div class="step-card" id="s-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
 <div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？ViVi不動産からご連絡させていただきます。」</div>
 <div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」→ 読み上げ確認</div>
-<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div></div>
+<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div>
+<div class="hint" style="margin-top:8px">※ 査定の種類によって次のステップが異なります</div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo(\'s-close\')"><div class="branch-title yes" style="color:#0D6B4A">📄 机上査定の方</div><div class="branch-arrow">→ クロージングへ</div></div>
+  <div class="branch-col yes" onclick="navTo(\'s-junbi\')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">🏠 訪問査定の方</div><div class="branch-arrow">→ 訪問前準備へ</div></div>
+</div></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="s-junbi"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">訪問前準備</span><span class="step-title">当日ご用意いただけると助かるものをお伝えする</span></div>
