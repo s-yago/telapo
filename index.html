@@ -1402,23 +1402,15 @@ function checkPw(){
 <div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-kenngaku"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">見学希望トーク</span><span class="step-title">物件を見たいお客様へ → まず来店を促す</span></div>
 <div class="script-box" style="margin-bottom:8px">「ご見学のご要望、ありがとうございます！ご案内の待ち合わせについてですが、基本的には皆様に一度<b>店舗へお越しいただいてから</b>、物件へご案内しております。」<br><br>「いきなり現地で物件を見るよりも、事前に今後の簡単な流れや、初期費用（購入ならローンなど）で気をつけるべきポイントなどを少しだけお伝えしておいた方が、実際に物件を見たときにより具体的に<b>生活のイメージを持っていただける</b>ためです。」<br><br>「○○様の大切な物件探しですので、しっかりサポートさせていただきたいと思っております。<b>まずは当店でお会いできればと思いますが、ご都合はいかがでしょうか？</b>」</div>
 <div class="branch-grid" style="margin-bottom:8px">
-  <div class="branch-col yes" onclick="navTo('bb-kenngaku-ok')"><div class="branch-title yes">✓ OK（来店可能）</div><div class="branch-arrow">→ 店舗説明→日程確定へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ OK（来店可能）</div><div class="branch-arrow">→ 店舗説明→日程確定へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-rule1')"><div class="branch-title no">✗ NO（現地希望）</div><div class="branch-note">「かしこまりました。担当に申し伝えます。」</div><div class="branch-arrow">→ 日程確定へ</div></div>
 </div></div>
 
-<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-kenngaku-ok"><div class="step-top"><span class="step-badge sb-apo">店舗説明</span><span class="step-title">当社の場所をご案内してから日程確定</span></div>
-<button class="jump-btn" onclick="navTo('bb-rule1')" style="margin-top:6px">→ 日程確定へ</button></div>
-<div class="arr">↓</div>
-<div class="arr">↓</div>
-<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-rule1"><div class="step-top"><span class="step-badge sb-apo">ルール1</span><span class="step-title">まず日程を決定する</span></div>
-<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程を決めましょう。」<br>「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
-<div class="script-box">「後ほど営業担当より、<b>ご挨拶を兼ねまして</b>、改めてお約束の確認と当日のご案内をさせていただきます。」</div>
-<button class="jump-btn" onclick="navTo('bb-basho')" style="margin-top:8px">→ 場所説明へ</button></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-basho"><div class="step-top"><span class="step-badge sb-apo">場所説明</span><span class="step-title">当社の場所をご案内する</span></div>
 <div class="script-box" style="margin-bottom:8px">「当社の場所はお判りでしょうか？」<br><span style="font-size:11px;color:var(--gray-500)">→ 天正寺にございまして、草島東線沿いのジャパンレンタカー様の南側になります</span></div>
-<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:8px">→ 連絡先確認へ</button></div>
+<button class="jump-btn" onclick="navTo('bb-hear  ')" style="margin-top:8px">→ 連絡先確認へ</button></div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#6B6860;background:#fafaf8" id="bb-rule2"><div class="step-top"><span class="step-badge sb-warn">ルール2</span><span class="step-title">資料のみ希望 → 3段階フックで来店を促す</span></div>
 <div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする（周辺環境・価格・間取り・販売状況など）</span></div>
@@ -1461,7 +1453,7 @@ function checkPw(){
 <div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「お客様にぴったりの広さの物件をご提案したいので、よろしければ家族構成を教えていただけますか？」</div>
 <div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は何かきっかけがあって動き出される方が多いのですが、よろしければ教えていただけますか？」</div>
 <div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
-<button class="jump-btn" onclick="navTo('bb-hosoku')" style="margin-top:8px">→ 日程確定へ</button></div>
+<button class="jump-btn" onclick="navTo('bb-rule1')" style="margin-top:8px">→ 日程確定へ</button></div>
 <div class="arr">↓</div>
 <div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">メールアドレス・住所を確認して終了</span></div>
 <div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
