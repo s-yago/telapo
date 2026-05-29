@@ -834,7 +834,7 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-apo"><div class="step-top"><span class="step-badge sb-apo">訪問打診</span><span class="step-title">「一度実際にお伺いさせていただいて査定させていただけないでしょうか？」</span></div>
-<div class="script-box" style="margin-bottom:8px">「週末か平日の夜でしたらどちらがご都合よろしいでしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px">「週末か平日でしたらどちらがご都合よろしいでしょうか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('s-hosoku')"><div class="branch-title yes">✓ YES → 日程確定</div><div class="branch-note">候補日を2〜3提示して確定</div><div class="branch-arrow">→ 補足ヒアリングへ</div></div>
   <div class="branch-col no" onclick="navTo('s-apo-online')"><div class="branch-title no">✗ 難しい</div><div class="branch-note">「オンラインでのお打ち合わせも可能なのですが、いかがでしょうか？」</div><div class="branch-arrow">→ オンライン打診へ</div></div>
@@ -847,7 +847,7 @@ function sellScript() {
 </div></div>
 <div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff;margin-top:8px" id="s-apo-zoom"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">ZOOM説明・日程確定</span><span class="step-title">オンライン打ち合わせの説明と日程を決める</span></div>
 <div class="green-box" style="margin-bottom:8px">「ありがとうございます。弊社ではZOOMを利用したオンラインでのお打ち合わせとなります。後ほど担当よりZOOMのURLをお送りさせていただきます。」</div>
-<div class="script-box" style="margin-bottom:8px">「週末か平日の夜でしたらどちらがご都合よろしいでしょうか？」<br>→ 候補日を2〜3提示して確定</div>
+<div class="script-box" style="margin-bottom:8px">「週末か平日でしたらどちらがご都合よろしいでしょうか？」<br>→ 候補日を2〜3提示して確定</div>
 <button class="jump-btn" onclick="navTo('s-hosoku')" style="margin-top:8px">→ 補足ヒアリングへ</button></div>
 <div class="arr">↓</div>
 
@@ -1374,11 +1374,31 @@ function checkPw(){
 <div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・要望確認</span></div>
 <div class="script-box" style="margin-bottom:8px">「先ほど<b>○○○（アットホーム・スーモ・当社HPなど）</b>より<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日は<b>○○○（要望項目を読み上げる）</b>をご希望ということでよろしいでしょうか？」</div>
 <div class="hint">※ フォームのチェック項目を読み上げて確認する</div>
-<div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">【ルール1】<br>来店・相談・案内希望</div><div class="branch-note" style="font-size:10px">まず日程確定 → ヒアリング</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule3')"><div class="branch-title no">【ルール3】<br>今は忙しい</div><div class="branch-note" style="font-size:10px">30秒フック → 来店打診</div></div>
-  <div class="branch-col no" onclick="navTo('bb-rule2')" style="border-color:#6B6860"><div class="branch-title no" style="color:#3D3B37">【ルール2】<br>資料のみ・情報収集</div><div class="branch-note" style="font-size:10px">フックをかけて来店促進</div></div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr;margin-top:8px;margin-bottom:6px">
+  <div class="branch-col yes" onclick="navTo('bb-raiten')" style="border-color:#1D9E75"><div class="branch-title yes" style="color:#0D6B4A">🏠 来店・相談希望</div><div class="branch-note" style="font-size:10px">→ 来店予約トークへ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-kenngaku')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">🔍 物件を見たい（内見希望）</div><div class="branch-note" style="font-size:10px">→ 見学希望トークへ</div></div>
+</div>
+<div class="branch-grid" style="grid-template-columns:1fr 1fr;margin-top:4px">
+  <div class="branch-col no" onclick="navTo('bb-rule3')"><div class="branch-title no">【ルール3】今は忙しい</div><div class="branch-note" style="font-size:10px">30秒フック → 来店打診</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule2')" style="border-color:#6B6860"><div class="branch-title no" style="color:#3D3B37">【ルール2】資料のみ・情報収集</div><div class="branch-note" style="font-size:10px">フックをかけて来店促進</div></div>
 </div></div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-raiten"><div class="step-top"><span class="step-badge sb-str">来店予約トーク</span><span class="step-title">来店・相談希望のお客様へ</span></div>
+<div class="green-box" style="margin-bottom:8px">「ご来店のご予約ですね、ありがとうございます！直接お会いして詳しくお話を伺えるので、より○○様のご希望に沿った物件をご提案できるかと思います。」<br><br>「ご来店の際は、簡単な流れのご説明から、ネットには載っていない<b>非公開物件</b>なども含めて幅広くご紹介させていただきますね。」<br><br>「よりスムーズにご案内できるよう、事前にお探しのご条件をお聞きしてもよろしいでしょうか。」</div>
+<button class="jump-btn" onclick="navTo('bb-hear')" style="margin-top:6px">→ 条件ヒアリングへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-kenngaku"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">見学希望トーク</span><span class="step-title">物件を見たいお客様へ → まず来店を促す</span></div>
+<div class="script-box" style="margin-bottom:8px">「ご見学のご要望、ありがとうございます！ご案内の待ち合わせについてですが、基本的には皆様に一度<b>店舗へお越しいただいてから</b>、物件へご案内しております。」<br><br>「いきなり現地で物件を見るよりも、事前に今後の簡単な流れや、初期費用（購入ならローンなど）で気をつけるべきポイントなどを少しだけお伝えしておいた方が、実際に物件を見たときにより具体的に<b>生活のイメージを持っていただける</b>ためです。」<br><br>「○○様の大切な物件探しですので、しっかりサポートさせていただきたいと思っております。<b>まずは当店でお会いできればと思いますが、ご都合はいかがでしょうか？</b>」</div>
+<div class="branch-grid" style="margin-bottom:8px">
+  <div class="branch-col yes" onclick="navTo('bb-kenngaku-ok')"><div class="branch-title yes">✓ OK（来店可能）</div><div class="branch-arrow">→ 店舗説明→日程確定へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-rule1')"><div class="branch-title no">✗ NO（現地希望）</div><div class="branch-note">「かしこまりました。担当に申し伝えます。」</div><div class="branch-arrow">→ 日程確定へ</div></div>
+</div></div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-kenngaku-ok"><div class="step-top"><span class="step-badge sb-apo">店舗説明</span><span class="step-title">当社の場所をご案内してから日程確定</span></div>
+<div class="script-box" style="margin-bottom:8px">「ありがとうございます！当社は<b>天正寺にございまして、草島東線沿いのジャパンレンタカー様の南側</b>になります。」</div>
+<button class="jump-btn" onclick="navTo('bb-rule1')" style="margin-top:6px">→ 日程確定へ</button></div>
+<div class="arr">↓</div>
 <div class="arr">↓</div>
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-rule1"><div class="step-top"><span class="step-badge sb-apo">ルール1</span><span class="step-title">まず日程を決定する</span></div>
 <div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程を決めましょう。」<br>「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
