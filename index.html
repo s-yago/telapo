@@ -655,7 +655,8 @@ function buildNav(mode) {
       <div class="nav-item" data-target="s-hosoku" onclick="navTo('s-hosoku')">📝 補足ヒアリング</div>
       <div class="nav-item" data-target="s-junbi" onclick="navTo('s-junbi')">📋 訪問前準備</div>
       <div class="nav-item" data-target="s-close" onclick="navTo('s-close')">👋 クロージング</div>
-      <div class="nav-item" data-target="s-qa" onclick="navTo('s-qa')">❓ 切り返し集</div>`;
+      <div class="nav-item" data-target="s-qa" onclick="navTo('s-qa')">❓ 切り返し集</div>
+      <div class="nav-item" data-target="s-fook" onclick="navTo('s-fook')">💡 キラーフック集</div>`;
   } else if (mode === 'buy_member') {
     nav.innerHTML = `
       <div class="nav-section">発信・導入</div>
@@ -901,7 +902,20 @@ function sellScript() {
 <div class="script-box" style="margin-bottom:5px"><b>「仲介手数料はいくら？」「賃貸中でも？」「残債があっても？」「相場はいくら？」</b>→ 「いろいろご興味をお持ちいただきありがとうございます。よろしければ改めて担当よりご連絡させていただきます。（または担当に代わらせていただきます）」</div>
 <div class="script-box" style="margin-bottom:5px"><b>※ ヒアリングを嫌がる</b>→ 「詳細は担当からご説明しますので、まずは日程だけ調整させてください。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>※ 温度感が高い</b>→ 電話に出やすい時間帯・メアドを優先確認し、スピーディに来店アポへ。</div>
-<div class="script-box"><b>※ 売却理由を言いたくない</b>→ 「おっしゃらなくて大丈夫です。それでは物件の確認をさせてください。」</div></div>`;
+<div class="script-box"><b>※ 売却理由を言いたくない</b>→ 「おっしゃらなくて大丈夫です。それでは物件の確認をさせてください。」</div></div>
+
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#8B1A00;background:#fff8f7" id="s-fook"><div class="step-top"><span class="step-badge" style="background:#FDECEA;color:#8B1A00">キラーフック集</span><span class="step-title">お客様の状況に合わせて使い分ける</span></div>
+<div class="hint" style="margin-bottom:10px">※ お客様の性格・状況を見て適切なフックを選択。どのフックも「最終的に決めるのは○○様ですが、プロとしてこれだけは知っておいてほしくて」というスタンスで話す。</div>
+
+<div class="vivi-box" style="margin-bottom:10px"><b>②【透明性・誠実さ】囲い込みへの警鐘フック</b><br><span style="font-size:11px;color:#3D3B37">▶ 警戒心が強い方・過去に失敗経験がある方</span><br><br>「○○様、不動産を高く・早く売るために一番大切なことは何だと思われますか？<br><br>実は、物件の良さと同じくらい<b>『情報をどれだけ広く、他の不動産会社にもオープンにするか』</b>が重要なんです。<br><br>業界の裏話になってしまいますが、自社だけでお客様を見つけて手数料を両方から貰うために、他の会社に情報を流さない<b>『囲い込み』</b>という手法をとる会社が未だに存在します。これをされると、売却のチャンスが激減してしまいます。<br><br>弊社は○○様の利益を最優先にするため、お預かりした物件情報は全国の不動産会社に<b>100％即時公開</b>し、何百という窓口で一斉に買主様を探す手法をとっております。<br><br>どの会社を選ぶにしても、ここだけはしっかり約束してくれる会社を選んでくださいね。」</div>
+
+<div class="vivi-box" style="margin-bottom:10px"><b>③【ターゲット設定・魅せ方】高く売るための戦略フック</b><br><span style="font-size:11px;color:#3D3B37">▶ 物件に思い入れがある方・少しでも高く売りたい方</span><br><br>「○○様はとても大切にお使いになられてきたんだと思います。<br><br>実は、不動産を相場より少しでも高く売るためには、ただネットに情報を出すだけでは不十分なんです。大切なのは<b>『この物件を一番欲しがるのはどんな人か』を徹底的に分析して、その人に刺さる見せ方をする</b>ことです。<br><br>例えば、この間取りと日当たりなら『小さなお子様がいるご家庭』よりも『リモートワーク中心のご夫婦』に強く響くはずです。<br><br>弊社では、そういった『高く買ってでも欲しいと思ってくれるターゲット』に向けた見せ方の工夫や、写真の撮り方一つにまでこだわって販売戦略を立てさせていただきます。ただ価格をつけて待つだけの営業はいたしません。」</div>
+
+<div class="vivi-box"><b>④【ストレス回避】見学対応の負担軽減フック</b><br><span style="font-size:11px;color:#3D3B37">▶ 居住中のまま売却する方・忙しい方</span><br><br>「○○様、お住まいになりながらの売却活動は、思っていらっしゃる以上に気を遣うし大変な面もあるかと思います。週末のたびに家を綺麗に片付けて、見学者の対応をして……というのは、とても労力がかかりますよね。<br><br>だからこそ、私たちが目指すのは『ただ沢山の人を連れてくること』ではありません。事前にネット上で物件の魅力をしっかり伝えきり、資金計画などもクリアにした<b>『本当に買う気のある、確度の高いお客様』だけを厳選してご案内する</b>ようにスクリーニングを徹底いたします。<br><br>○○様の貴重な休日を無駄にしないよう、最小限のご負担で最高の結果を出せるよう動きますので、どうぞご安心くださいね。」</div>
+</div>
+`;
 }
 
 function buyScript() {
