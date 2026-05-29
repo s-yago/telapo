@@ -647,7 +647,6 @@ function buildNav(mode) {
       <div class="nav-item branch-no" data-target="s-4q" onclick="navTo('s-4q')">📊 4つの質問</div>
       <div class="nav-item branch-no" data-target="s-jisseki" onclick="navTo('s-jisseki')">🏆 弊社実績</div>
       <div class="nav-section">強み・アポ</div>
-      <div class="nav-item" data-target="s-taisha" onclick="navTo('s-taisha')">🏢 他社査定対応</div>
       <div class="nav-item" data-target="s-tsuyomi1" onclick="navTo('s-tsuyomi1')">💪 強み①数字</div>
       <div class="nav-item" data-target="s-tsuyomi2" onclick="navTo('s-tsuyomi2')">🏠 強み②工務部</div>
       <div class="nav-item" data-target="s-apo" onclick="navTo('s-apo')">📅 来店打診・日程</div>
@@ -757,7 +756,11 @@ function sellScript() {
 <div class="step-card" id="s-kansha"><div class="step-top"><span class="step-badge sb-hook">感謝＋フック投下</span><span class="step-title">ヒアリング完了 → 損失回避トーク</span></div>
 <div class="green-box">「いろいろ答えていただきありがとうございます。とても助かります。」</div>
 <div class="hook-box" style="margin-top:8px">「○○様、大切なお住まいですから、1円でも高く売りたいと思われるのは当然のことですよね。私も同じ立場なら絶対にそう思います。<br><br>ただ、不動産のプロとして、一つだけお伝えさせてください。<br><br>実は、不動産の査定をされた方の多くが陥ってしまう<b>『落とし穴』</b>があるんです。それは<b>『一番高い査定額を出した会社を信じてしまう』</b>ことなんです。<br><br>査定額はあくまで『予想』であり、会社がその金額で買い取ってくれるわけではありません。高すぎる価格で売り出すと、長期間売れ残り、最終的には『こんなはずじゃなかった』と<b>相場より安く手放すことになってしまいます。</b><br><br>もちろん最終的にはご自身でご判断いただくことですが、このことだけ知っておいていただけると、きっとお役に立てると思いますのでお話しさせていただきました。」</div>
-<button class="jump-btn" onclick="navTo('s-taisha')" style="margin-top:8px">→ 他社査定確認へ</button></div>
+<div class="script-box" style="margin-top:8px"><b>「実は先ほどの失敗を招かないために『本当に売ってくれる不動産会社を数字で見て決める方法』のお話もありますが、興味ありますか？」</b></div>
+<div class="branch-grid" style="margin-top:8px">
+  <div class="branch-col yes" onclick="navTo(\'s-4q\')"><div class="branch-title yes">✓ YES</div><div class="branch-arrow">→ 4つの質問へ</div></div>
+  <div class="branch-col no" onclick="navTo(\'s-noint\')"><div class="branch-title no">✗ 興味なし</div><div class="branch-arrow">→ 査定方法確認へ</div></div>
+</div></div>
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-tabou"><div class="step-top"><span class="step-badge sb-hook">STEP 1</span><span class="step-title">共感＋30秒お願い</span></div>
 <div class="script-box">「そうですか、失礼しました。では<b>30秒だけ</b>お時間ください。」</div></div>
@@ -802,23 +805,6 @@ function sellScript() {
 ③ 1物件に<b>何枚の写真を掲載</b>しますか？どのくらいの<b>サイトに掲載</b>してくれますか？<br>
 ④ 他の不動産会社さんにも<b>広告を貸す</b>ことはしてくれますか？<br>
 <span style="font-size:11px;opacity:.85">（NOや「状況によります」とはっきり答えずお茶を濁す会社は<b>囲い込みの疑い</b>があります）</span>」</div></div>
-<div class="arr">↓</div>
-
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-jisseki"><div class="step-top"><span class="step-badge sb-str">STEP 6</span><span class="step-title">弊社の実績をお伝えする</span></div>
-<div class="vivi-box">「ちなみに当社の場合ですが、<br>
-① 昨年の成約件数：<b>142件</b><br>
-② 6ヶ月以内成約率：<b>全体79.0％（マンションの場合82.2%）</b><br>
-③ 写真<b>30枚</b>・スーモ／アットホーム／ライフルホームズ他<b>30以上のサイト</b>に掲載<br>
-④ 早期及び好条件での成約のために、売主様がOKであれば<b>全物件広告貸し出しOK</b>しております。」</div>
-<button class="jump-btn" onclick="navTo('s-apo')" style="margin-top:8px">→ アポ打診へ</button></div>
-
-<div class="step-card" id="s-taisha"><div class="step-top"><span class="step-badge sb-str">他社査定</span><span class="step-title">もし教えていただければなのですが、他社にも査定依頼されていらっしゃいますか？</span></div>
-<div class="branch-grid">
-  <div class="branch-col no" onclick="navTo('s-tsuyomi1')"><div class="branch-title no">他社あり → 比較歓迎</div><div class="branch-note">「ぜひ比較いただきたいです。<b>本当に売ってくれる不動産会社が分かる無料チェックシート</b>はいかがですか？」<br>→ 来店時に手渡し／机上査定の方は査定書に添付</div><div class="branch-arrow">→ 訪問査定フックへ</div></div>
-  <div class="branch-col yes" onclick="navTo('s-tsuyomi1')"><div class="branch-title yes">弊社のみ → 強み訴求へ</div><div class="branch-arrow">→ 強み①へ</div></div>
-</div></div>
-<div class="arr">↓</div>
-
 <div class="step-card" id="s-tsuyomi1"><div class="step-top"><span class="step-badge sb-str">強み①</span><span class="step-title">売り切る力をお伝えする</span></div>
 <div class="vivi-box">「当社は昨年富山市内で<b>142件</b>を成約し、そのうち<b>79パーセントが6ヶ月以内（マンションの場合は82％）</b>に売れています。1物件に写真<b>30枚</b>・30以上の不動産サイトに掲載し、他社にも情報を開放しますので多くの買い手の目に届き、<b>好条件での成約を早期に実現しています。</b>」</div></div>
 <div class="arr">↓</div>
@@ -853,9 +839,9 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-hosoku"><div class="step-top"><span class="step-badge sb-hear">補足</span><span class="step-title">補足ヒアリング</span></div>
-<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡しやすいお時間帯はございますか？ViVi不動産からご連絡させていただきます。」</div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「担当者から連絡させていただくときに今後ご連絡しやすいお時間帯はございますか？」</div>
 <div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。」→ 読み上げ確認</div>
-<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」</div>
+<div class="script-box"><b>郵送先住所</b>「資料をお送りすることがありますので、現在のご住所をお伺いできますか？郵便番号からお伺いできますでしょうか。」<br><span style="font-size:11px;color:var(--gray-500)">または「資料をお送りすることがありますので、ご記載いただいたご住所でよろしいでしょうか。」</span></div>
 <div class="hint" style="margin-top:8px">※ 査定の種類によって次のステップが異なります</div>
 <div class="branch-grid" style="margin-top:8px">
   <div class="branch-col yes" onclick="navTo(\'s-close\')"><div class="branch-title yes" style="color:#0D6B4A">📄 机上査定の方</div><div class="branch-arrow">→ クロージングへ</div></div>
@@ -893,7 +879,7 @@ function sellScript() {
 <div class="arr">↓</div>
 
 <div class="step-card" id="s-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
-<div class="script-box">「ご確認は以上です。詳細は改めて担当よりご連絡いたします。ViVi不動産からのご連絡はお目通しいただけますと幸いです。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div class="script-box">「ご確認は以上です。ごあいさつと確認を兼ねまして担当より後ほどご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
 <div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A">💾 保存して完了</button></div></div>
 
 <div class="step-card" id="s-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
@@ -915,6 +901,18 @@ function sellScript() {
 
 <div class="vivi-box"><b>④【ストレス回避】見学対応の負担軽減フック</b><br><span style="font-size:11px;color:#3D3B37">▶ 居住中のまま売却する方・忙しい方</span><br><br>「○○様、お住まいになりながらの売却活動は、思っていらっしゃる以上に気を遣うし大変な面もあるかと思います。週末のたびに家を綺麗に片付けて、見学者の対応をして……というのは、とても労力がかかりますよね。<br><br>だからこそ、私たちが目指すのは『ただ沢山の人を連れてくること』ではありません。事前にネット上で物件の魅力をしっかり伝えきり、資金計画などもクリアにした<b>『本当に買う気のある、確度の高いお客様』だけを厳選してご案内する</b>ようにスクリーニングを徹底いたします。<br><br>○○様の貴重な休日を無駄にしないよう、最小限のご負担で最高の結果を出せるよう動きますので、どうぞご安心くださいね。」</div>
 </div>
+
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="s-jisseki"><div class="step-top"><span class="step-badge sb-str">STEP 6</span><span class="step-title">弊社の実績をお伝えする</span></div>
+<div class="vivi-box">「ちなみに当社の場合ですが、<br>
+① 昨年の成約件数：<b>142件</b><br>
+② 3ヶ月以内成約率：<b>63パーセント</b><br>
+③ 写真<b>30枚</b>・スーモ／アットホーム／ライフルホームズ他<b>30以上のサイト</b>に掲載<br>
+④ 早期及び好条件での成約のために、売主様がOKであれば<b>全物件広告貸し出しOK</b>しております。」</div>
+<button class="jump-btn" onclick="navTo('s-apo')" style="margin-top:8px">→ アポ打診へ</button></div>
+
+
 `;
 }
 
@@ -981,6 +979,7 @@ function buyScript() {
 
 <div class="step-card" id="b-apo"><div class="step-top"><span class="step-badge sb-apo">日程確定</span><span class="step-title">来店日程を決める</span></div>
 <div class="script-box" style="margin-bottom:8px">「それでは日程を決めましょう。今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px">「当社の場所はお判りでしょうか？」<br><span style="font-size:11px;color:var(--gray-500)">→ 当社の場所の説明をする（天正寺にございまして、草島東線沿いのジャパンレンタカー様の南側になります）</span></div>
 <div class="script-box">「後ほど営業担当より、<b>ご挨拶を兼ねまして</b>、改めてお約束の確認と当日のご案内をさせていただきます。」</div>
 <div class="branch-grid" style="margin-top:8px">
   <div class="branch-col yes" onclick="navTo(\'b-hear-come\')"><div class="branch-title yes">まだ条件ヒアリングしていない</div><div class="branch-arrow">→ 条件ヒアリングへ</div></div>
@@ -1265,8 +1264,6 @@ function checkPw(){
     if(s)s.style.display='none';
   }
 })();
-
-
 </script>
 
 <button class="float-btn" id="floatBtn" onclick="openDQ()">❓ 難しい質問<br>をされたとき</button>
