@@ -1373,15 +1373,18 @@ function checkPw(){
 
 <!-- 物件反響スクリプトテンプレート -->
 <div id="bukken-script-template" style="display:none">
+
 <div class="step-card" id="bb-start"><div class="step-top"><span class="step-badge sb-end">START</span><span class="step-title">電話発信</span></div><div class="hint">問い合わせ後できるだけ早く発信。フォームのチェック項目を事前に確認しておく</div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="bb-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
 <div class="script-box">「お忙しいところ恐れ入ります。<b>ViVi不動産の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-greet')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
-  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note"><b>携帯の場合：</b>間違い電話・いたずらの可能性を確認<br><b>固定の場合：</b>「お手数ですがご本人様にお代わりいただけますか？」<br><br>それでも難しい場合：<br>「それでは改めてご連絡させていただきます。何時頃であればご在宅でしょうか？」<br>→ 時間帯をメモして電話を切る</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note"><b>携帯の場合：</b>間違い電話・いたずらの可能性を確認<br><b>固定の場合：</b>「お手数ですがご本人様にお代わりいただけますか？」<br><br>それでも難しい場合：「それでは改めてご連絡させていただきます。何時頃であればご在宅でしょうか？」<br>→ 時間帯をメモして電話を切る</div></div>
 </div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="bb-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">ご挨拶・要望確認</span></div>
 <div class="script-box" style="margin-bottom:8px">「先ほど<b>○○○（アットホーム・スーモ・当社HPなど）</b>より<b>○○（物件名）</b>に対してお問い合わせいただきまして誠にありがとうございます。本日は<b>○○○（要望項目を読み上げる）</b>をご希望ということでよろしいでしょうか？」</div>
 <div class="hint">※ フォームのチェック項目を読み上げて確認する</div>
@@ -1393,6 +1396,7 @@ function checkPw(){
   <div class="branch-col no" onclick="navTo('bb-rule3')"><div class="branch-title no">【ルール3】今は忙しい</div><div class="branch-note" style="font-size:10px">30秒フック → 来店打診</div></div>
   <div class="branch-col no" onclick="navTo('bb-rule2')" style="border-color:#6B6860"><div class="branch-title no" style="color:#3D3B37">【ルール2】資料のみ・情報収集</div><div class="branch-note" style="font-size:10px">フックをかけて来店促進</div></div>
 </div></div>
+<div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-raiten"><div class="step-top"><span class="step-badge sb-str">来店予約トーク</span><span class="step-title">来店・相談希望のお客様へ</span></div>
 <div class="green-box" style="margin-bottom:8px">「ご来店のご予約ですね、ありがとうございます！直接お会いして詳しくお話を伺えるので、より○○様のご希望に沿った物件をご提案できるかと思います。」<br><br>「ご来店の際は、簡単な流れのご説明から、ネットには載っていない<b>非公開物件</b>なども含めて幅広くご紹介させていただきますね。」<br><br>「よりスムーズにご案内できるよう、事前にお探しのご条件をお聞きしてもよろしいでしょうか。」</div>
@@ -1402,16 +1406,22 @@ function checkPw(){
 <div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="bb-kenngaku"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">見学希望トーク</span><span class="step-title">物件を見たいお客様へ → まず来店を促す</span></div>
 <div class="script-box" style="margin-bottom:8px">「ご見学のご要望、ありがとうございます！ご案内の待ち合わせについてですが、基本的には皆様に一度<b>店舗へお越しいただいてから</b>、物件へご案内しております。」<br><br>「いきなり現地で物件を見るよりも、事前に今後の簡単な流れや、初期費用（購入ならローンなど）で気をつけるべきポイントなどを少しだけお伝えしておいた方が、実際に物件を見たときにより具体的に<b>生活のイメージを持っていただける</b>ためです。」<br><br>「○○様の大切な物件探しですので、しっかりサポートさせていただきたいと思っております。<b>まずは当店でお会いできればと思いますが、ご都合はいかがでしょうか？</b>」</div>
 <div class="branch-grid" style="margin-bottom:8px">
-  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ OK（来店可能）</div><div class="branch-arrow">→ 店舗説明→日程確定へ</div></div>
+  <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ OK（来店可能）</div><div class="branch-arrow">→ 日程確定へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-rule1')"><div class="branch-title no">✗ NO（現地希望）</div><div class="branch-note">「かしこまりました。担当に申し伝えます。」</div><div class="branch-arrow">→ 日程確定へ</div></div>
 </div></div>
+<div class="arr">↓</div>
 
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-rule1"><div class="step-top"><span class="step-badge sb-apo">日程確定</span><span class="step-title">まず日程を決定する</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程を決めましょう。」<br>「今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="script-box">「後ほど営業担当より、<b>ご挨拶を兼ねまして</b>、改めてお約束の確認と当日のご案内をさせていただきます。」</div>
+<button class="jump-btn" onclick="navTo('bb-basho')" style="margin-top:8px">→ 場所説明へ</button></div>
 <div class="arr">↓</div>
 
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="bb-basho"><div class="step-top"><span class="step-badge sb-apo">場所説明</span><span class="step-title">当社の場所をご案内する</span></div>
 <div class="script-box" style="margin-bottom:8px">「当社の場所はお判りでしょうか？」<br><span style="font-size:11px;color:var(--gray-500)">→ 天正寺にございまして、草島東線沿いのジャパンレンタカー様の南側になります</span></div>
-<button class="jump-btn" onclick="navTo('bb-hear  ')" style="margin-top:8px">→ 連絡先確認へ</button></div>
+<button class="jump-btn" onclick="navTo('bb-hear')" style="margin-top:8px">→ 条件ヒアリングへ</button></div>
 <div class="arr">↓</div>
+
 <div class="step-card" style="border-color:#6B6860;background:#fafaf8" id="bb-rule2"><div class="step-top"><span class="step-badge sb-warn">ルール2</span><span class="step-title">資料のみ希望 → 3段階フックで来店を促す</span></div>
 <div class="script-box" style="margin-bottom:8px">「ありがとうございます。どのような情報をお知りになりたいですか？」<br><span style="font-size:11px;color:var(--gray-500)">※ 具体的に何が知りたいか聞いてメモする（周辺環境・価格・間取り・販売状況など）</span></div>
 <div class="script-box" style="margin-bottom:8px">「承知しました。ご説明できる資料をご用意いたします。実は、より詳しい情報や類似の物件資料もご来店いただければ非公開情報も含めてお伝えできることも多いのですが、よろしければ一度お越しいただけませんか？いくつかメリットもご用意しています。」</div>
@@ -1429,6 +1439,7 @@ function checkPw(){
   <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり資料だけ</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ ルール4へ</div></div>
 </div></div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-rule3"><div class="step-top"><span class="step-badge sb-hook">ルール3</span><span class="step-title">時間がない → 30秒フック → 来店打診</span></div>
 <div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
 <div class="hook-box" style="margin-bottom:8px">「実は業者専用の<b>「レインズ」</b>というサイトがありまして、SUUMOなどには載っていない<b>非公開物件</b>もご来店いただいた方だけにご紹介できます。また当社には<b>モデルルーム</b>もありますのでリフォームのイメージもつかんでいただけます。さらに<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。」</div>
@@ -1438,6 +1449,7 @@ function checkPw(){
   <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり無理</div><div class="branch-arrow">→ ルール4へ</div></div>
 </div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" style="border-color:#D85A30;background:#fff9f8" id="bb-rule4"><div class="step-top"><span class="step-badge sb-warn">ルール4</span><span class="step-title">来店断られた → 資料送付 → ヒアリング → 連絡先確認</span></div>
 <div class="script-box" style="margin-bottom:8px">「承知しました。それでは<b>資料をお送り</b>させていただきます。メールと郵送どちらがよろしいでしょうか？」<br>→ 送付先を確認してメモ</div>
 <div class="script-box" style="margin-bottom:8px">「よろしければ、簡単にご条件だけお聞きしてもよろしいでしょうか？担当がお客様に合った情報をお探しいたします。」</div>
@@ -1446,6 +1458,7 @@ function checkPw(){
   <div class="branch-col no" onclick="navTo('bb-hosoku')"><div class="branch-title no">✗ それも不要</div><div class="branch-arrow">→ 連絡先確認して終了</div></div>
 </div></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="bb-hear"><div class="step-top"><span class="step-badge sb-hear">条件ヒアリング ①〜④</span><span class="step-title">希望条件・家族構成・購入理由のヒアリング</span></div>
 <div class="script-box" style="margin-bottom:8px">「お問い合わせいただきました物件の他にも、お客様にぴったりの物件をご紹介したいので、いくつか基本的なご条件だけお伺いしてもよろしいでしょうか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>①問い合わせ物件の確認</b>「○○（物件名）のどんなところがお気に入りでしたか？」</div>
@@ -1455,15 +1468,18 @@ function checkPw(){
 <div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
 <button class="jump-btn" onclick="navTo('bb-rule1')" style="margin-top:8px">→ 日程確定へ</button></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="bb-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">メールアドレス・住所を確認して終了</span></div>
 <div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
 <div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。ご記載いただいたメールアドレスは<b>○○○＠○○</b>ですね。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
 <div class="script-box"><b>郵送先住所</b>「現在のご住所はご記載いただいた<b>○○</b>でお間違えございませんでしょうか。」<br><span style="font-size:11px;color:var(--gray-500)">※ 未記載・不備の場合は教えてもらえればベスト</span></div>
 <button class="jump-btn" onclick="navTo('bb-close')" style="margin-top:8px">→ クロージングへ</button></div>
 <div class="arr">↓</div>
+
 <div class="step-card" id="bb-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
-<div class="script-box">「詳細は改めて担当よりご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
+<div class="script-box">「ご確認は以上です。ごあいさつと確認を兼ねまして担当より後ほどご連絡いたします。お忙しい中ありがとうございました。失礼いたします。」</div>
 <div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
+
 <div class="step-card" id="bb-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
 <div class="script-box" style="margin-bottom:5px"><b>「内覧できますか？」</b>→ 「現地待ち合わせも可能ですが、初めての方の場合、ご来店いただければ類似の非公開物件のご紹介と住宅ローンのお話も併せてご案内できますので、皆様にお寄りいただいております。それでも現地を強くご希望でしたら担当が現地にてご案内いたします。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>「他にも似た物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も多数ございます。ご来店いただければ一緒に探せます。」</div>
@@ -1471,6 +1487,7 @@ function checkPw(){
 <div class="script-box" style="margin-bottom:5px"><b>「資料だけ送ってほしい」</b>→ 「かしこまりました。メールと郵送どちらがよろしいでしょうか？」→ 資料送付後に追電話</div>
 <div class="script-box" style="margin-bottom:5px"><b>賃貸中の物件</b>→ 「こちらはオーナーチェンジ物件といって投資家向けの物件です。住宅ローンはご利用いただけず、室内見学もできません。」</div>
 <div class="script-box"><b>専門的な質問全般</b>→ 「私では分かりかねますので、担当よりご連絡させていただきます。」</div></div>
+
 </div>
 
 <!-- 物件反響パネルテンプレート -->
