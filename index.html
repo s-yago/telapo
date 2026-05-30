@@ -661,25 +661,22 @@ function buildNav(mode) {
       <div class="nav-section">発信・導入</div>
       <div class="nav-item" data-target="b-start" onclick="navTo('b-start')">📞 電話発信</div>
       <div class="nav-item" data-target="b-honin" onclick="navTo('b-honin')">👤 本人確認</div>
-      <div class="nav-item" data-target="b-greet" onclick="navTo('b-greet')">🙏 挨拶・目的</div>
+      <div class="nav-item" data-target="b-greet" onclick="navTo('b-greet')">🙏 挨拶</div>
       <div class="nav-section">時間あり</div>
-      <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">🏦 ローン利用確認</div>
-      <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">📋 ヒアリング①〜⑤</div>
+      <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">📋 ヒアリング①〜④</div>
+      <div class="nav-item branch-yes" data-target="b-hook" onclick="navTo('b-hook')">🎯 30秒フック（レインズ）</div>
+      <div class="nav-item branch-yes" data-target="b-hook-mayoi" onclick="navTo('b-hook-mayoi')">🤔 迷い対応</div>
+      <div class="nav-item branch-yes" data-target="b-hook-loan" onclick="navTo('b-hook-loan')">🏦 再フックA（ローン）</div>
+      <div class="nav-item branch-yes" data-target="b-hook-cash" onclick="navTo('b-hook-cash')">💴 再フックB（現金）</div>
+      <div class="nav-item branch-yes" data-target="b-hook-close" onclick="navTo('b-hook-close')">🎯 来店打診クロージング</div>
       <div class="nav-section">多忙ルート</div>
-      <div class="nav-item branch-no" data-target="b-tabou" onclick="navTo('b-tabou')">⏰ 1分お願い</div>
-      <div class="nav-item branch-no" data-target="b-hook" onclick="navTo('b-hook')">🎯 1分フック</div>
-      <div class="nav-item branch-no" data-target="b-tsuzuki" onclick="navTo('b-tsuzuki')">🎣 続きフック（レインズ）</div>
-      <div class="nav-item branch-no" data-target="b-reinz" onclick="navTo('b-reinz')">🔑 レインズの説明</div>
-      <div class="nav-item branch-yes" data-target="b-apo" onclick="navTo('b-apo')">📅 来店打診</div>
-      <div class="nav-item branch-no" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 連絡先確認</div>
-      <div class="nav-item branch-no" data-target="b-orikaeshi" onclick="navTo('b-orikaeshi')">🔄 折り返し確認</div>
-      <div class="nav-section">アポ打診</div>
-      <div class="nav-item" data-target="b-reinz" onclick="navTo('b-reinz')">🔑 レインズの説明</div>
-      <div class="nav-item branch-yes" data-target="b-apo" onclick="navTo('b-apo')">📅 来店打診・日程</div>
-      <div class="nav-section">締め</div>
-      <div class="nav-item" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 補足ヒアリング</div>
+      <div class="nav-item branch-no" data-target="b-tabou" onclick="navTo('b-tabou')">⏰ 30秒お願い</div>
+      <div class="nav-section">共通</div>
+      <div class="nav-item branch-yes" data-target="b-apo" onclick="navTo('b-apo')">📅 日程確定</div>
+      <div class="nav-item branch-yes" data-target="b-hear-come" onclick="navTo('b-hear-come')">📋 ヒアリング（来店確定後）</div>
+      <div class="nav-item" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 連絡先確認</div>
       <div class="nav-item" data-target="b-close" onclick="navTo('b-close')">👋 クロージング</div>
-      <div class="nav-item" data-target="b-qa" onclick="navTo('b-qa')">❓ 切り返し集</div>`;
+      <div class="nav-item" data-target="b-qa" onclick="navTo('b-qa')">❓ 切り返し集</div>\`;
   } else if (mode === 'buy_bukken') {
     nav.innerHTML = `
       <div class="nav-section">発信・導入</div>
@@ -687,7 +684,7 @@ function buildNav(mode) {
       <div class="nav-item" data-target="bb-honin" onclick="navTo('bb-honin')">👤 本人確認</div>
       <div class="nav-item" data-target="bb-greet" onclick="navTo('bb-greet')">🙏 挨拶・要望確認</div>
       <div class="nav-section">ルート分岐</div>
-      <div class="nav-item branch-yes" data-target="bb-rule1" onclick="navTo('bb-rule1')">🟢 ルール1：来店希望</div>
+      <div class="nav-item branch-yes" data-target="bb-raiten" onclick="navTo('bb-raiten')">🏠 来店・見学希望</div>
       <div class="nav-item branch-no" data-target="bb-rule2" onclick="navTo('bb-rule2')">📄 ルール2：資料のみ希望</div>
       <div class="nav-item branch-no" data-target="bb-rule3" onclick="navTo('bb-rule3')">⏰ ルール3：時間がない</div>
       <div class="nav-item branch-no" data-target="bb-rule4" onclick="navTo('bb-rule4')">✋ ルール4：来店断り</div>
@@ -1469,9 +1466,10 @@ function checkPw(){
 <div class="script-box" style="margin-bottom:8px"><b>③家族構成</b>「お客様にぴったりの広さの物件をご提案したいので、よろしければ家族構成を教えていただけますか？」</div>
 <div class="script-box"><b>④購入理由</b>「おうちを探しているお客様は何かきっかけがあって動き出される方が多いのですが、よろしければ教えていただけますか？」</div>
 <div class="memo-pill">⚠️ 嫌がる場合はさらっと流して次へ</div>
-<div class="branch-grid" style="margin-top:8px">
+<div class="branch-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
   <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">まだ日程確定していない</div><div class="branch-arrow">→ 日程確定へ</div></div>
   <div class="branch-col yes" onclick="navTo('bb-hosoku')"><div class="branch-title yes">日程確定済み</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
+  <div class="branch-col no" onclick="navTo('bb-hosoku')"><div class="branch-title no">来店断り（資料送付のみ）</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
 </div></div>
 <div class="arr">↓</div>
 
