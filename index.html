@@ -386,6 +386,7 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
 <!-- ===== LIST VIEW ===== -->
 <div id="view-list" class="view">
   <div class="list-toolbar">
+    <button onclick="switchView('script')" style="background:#3D3B37;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;white-space:nowrap">← スクリプトへ戻る</button>
     <input class="search-input" id="searchInput" placeholder="🔍 氏名・エリア・メモで検索..." oninput="renderList()"/>
     <select class="filter-select" id="filterMode" onchange="renderList()">
       <option value="">売却＋購入</option>
@@ -554,7 +555,8 @@ function sellPanel() {
   <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 テキストコピー</button>
   <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール送信</button>
 </div>
-<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！チャット等に貼り付けてください</div>`;
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！チャット等に貼り付けてください</div>
+<div style="margin-top:8px"><button class="panel-save-btn" style="background:#27500A;width:100%" onclick="saveAndFinish()">💾 保存して完了</button></div>`;
 }
 
 function buyPanel() {
@@ -622,7 +624,8 @@ function buyPanel() {
   <button class="panel-save-btn" style="background:#27500A;flex:1" onclick="copyToClipboard()">📋 テキストコピー</button>
   <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール送信</button>
 </div>
-<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！チャット等に貼り付けてください</div>`;
+<div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！チャット等に貼り付けてください</div>
+<div style="margin-top:8px"><button class="panel-save-btn" style="background:#27500A;width:100%" onclick="saveAndFinish()">💾 保存して完了</button></div>`;
 }
 
 
@@ -1043,12 +1046,14 @@ function showToast(msg) {
   if(!t){
     t=document.createElement('div');
     t.id='toast-msg';
-    t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1D9E75;color:white;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+    t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);color:white;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:700;z-index:9999;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4)';
     document.body.appendChild(t);
   }
   t.textContent=msg;
+  t.style.background=msg.includes('⚠️') ? '#C0392B' : '#1D9E75';
   t.style.display='block';
-  setTimeout(function(){t.style.display='none';},2000);
+  clearTimeout(t._timer);
+  t._timer=setTimeout(function(){t.style.display='none';},3000);
 }
 function showCopyMsg(){showToast('📋 コピーしました！');}
 function sendByEmail() {
@@ -1517,6 +1522,7 @@ function checkPw(){
   <button class="panel-save-btn" style="background:#1A6DB5;flex:1" onclick="sendByEmail()">✉️ メール</button>
 </div>
 <div id="copy-msg" style="font-size:11px;color:#27500A;margin-top:4px;display:none">✓ コピーしました！</div>
+<div style="margin-top:8px"><button class="panel-save-btn" style="background:#27500A;width:100%" onclick="saveAndFinish()">💾 保存して完了</button></div>
 </div>
 
 </body>
