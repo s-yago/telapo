@@ -389,9 +389,10 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
     <button onclick="switchView('script')" style="background:#3D3B37;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;white-space:nowrap">← スクリプトへ戻る</button>
     <input class="search-input" id="searchInput" placeholder="🔍 氏名・エリア・メモで検索..." oninput="renderList()"/>
     <select class="filter-select" id="filterMode" onchange="renderList()">
-      <option value="">売却＋購入</option>
-      <option value="sell">売却のみ</option>
-      <option value="buy">購入のみ</option>
+      <option value="">すべて</option>
+      <option value="sell">売却反響</option>
+      <option value="buy_member">会員登録反響</option>
+      <option value="buy_bukken">物件反響</option>
     </select>
     <select class="filter-select" id="filterResult" onchange="renderList()">
       <option value="">すべての結果</option>
@@ -418,10 +419,12 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
     <div class="modal-footer">
       <button class="btn-delete" onclick="deleteRecord()">🗑 削除</button>
       <button class="btn-secondary" onclick="closeModalDirect()">閉じる</button>
-      <button class="btn-primary" onclick="loadToPanel()">📋 パネルに読み込む</button>
+      <button class="btn-primary" onclick="loadToPanel()">📋 履歴に読込</button>
+      </div>
     </div>
   </div>
 </div>
+</script>
 
 <script>
 // ===== STATE =====
@@ -958,7 +961,7 @@ function buyScript() {
 
 <div class="step-card" id="b-hear"><div class="step-top"><span class="step-badge sb-hear">ヒアリング ①〜④</span><span class="step-title">物件条件のヒアリング</span></div>
 <div class="script-box" style="margin-bottom:8px">「よりお客様に合った物件情報をご紹介させていただきたいので教えてください。」</div>
-<div class="script-box" style="margin-bottom:8px"><b>①購入予定時期</b>「いつまでに購入したいなどお時期はございますか？」</div>
+<div class="script-box" style="margin-bottom:8px"><b>①購入予定時期</b>「いつまでに購入したいなどご希望の時期はございますか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>②ご予算</b>「ご予算やご希望の金額の範囲など、おおよその金額はございますでしょうか？」</div>
 <div class="script-box" style="margin-bottom:8px"><b>③希望エリア</b>「沿線や地域など、ご希望のエリアはございますでしょうか？」</div>
 <div class="script-box"><b>④気になる物件</b>「ネット検索などでご興味があった物件はございますか？ある場合：「気になった物件の金額とエリアをお伺いできますでしょうか？」</div>
@@ -1081,7 +1084,7 @@ function renderList() {
     const d=new Date(r.updatedAt);
     const dateStr=`${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
     const rc=RESULT_COLORS[r.result]||'rb-cold';
-    const tb=r.mode==='sell'?'<span class="type-badge-sell">売却</span>':'<span class="type-badge-buy">購入</span>';
+    const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録</span>':'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>';
     return `<div class="record-card" onclick="openModal('${r.id}')">
       <div class="record-top"><div class="record-name">${r.name||'（氏名未入力）'}</div><div class="record-date">${dateStr}</div></div>
       <div class="record-info">${r.tel?'📞 '+r.tel+'<br>':''}${r.area?r.area+'<br>':''}${r.reason?'理由：'+r.reason:''}</div>
@@ -1096,7 +1099,7 @@ function openModal(id) {
   if(!r) return;
   modalRecordId=id;
   const rc=RESULT_COLORS[r.result]||'rb-cold';
-  const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':'<span class="type-badge-buy">購入反響</span>';
+  const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録反響</span>':'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>';
   document.getElementById('modalTitle').textContent=(r.name||'（氏名未入力）');
   let html=`<div style="display:flex;gap:6px;flex-wrap:wrap">${tb}${r.result?`<span class="result-badge ${rc}">${r.result}</span>`:''}</div>`;
   html+=`<div class="section-title">基本情報</div><div style="font-size:12px;line-height:1.9;color:var(--gray-700)">`;
