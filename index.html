@@ -359,6 +359,11 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
         <div class="top-btn-title">物件反響</div>
         <div class="top-btn-sub">物件問い合わせからの架電</div>
       </button>
+      <button class="top-btn buy" onclick="startMode('follow_up')" style="background:linear-gradient(135deg,#7A4500,#EF9F27)">
+        <div class="top-btn-icon">🔁</div>
+        <div class="top-btn-title">引き上げ</div>
+        <div class="top-btn-sub">会員登録客の引き上げ架電</div>
+      </button>
     </div>
   </div>
 </div>
@@ -393,6 +398,7 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
       <option value="sell">売却反響</option>
       <option value="buy_member">会員登録反響</option>
       <option value="buy_bukken">物件反響</option>
+      <option value="follow_up">引き上げ</option>
     </select>
     <select class="filter-select" id="filterResult" onchange="renderList()">
       <option value="">すべての結果</option>
@@ -421,10 +427,6 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--gray-900);
       <button class="btn-secondary" onclick="closeModalDirect()">閉じる</button>
       <button class="btn-primary" onclick="loadToPanel()">📋 履歴に読込</button>
       </div>
-    </div>
-  </div>
-</div>
-</script>
 
 <script>
 // ===== STATE =====
@@ -445,7 +447,7 @@ function startMode(mode) {
   buildScript(mode);
   buildPanel(mode);
   const badge = document.getElementById('modeBadge');
-  badge.textContent = mode === 'sell' ? '🏠 売却反響' : mode === 'buy_member' ? '🔑 会員登録反響' : '🏡 物件反響';
+  badge.textContent = mode === 'sell' ? '🏠 売却反響' : mode === 'buy_member' ? '🔑 会員登録反響' : mode === 'buy_bukken' ? '🏡 物件反響' : '🔁 会員登録客引き上げ';
   badge.className = 'mode-badge ' + (mode === 'sell' ? 'sell' : 'buy');
   badge.style.display = 'inline-block';
   document.getElementById('viewBtns').style.display = 'flex';
@@ -493,6 +495,8 @@ function buildPanel(mode) {
   const body = document.getElementById('panelBody');
   if (mode === 'sell') {
     body.innerHTML = sellPanel();
+  } else if (mode === 'follow_up') {
+    body.innerHTML = buyPanel();
   } else if (mode === 'buy_bukken') {
     body.innerHTML = document.getElementById('bukken-panel-template').innerHTML;
   } else {
@@ -683,6 +687,23 @@ function buildNav(mode) {
       <div class="nav-item" data-target="b-hosoku" onclick="navTo('b-hosoku')">📝 連絡先確認</div>
       <div class="nav-item" data-target="b-close" onclick="navTo('b-close')">👋 クロージング</div>
       <div class="nav-item" data-target="b-qa" onclick="navTo('b-qa')">❓ 切り返し集</div>`;
+  } else if (mode === 'follow_up') {
+    nav.innerHTML = `
+      <div class="nav-section">基本</div>
+      <div class="nav-item" data-target="fu-start" onclick="navTo('fu-start')">📞 第一声・本人確認</div>
+      <div class="nav-section">ルート</div>
+      <div class="nav-item branch-yes" data-target="fu-route1" onclick="navTo('fu-route1')">🔑 ルート①：未面談の引き上げ</div>
+      <div class="nav-item branch-yes" data-target="fu-route2" onclick="navTo('fu-route2')">👥 ルート②：面談済みの引き上げ</div>
+      <div class="nav-section">切り返し</div>
+      <div class="nav-item branch-no" data-target="fu-bought" onclick="navTo('fu-bought')">🏠 もう買っていた場合</div>
+      <div class="nav-item branch-no" data-target="fu-reject" onclick="navTo('fu-reject')">🚫 強めに断られた場合</div>
+      <div class="nav-section">共通</div>
+      <div class="nav-item" data-target="fu-hook" onclick="navTo('fu-hook')">💡 共通フック早見表</div>
+      <div class="nav-item" data-target="fu-kenngaku" onclick="navTo('fu-kenngaku')">🔍 物件を見たいと言われたら</div>
+      <div class="nav-item branch-yes" data-target="fu-apo" onclick="navTo('fu-apo')">📅 来店日程クロージング</div>
+      <div class="nav-item" data-target="fu-hosoku" onclick="navTo('fu-hosoku')">📝 連絡先確認</div>
+      <div class="nav-item" data-target="fu-close" onclick="navTo('fu-close')">👋 締め</div>
+      <div class="nav-item" data-target="fu-ng" onclick="navTo('fu-ng')">⚠️ NGチェック</div>`;
   } else if (mode === 'buy_bukken') {
     nav.innerHTML = `
       <div class="nav-section">発信・導入</div>
@@ -706,6 +727,8 @@ function buildScript(mode) {
   const el = document.getElementById('scriptContent');
   if (mode === 'sell') {
     el.innerHTML = sellScript();
+  } else if (mode === 'follow_up') {
+    el.innerHTML = followUpScript();
   } else if (mode === 'buy_bukken') {
     el.innerHTML = document.getElementById('bukken-script-template').innerHTML;
   } else {
@@ -1038,6 +1061,120 @@ function saveAndFinish() {
 }
 
 
+function followUpScript() {
+  return `
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="fu-start"><div class="step-top"><span class="step-badge" style="background:#FEF3E2;color:#7A4500">大前提</span><span class="step-title">守るべき4つのルール</span></div>
+<div class="memo-pill" style="background:#FEF3E2;border-color:#EF9F27;color:#7A4500;margin-bottom:8px">⚠️ これだけは必ず守ること</div>
+<div class="script-box" style="margin-bottom:5px">✅ <b>ゴールは「来店」。</b>オンライン面談は場合によりOK、でも極力来店に寄せる。</div>
+<div class="script-box" style="margin-bottom:5px">✅ <b>物件は「まず来店 → そのあと現地」。</b>電話でいきなり現地案内の約束をしない。</div>
+<div class="script-box" style="margin-bottom:5px">✅ <b>電話で売り込まない。</b>ゴールは来店の約束を取ること"だけ"。</div>
+<div class="script-box">✅ <b>嫌がられたら、さらっと流して引く。</b>トラブル防止が最優先。</div>
+<button class="jump-btn" onclick="navTo(\'fu-honin\')" style="margin-top:8px">→ 第一声・本人確認へ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="fu-honin"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">第一声・本人確認</span></div>
+<div class="script-box" style="margin-bottom:8px">「お忙しいところ恐れ入ります。<b>ViVi不動産の○○</b>と申します。○○様のご連絡先でよろしいでしょうか？ご本人様でいらっしゃいますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'fu-greet\')"><div class="branch-title yes">✓ ご本人様</div><div class="branch-arrow">→ 挨拶へ</div></div>
+  <div class="branch-col no"><div class="branch-title no">✗ 別の方・ご不在</div><div class="branch-note"><b>携帯の場合：</b>間違い電話・いたずらの可能性を確認<br><b>固定の場合：</b>「お手数ですがご本人様にお代わりいただけますか？」<br>難しければ「改めてご連絡します。何時頃であればご在宅でしょうか？」→ 時間帯をメモして切る</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="fu-greet"><div class="step-top"><span class="step-badge sb-intro">導入</span><span class="step-title">状況確認・ルート選択</span></div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'fu-route1\')"><div class="branch-title yes">🔑 会員登録済み・まだ面談していない</div><div class="branch-arrow">→ ルート①へ</div></div>
+  <div class="branch-col yes" onclick="navTo(\'fu-route2\')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">👥 他の担当が面談済み・まだ決まっていない</div><div class="branch-arrow">→ ルート②へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="fu-route1"><div class="step-top"><span class="step-badge sb-str">ルート①</span><span class="step-title">会員登録済み・まだ面談していない方の引き上げ</span></div>
+<div class="script-box" style="margin-bottom:8px">「以前、弊社のホームページよりご登録いただいた（●●物件にお問い合わせいただきました）○○様に、あらためてご連絡いたしました。その後、お家探しのご状況はいかがでしょうか？今、<b>1〜2分だけ</b>よろしいですか？」</div>
+<div class="script-box" style="margin-bottom:8px">（「はい」の場合）「ありがとうございます。その後、お家探しの方はどこまで進まれていますか？何か気になる不動産などご覧になったりしていますか？」</div>
+<div class="script-box" style="margin-bottom:8px">（「まだ進んでなくて…」の場合）「そうですよね、お忙しいとなかなかまとまった時間って取れないですよね。焦らず、情報集めからで全然大丈夫ですよ。」</div>
+<div class="vivi-box" style="margin-bottom:8px">「実は、ご自分で探されるとネットに出ている物件しか見られないんですが、当社ですとネットに出る前の物件もお出しできるんです。お忙しい分、こちらで効率よく集めてお渡しできますよ。」</div>
+<button class="jump-btn" onclick="navTo(\'fu-hook\')" style="margin-top:6px">→ 共通フックへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="fu-route2"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">ルート②</span><span class="step-title">他の担当が面談済み・まだ決まっていない方の引き上げ</span></div>
+<div class="memo-pill" style="margin-bottom:8px">💡 前の担当者の悪口は絶対NG。「あらためてしっかりお手伝いしたい」という姿勢で。</div>
+<div class="script-box" style="margin-bottom:8px">「以前、弊社の△△がお話をさせていただいた○○様で、お間違いないでしょうか？その節はありがとうございました。私も△△と一緒に○○様のお手伝いをさせていただいておりまして、その後ご状況いかがかなと思い、ご連絡しました。今、少しだけよろしいですか？」</div>
+<div class="script-box" style="margin-bottom:8px">（「まだ決まってなくて…」の場合）「お決めになるのは大事なことなので、じっくりで大丈夫です。実は前回お話ししたときから、レインズに新しく出てきた物件・情報もありまして、○○様に合いそうなものがあるか、一度一緒に見ていただきたいんです。」</div>
+<div class="memo-pill" style="margin-bottom:8px">💡 来店時に実際にお見せできる資料を必ず用意してから言うこと。空手形はNG。</div>
+<div class="vivi-box" style="margin-bottom:8px">「一度ご来店いただければ、そういった資料もまとめてお出しできますし、今後の進め方の<b>『作戦会議』</b>もその場でできます。今週末あたり、午前・午後どちらかでお時間取れそうですか？」</div>
+<div class="hint" style="margin-bottom:8px">💡 迷いを聞き出すと刺さる：「差し支えなければ、今どのあたりで迷われていますか？エリアですか？ご予算ですか？」→ 迷いの正体に合うフックを当てる。</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'fu-apo\')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 来店日程クロージングへ</div></div>
+  <div class="branch-col no" onclick="navTo(\'fu-hook\')"><div class="branch-title no">迷っている</div><div class="branch-arrow">→ 共通フックへ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="fu-hook"><div class="step-top"><span class="step-badge sb-hook">共通フック</span><span class="step-title">来店打診に使うフック早見表（1〜2個を使う）</span></div>
+<div class="hint" style="margin-bottom:8px">迷っている人 → ③ローン or ④作戦会議が効きやすい。物件を探している人 → ①レインズ＋②モデルルームが効きやすい。</div>
+<div class="script-box" style="margin-bottom:6px"><b>① レインズ（非公開物件）</b><br>「実は業者専用の『レインズ』というサイトがありまして、SUUMOやアットホームには載っていない非公開物件も、<b>ご来店いただいた方だけ</b>にご紹介できるんです。」</div>
+<div class="script-box" style="margin-bottom:6px"><b>② モデルルーム</b><br>「当社にはモデルルームがありますので、中古物件を購入してリフォームをした場合の<b>イメージもつかんでいただけます。</b>」</div>
+<div class="script-box" style="margin-bottom:6px"><b>③ 即日ローン診断（切り札）</b><br>「早ければ当日に<b>おおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。気に入った物件をすぐ押さえる判断ができます。」</div>
+<div class="script-box" style="margin-bottom:8px"><b>④ 作戦会議（言い換え）</b><br>「売り込みではなく、今後の<b>『作戦会議』</b>として、一度情報収集にいらっしゃいませんか？」</div>
+<div class="green-box" style="margin-bottom:8px">「資金計画のアドバイスや、ネットに載っていない非公開物件の資料もしっかり準備しておきますので、ぜひ今後の『作戦会議』として、一度情報収集にいらっしゃいませんか？例えば今週末や来週の平日で、少しお時間取れそうな日はございますか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'fu-apo\')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程クロージングへ</div></div>
+  <div class="branch-col no" onclick="navTo(\'fu-hosoku\')"><div class="branch-title no">✗ やっぱり難しい</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ 連絡先確認へ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff" id="fu-kenngaku"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">物件見学希望</span><span class="step-title">「物件を見たい」と言われたら → 必ず来店経由に</span></div>
+<div class="script-box" style="margin-bottom:8px">「ありがとうございます！ご案内の待ち合わせなんですが、基本的に皆様、<b>一度店舗へお越しいただいてから</b>物件へご案内しております。いきなり現地で見るよりも、事前に流れや費用の注意点を少しお伝えしておいた方が、実際に見たときに生活のイメージを持っていただけるためです。また、ご希望の物件以外にも条件に近い物件をまとめてご覧いただけるので、比較もしやすくなります。まずは当店でお会いできればと思いますが、ご都合いかがでしょうか？」</div>
+<div class="branch-grid">
+  <div class="branch-col yes" onclick="navTo(\'fu-apo\')"><div class="branch-title yes">✓ OK</div><div class="branch-arrow">→ 日程クロージングへ</div></div>
+  <div class="branch-col no" onclick="navTo(\'fu-apo\')"><div class="branch-title no">✗ どうしても現地希望</div><div class="branch-note">「かしこまりました。担当に申し伝えます。」→ここも粘らない</div><div class="branch-arrow">→ 日程クロージングへ</div></div>
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#1D9E75;background:#f9fefc" id="fu-apo"><div class="step-top"><span class="step-badge sb-apo">来店日程クロージング</span><span class="step-title">来店日程を決める（共通）</span></div>
+<div class="green-box" style="margin-bottom:8px">「ありがとうございます！ではさっそく日程をお決めさせていただきます。今週末はいかがでしょうか？午前・午後どちらがよろしいですか？」<br>→ 候補日を2〜3提示して確定<br>「当日いらっしゃる人数は何名様でしょうか？」</div>
+<div class="script-box" style="margin-bottom:8px">「当社の場所はお判りでしょうか？」<br><span style="font-size:11px;color:var(--gray-500)">→ 天正寺にございまして、草島東線沿いのジャパンレンタカー様の南側になります</span></div>
+<div class="script-box">「後ほど営業担当より、ご挨拶を兼ねまして、改めてお約束の確認と当日のご案内をさせていただきます。」</div>
+<button class="jump-btn" onclick="navTo(\'fu-hosoku\')" style="margin-top:8px">→ 連絡先確認へ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="fu-hosoku"><div class="step-top"><span class="step-badge sb-hear">連絡先確認</span><span class="step-title">連絡のつきやすい時間帯・メール確認</span></div>
+<div class="script-box" style="margin-bottom:6px"><b>連絡しやすい時間帯</b>「今後ご連絡のつきやすい時間帯はございますか？」</div>
+<div class="script-box" style="margin-bottom:6px"><b>メールアドレス確認</b>「ご入力のメールアドレスを確認させてください。○○○＠○○ですね。」</div>
+<div class="hint">ヒアリングした内容は必ずメモ欄に記入して保存</div>
+<button class="jump-btn" onclick="navTo(\'fu-close\')" style="margin-top:8px">→ 締めへ</button></div>
+<div class="arr">↓</div>
+
+<div class="step-card" id="fu-close"><div class="step-top"><span class="step-badge sb-intro">締め</span><span class="step-title">クロージング・お礼</span></div>
+<div class="script-box">「お忙しい中ありがとうございました。失礼いたします。」</div>
+<div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
+
+<div class="step-card" style="border-color:#C0392B;background:#fff8f7" id="fu-bought"><div class="step-top"><span class="step-badge sb-warn">切り返しA</span><span class="step-title">もうどこかで物件を買っていた場合</span></div>
+<div class="memo-pill" style="margin-bottom:8px">💡 まず否定しない・がっかりしない。「おめでとうございます」から入る。無理に引き戻そうとしない。</div>
+<div class="script-box" style="margin-bottom:8px">お客様：「もう買っちゃったんですよ」</div>
+<div class="green-box" style="margin-bottom:8px">「そうなんですね、<b>おめでとうございます！</b>良い物件に出会えたのは何よりです。」<br><br>「もし今後、ご友人・ご家族でお家をお探しの方がいらっしゃれば、いつでもお声がけください。」</div>
+<div class="hint">💡 来店につながらなくても「感じの良い会社だった」と思ってもらえれば、紹介で次につながる。ここで無理に来店を押すと印象が悪くなるので押さない。</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#C0392B;background:#fff8f7" id="fu-reject"><div class="step-top"><span class="step-badge sb-warn">切り返しB</span><span class="step-title">強めに断られた場合（温度感高めの拒否）</span></div>
+<div class="memo-pill" style="margin-bottom:8px">💡 新人が一番やらかす場面。粘らない・食い下がらない。潔く引くのが正解。</div>
+<div class="script-box" style="margin-bottom:8px">お客様：「もういいって言ってるでしょ！しつこいな！」</div>
+<div class="script-box" style="margin-bottom:8px">「大変失礼いたしました。お忙しいところ申し訳ございません。無理におすすめするつもりは全くありませんでした。気分を害してしまい、申し訳ございません。」<br><span style="font-size:11px;color:var(--gray-500)">（完全に引く）</span></div>
+<div class="green-box" style="margin-bottom:8px">「では、こちらからのご連絡はいったん控えますね。もし今後、必要になったときだけで結構ですので、その時はいつでもお声がけください。本日はお時間いただき、ありがとうございました。失礼いたします。」</div>
+<div style="background:#FEF3E2;border-left:3px solid #EF9F27;border-radius:6px;padding:8px 12px;font-size:12px;line-height:1.8">
+  <b>❌ やってはいけない</b><br>
+  「でも一度だけ！」と押す／「なんでですか？」と問い詰める／ムッとした声<br><br>
+  <b>✅ 正解</b><br>
+  明るく・低姿勢で・サッと引く。最後まで感じよく。
+</div></div>
+<div class="arr">↓</div>
+
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="fu-ng"><div class="step-top"><span class="step-badge" style="background:#FEF3E2;color:#7A4500">NGチェック</span><span class="step-title">トラブル防止チェックリスト</span></div>
+<div class="script-box" style="margin-bottom:5px">❌ いきなり現地案内の約束をしない（必ず<b>来店 → 現地</b>）</div>
+<div class="script-box" style="margin-bottom:5px">❌ 温度感が高い時は粘らない（<b>即引く</b>）</div>
+<div class="script-box" style="margin-bottom:5px">❌ 前担当・他社の悪口を言わない</div>
+<div class="script-box">❌ 専門的な質問は無理に答えず「<b>担当よりご連絡させていただきます</b>」</div></div>
+`;
+}
+
 function toggleMansionField() {
   const el=document.getElementById('mansion-field');
   if(el) el.style.display=(v('f-type')==='マンション')?'block':'none';
@@ -1100,7 +1237,7 @@ function renderList() {
     const d=new Date(r.updatedAt);
     const dateStr=`${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
     const rc=RESULT_COLORS[r.result]||'rb-cold';
-    const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録</span>':'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>';
+    const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録</span>':r.mode==='buy_bukken'?'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>':'<span class="type-badge-buy" style="background:#7A4500">引き上げ</span>';
     return `<div class="record-card" onclick="openModal('${r.id}')">
       <div class="record-top"><div class="record-name">${r.name||'（氏名未入力）'}</div><div class="record-date">${dateStr}</div></div>
       <div class="record-info">${r.tel?'📞 '+r.tel+'<br>':''}${r.area?r.area+'<br>':''}${r.reason?'理由：'+r.reason:''}</div>
@@ -1115,7 +1252,7 @@ function openModal(id) {
   if(!r) return;
   modalRecordId=id;
   const rc=RESULT_COLORS[r.result]||'rb-cold';
-  const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録反響</span>':'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>';
+  const tb=r.mode==='sell'?'<span class="type-badge-sell">売却反響</span>':r.mode==='buy_member'?'<span class="type-badge-buy">会員登録反響</span>':r.mode==='buy_bukken'?'<span class="type-badge-buy" style="background:#1A6DB5">物件反響</span>':'<span class="type-badge-buy" style="background:#7A4500">引き上げ</span>';
   document.getElementById('modalTitle').textContent=(r.name||'（氏名未入力）');
   let html=`<div style="display:flex;gap:6px;flex-wrap:wrap">${tb}${r.result?`<span class="result-badge ${rc}">${r.result}</span>`:''}</div>`;
   html+=`<div class="section-title">基本情報</div><div style="font-size:12px;line-height:1.9;color:var(--gray-700)">`;
@@ -1304,6 +1441,8 @@ function checkPw(){
     <div class="dq-footer"><button class="dq-done" onclick="closeDQDirect()">閉じる</button></div>
   </div>
 </div>
+
+</script>
 <script>
 </script>
 
