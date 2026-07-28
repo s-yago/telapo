@@ -676,7 +676,7 @@ function buildNav(mode) {
       <div class="nav-item branch-yes" data-target="b-hear" onclick="navTo('b-hear')">📋 ヒアリング①〜④（物件条件）</div>
       <div class="nav-item branch-yes" data-target="b-hook" onclick="navTo('b-hook')">🎯 レインズ＋モデルルーム（30秒フック）</div>
       <div class="nav-item branch-yes" data-target="b-hook-mayoi" onclick="navTo('b-hook-mayoi')">🤔 迷い対応・肯定→ローン/現金確認</div>
-      <div class="nav-item branch-yes" data-target="b-hook-loan" onclick="navTo('b-hook-loan')">🏦 再フックA：即日ローン診断を提示</div>
+      <div class="nav-item branch-yes" data-target="b-hook-loan" onclick="navTo('b-hook-loan')">🏦 再フックA：銀行比較＋事前審査</div>
       <div class="nav-item branch-yes" data-target="b-hook-cash" onclick="navTo('b-hook-cash')">💴 再フックB：現金購入の強みを提示</div>
       <div class="nav-item branch-yes" data-target="b-hook-close" onclick="navTo('b-hook-close')">🎯 作戦会議として来店を促す</div>
       <div class="nav-section">多忙ルート</div>
@@ -983,7 +983,7 @@ function buyScript() {
   <div class="branch-col yes" onclick="navTo(\'b-hook-cash\')" style="border-color:#1A6DB5"><div class="branch-title yes" style="color:#0C447C">💴 現金購入</div><div class="branch-arrow">→ 現金再フックへ</div></div>
 </div></div>
 <div class="step-card" style="border-color:#1D9E75;background:#f9fefc;margin-top:4px" id="b-hook-loan"><div class="step-top"><span class="step-badge sb-str">再フックA：ローン利用</span><span class="step-title">絶対に失敗しないローンの組み方を提示</span></div>
-<div class="vivi-box" style="margin-bottom:8px">「かしこまりました！実はお家探しで皆さん一番不安に思われるのって<b>『お金（住宅ローン）』</b>のことなんです。」<br><br>「もしお店にいらしていただけた際には、モデルルーム見学の『ついで』に、<b>『借り入れ可能かどうか即日わかる住宅ローン事前審査』</b>もお受けいただくことが可能です。これを事前にしておくだけで、今後の安心感が全く違ってくるはずです！」</div>
+<div class="vivi-box" style="margin-bottom:8px">「かしこまりました！実はお家探しで皆さん一番不安に思われるのって<b>『お金（住宅ローン）』</b>のことなんです。」<br><br>「もしお店にいらしていただけた際には、モデルルーム見学の『ついで』に、<b>北陸銀行・富山第一銀行・北陸労金など複数の銀行の金利や条件をその場で並べて比較</b>していただけます。」<br><br>「実は銀行によって金利も総支払額も変わりますので、ご納得いただいたところで<b>事前審査</b>までお手続きいただけます。結果は<b>2〜3日ほど</b>で出ますので、いざ良い物件が出たときにすぐ動けるようになりますよ。」</div>
 <button class="jump-btn" onclick="navTo(\'b-hook-close\')" style="margin-top:6px">→ 来店打診（クロージング）へ</button></div>
 <div class="step-card" style="border-color:#1A6DB5;background:#f0f7ff;margin-top:4px" id="b-hook-cash"><div class="step-top"><span class="step-badge" style="background:#E6F1FB;color:#0C447C">再フックB：現金購入</span><span class="step-title">現金購入の強みを活かした交渉コツを提示</span></div>
 <div class="vivi-box" style="margin-bottom:8px">「現金でのご検討ですね！実は現金でのご購入は、ローン審査（白紙解約のリスク）がないため、売主様から一番安心してもらえる<b>『最強の条件』</b>なんです。」<br><br>「もしお店にいらしていただけた際には、モデルルーム見学の『ついで』に、お客様のその圧倒的な強みを活かして<b>【価格や条件の交渉を一番有利に進めるコツ】</b>についても私からしっかりアドバイスさせていただきますね！」</div>
@@ -1038,7 +1038,7 @@ function buyScript() {
 <div style="margin-top:8px"><button class="jump-btn" onclick="saveAndFinish()" style="background:#EAF3DE;color:#27500A;border-color:#27500A">💾 保存して完了</button></div></div>
 
 <div class="step-card" id="b-qa"><div class="step-top"><span class="step-badge sb-end">切り返し集</span><span class="step-title">お客様からの質問・切り返し</span></div>
-<div class="script-box" style="margin-bottom:5px"><b>「ローンが通るか不安」</b>→ 「当社では早ければ当日に結果がわかる住宅ローン診断ツールがございます。ぜひご来店いただけましたらご利用いただけます。」</div>
+<div class="script-box" style="margin-bottom:5px"><b>「ローンが通るか不安」</b>→ 「ご来店いただければ<b>北陸銀行・富山第一銀行・北陸労金など複数の銀行を比較</b>したうえで事前審査までお手続きいただけます。結果は2〜3日ほどで出ますので、ご予算がはっきりしてから安心してお探しいただけます。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>「他にも良い物件はありますか？」</b>→ 「業者専用のレインズというサイトに非公開物件も多数ございます。ご来店いただければ一緒に探せます。」</div>
 <div class="script-box" style="margin-bottom:5px"><b>「まだ買うか決めていない」</b>→ 「全く構いません。情報収集としてぜひご来店ください。」</div>
 <div class="script-box"><b>専門的な質問全般</b>→ 「担当よりご連絡させていただきます。」</div></div>
@@ -1112,7 +1112,7 @@ function followUpScript() {
 <div class="hint" style="margin-bottom:8px">迷っている人 → ③ローン or ④作戦会議が効きやすい。物件を探している人 → ①レインズ＋②モデルルームが効きやすい。</div>
 <div class="script-box" style="margin-bottom:6px"><b>① レインズ（非公開物件）</b><br>「実は業者専用の『レインズ』というサイトがありまして、SUUMOやアットホームには載っていない非公開物件も、<b>ご来店いただいた方だけ</b>にご紹介できるんです。」</div>
 <div class="script-box" style="margin-bottom:6px"><b>② モデルルーム</b><br>「当社にはモデルルームがありますので、中古物件を購入してリフォームをした場合の<b>イメージもつかんでいただけます。</b>」</div>
-<div class="script-box" style="margin-bottom:6px"><b>③ 即日ローン診断（切り札）</b><br>「早ければ当日に<b>おおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。気に入った物件をすぐ押さえる判断ができます。」</div>
+<div class="script-box" style="margin-bottom:6px"><b>③ 銀行比較＋事前審査（切り札）</b><br>「当社にお越しいただければ、<b>北陸銀行・富山第一銀行・北陸労金など複数の銀行の金利や条件をその場で比較</b>していただけます。気に入った銀行で<b>事前審査</b>までお手続きでき、結果は<b>2〜3日ほど</b>で出ますので、良い物件が出たときにすぐ動けます。」</div>
 <div class="script-box" style="margin-bottom:8px"><b>④ 作戦会議（言い換え）</b><br>「売り込みではなく、今後の<b>『作戦会議』</b>として、一度情報収集にいらっしゃいませんか？」</div>
 <div class="green-box" style="margin-bottom:8px">「資金計画のアドバイスや、ネットに載っていない非公開物件の資料もしっかり準備しておきますので、ぜひ今後の『作戦会議』として、一度情報収集にいらっしゃいませんか？例えば今週末や来週の平日で、少しお時間取れそうな日はございますか？」</div>
 <div class="branch-grid">
@@ -1584,8 +1584,8 @@ function checkPw(){
   <div class="branch-col no" onclick="navTo('bb-rule2-hook3')"><div class="branch-title no">悩んでいる</div><div class="branch-arrow">→ 切り札へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ 断られた</div><div class="branch-arrow">→ ルール4へ</div></div>
 </div>
-<div class="step-card" style="border-color:#EF9F27;background:#fffdf8;margin-top:8px" id="bb-rule2-hook3"><div class="step-top"><span class="step-badge sb-hook">切り札</span><span class="step-title">即日わかるローン診断ツール</span></div>
-<div class="hook-box" style="margin-bottom:8px">「さらに当社では<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。気に入った物件をすぐに押さえる判断ができます。」</div>
+<div class="step-card" style="border-color:#EF9F27;background:#fffdf8;margin-top:8px" id="bb-rule2-hook3"><div class="step-top"><span class="step-badge sb-hook">切り札</span><span class="step-title">銀行を比較できる住宅ローン事前審査</span></div>
+<div class="hook-box" style="margin-bottom:8px">「さらに当社にお越しいただければ、<b>北陸銀行・富山第一銀行・北陸労金など複数の銀行の金利や条件を並べて比較</b>していただけます。気に入った銀行で<b>事前審査</b>までお手続きでき、結果は<b>2〜3日ほど</b>で出ますので、良い物件が出たときにすぐご判断いただけます。」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
   <div class="branch-col no" onclick="navTo('bb-rule4')"><div class="branch-title no">✗ やっぱり資料だけ</div><div class="branch-note">それ以上は追わない</div><div class="branch-arrow">→ ルール4へ</div></div>
@@ -1594,7 +1594,7 @@ function checkPw(){
 
 <div class="step-card" style="border-color:#EF9F27;background:#fffdf8" id="bb-rule3"><div class="step-top"><span class="step-badge sb-hook">ルール3</span><span class="step-title">時間がない → 30秒フック → 来店打診</span></div>
 <div class="script-box" style="margin-bottom:8px">「そうですか、失礼しました。では<b>30秒だけ</b>よろしいですか？」</div>
-<div class="hook-box" style="margin-bottom:8px">「実は業者専用の<b>「レインズ」</b>というサイトがありまして、SUUMOなどには載っていない<b>非公開物件</b>もご来店いただいた方だけにご紹介できます。また当社には<b>モデルルーム</b>もありますのでリフォームのイメージもつかんでいただけます。さらに<b>早ければ当日におおよその借入可能額がわかる住宅ローン診断ツール</b>もご利用いただけます。」</div>
+<div class="hook-box" style="margin-bottom:8px">「実は業者専用の<b>「レインズ」</b>というサイトがありまして、SUUMOなどには載っていない<b>非公開物件</b>もご来店いただいた方だけにご紹介できます。また当社には<b>モデルルーム</b>もありますのでリフォームのイメージもつかんでいただけます。さらに<b>複数の銀行（北陸銀行・富山第一銀行・北陸労金など）を比較したうえで住宅ローンの事前審査</b>までお手続きいただけます。」</div>
 <div class="script-box" style="margin-bottom:8px">「ぜひ一度ご来店いただけませんか？」</div>
 <div class="branch-grid">
   <div class="branch-col yes" onclick="navTo('bb-rule1')"><div class="branch-title yes">✓ 来店OK</div><div class="branch-arrow">→ 日程確定へ</div></div>
